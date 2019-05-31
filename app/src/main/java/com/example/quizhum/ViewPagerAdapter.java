@@ -1,6 +1,8 @@
 package com.example.quizhum;
 
 import android.content.Context;
+import android.media.Image;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.PagerAdapter;
@@ -8,8 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
 import com.example.quizhum.Pojo.Question;
 
 import java.util.List;
@@ -41,21 +47,35 @@ public class ViewPagerAdapter extends PagerAdapter {
 
         Log.d("custompager", "worksinstantiate");
 
+        VideoView vidView = itemView.findViewById(R.id.myVideo);
         TextView textView=itemView.findViewById(R.id.textView2);
         TextView textView1=itemView.findViewById(R.id.textView3);
         TextView textView2=itemView.findViewById(R.id.textView4);
         TextView textView3=itemView.findViewById(R.id.textView5);
         TextView textView4=itemView.findViewById(R.id.textView6);
-
-
+        ImageView imageView = itemView.findViewById(R.id.questionImage);
 
 
         Log.d("ejijaefdj", String.valueOf(questions.get(position).getOrder()));
         textView.setText(String.valueOf(questions.get(position).getOrder()));
         textView1.setText(questions.get(position).getQuestion());
-        textView2.setText(questions.get(position).getOptions().get(1));
-        textView3.setText(questions.get(position).getOptions().get(2));
-        textView4.setText(questions.get(position).getOptions().get(3));
+        textView2.setText(questions.get(position).getOptionA());
+        textView3.setText(questions.get(position).getOptionB());
+        textView4.setText(questions.get(position).getOptionC());
+
+        if(questions.get(position).getQuestionType().equals("video")){
+            vidView.setVisibility(View.VISIBLE);
+            Uri vidUri = Uri.parse(questions.get(position).getBinaryFilePath());
+            vidView.setVideoURI(vidUri);
+            MediaController vidControl = new MediaController(context);
+            vidControl.setAnchorView(vidView);
+            vidView.setMediaController(vidControl);
+            vidView.start();
+        }
+        else if(questions.get(position).getQuestionType().equals("video")){
+            imageView.setVisibility(View.VISIBLE);
+            Glide.with(itemView.getContext()).load(questions.get(position).getBinaryFilePath()).into(imageView);
+        }
 
 
         container.addView(itemView);

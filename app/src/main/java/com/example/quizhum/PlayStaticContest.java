@@ -3,6 +3,7 @@ package com.example.quizhum;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -11,6 +12,8 @@ import com.example.quizhum.Pojo.Question;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,12 +57,15 @@ public class PlayStaticContest extends AppCompatActivity {
 
         for(Map.Entry entry : a.entrySet()){
             if(entry.getValue().equals("S")){
-                skipList.add((Integer) entry.getKey());
+                skipList.add((Integer) entry.getKey() - 1);
             }
             else{
-                answered.add((Integer) entry.getKey());
+                answered.add((Integer) entry.getKey() - 1);
             }
         }
+        Collections.sort(skipList);
+        Collections.sort(answered);
+        Log.d("answerandskip", skipList.toString() + answered.toString());
 
         liq = new ArrayList<>();
         Question q1 = new Question(1, 1, "this is the first questions1", "text", a);
@@ -72,6 +78,8 @@ public class PlayStaticContest extends AppCompatActivity {
         Question q8 = new Question(1, 8, "this is the first questions5", "text", a);
         Question q9 = new Question(1, 9, "this is the first questions5", "text", a);
 
+        q7.setQuestionType("video");
+        q7.setBinaryFilePath("http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4");
 
         liq.add(q1);
         liq.add(q2);
@@ -82,9 +90,6 @@ public class PlayStaticContest extends AppCompatActivity {
         liq.add(q7);
         liq.add(q8);
         liq.add(q9);
-
-
-
 
         allOnClickListeners();
 
@@ -98,7 +103,6 @@ public class PlayStaticContest extends AppCompatActivity {
         pagerAdapter = new ViewPagerAdapter(PlayStaticContest.this, liq);
         viewPager.setAdapter(pagerAdapter);
 
-
         viewPager.setCurrentItem(skipList.size() + answered.size());
 //        viewPager.setCurrentItem();
 
@@ -108,6 +112,7 @@ public class PlayStaticContest extends AppCompatActivity {
         }
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
@@ -115,7 +120,6 @@ public class PlayStaticContest extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int i) {
-
                 if(i == 0){
                     previousButton.setEnabled(false);
                 }
@@ -124,16 +128,19 @@ public class PlayStaticContest extends AppCompatActivity {
                 }
 
                 if(skipList.contains(i)){
+                    Log.d("onpageselected","in skiplist");
                     nextButton.setEnabled(true);
                     submit_btn.setEnabled(true);
                     skipbutton.setEnabled(false);
                 }
                 else if(answered.contains(i)){
+                    Log.d("onpageselected","in answered");
                     skipbutton.setEnabled(false);
                     nextButton.setEnabled(true);
                     submit_btn.setEnabled(false);
                 }
                 else{
+                    Log.d("onpageselected","in nothing");
                     nextButton.setEnabled(false);
                     skipbutton.setEnabled(true);
                     submit_btn.setEnabled(true);
@@ -142,13 +149,6 @@ public class PlayStaticContest extends AppCompatActivity {
                 if(i == liq.size()-1){
                     nextButton.setEnabled(false);
                 }
-
-                if((answered.size() + skipList.size()) == liq.size()){
-                    if(skipList.isEmpty()){
-
-                    }
-                }
-
 
             }
 
@@ -176,13 +176,15 @@ public class PlayStaticContest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 answered.add(viewPager.getCurrentItem());
+                Collections.sort(answered);
+                Log.d("skiplistbtn",String.valueOf(viewPager.getCurrentItem()));
                 if(skipList.contains(viewPager.getCurrentItem()))
                 {
-                    Integer indexOfskip = skipList.indexOf(viewPager.getCurrentItem());
+                    int indexOfskip = skipList.indexOf(viewPager.getCurrentItem());
                     try{
                         skipList.remove(indexOfskip);
-                        if(skipCount >=0)
-                            skipCount--;
+                        Collections.sort(skipList);
+                        Log.d("indexremoved",indexOfskip +"currentpage " + viewPager.getCurrentItem() + skipList.toString());
                     }
                     catch (Exception e){
                         e.printStackTrace();
@@ -196,16 +198,26 @@ public class PlayStaticContest extends AppCompatActivity {
                 else{
                     nextButton.setEnabled(true);
                 }
+                if((answered.size() + skipList.size()) == liq.size()){
+                    if(!skipList.isEmpty()){
+                        Log.d("onsubmit","new page " + answered.size() + skipList.size() + skipList.get(0));
+                        viewPager.setCurrentItem(skipList.get(0));
+                    }
+                    else{
+
+                    }
+                }
             }
         });
 
         skipbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(skipCount<3){
+                //NO of skipped question instead of 3
+                if(skipList.size() < 3 ){
                     skipList.add(viewPager.getCurrentItem());
+                    Collections.sort(skipList);
                     skipbutton.setEnabled(false);
-                    skipCount++;
                     Toast toast = Toast.makeText(PlayStaticContest.this, " added " + skipList.toString(), Toast.LENGTH_SHORT);
                     toast.show();
                     viewPager.setCurrentItem(viewPager.getCurrentItem() +1);

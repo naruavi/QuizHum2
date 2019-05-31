@@ -7,10 +7,14 @@ public class Question {
     private int  order;
     private String question;
     private String questionType;
-    private HashMap<Integer,String> options;
-//    [{optionId : Integer
-//        optionValue: String
-//    }]
+    private String binaryFilePath;
+    private String optionA;
+    private String optionB;
+    private String optionC;
+    private String categoryOfQuestion;
+    private String difficultyLevel;
+    private String answerType;
+
 
 
     public int getQuestionId() {
@@ -45,12 +49,60 @@ public class Question {
         this.questionType = questionType;
     }
 
-    public HashMap<Integer, String> getOptions() {
-        return options;
+    public String getBinaryFilePath() {
+        return binaryFilePath;
     }
 
-    public void setOptions(HashMap<Integer, String> options) {
-        this.options = options;
+    public void setBinaryFilePath(String binaryFilePath) {
+        this.binaryFilePath = binaryFilePath;
+    }
+
+    public String getOptionA() {
+        return optionA;
+    }
+
+    public void setOptionA(String optionA) {
+        this.optionA = optionA;
+    }
+
+    public String getOptionB() {
+        return optionB;
+    }
+
+    public void setOptionB(String optionB) {
+        this.optionB = optionB;
+    }
+
+    public String getOptionC() {
+        return optionC;
+    }
+
+    public void setOptionC(String optionC) {
+        this.optionC = optionC;
+    }
+
+    public String getCategoryOfQuestion() {
+        return categoryOfQuestion;
+    }
+
+    public void setCategoryOfQuestion(String categoryOfQuestion) {
+        this.categoryOfQuestion = categoryOfQuestion;
+    }
+
+    public String getDifficultyLevel() {
+        return difficultyLevel;
+    }
+
+    public void setDifficultyLevel(String difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
+    }
+
+    public String getAnswerType() {
+        return answerType;
+    }
+
+    public void setAnswerType(String answerType) {
+        this.answerType = answerType;
     }
 
     public Question(int questionId, int order, String question, String questionType, HashMap<Integer, String> options) {
@@ -58,6 +110,5 @@ public class Question {
         this.order = order;
         this.question = question;
         this.questionType = questionType;
-        this.options = options;
     }
 }
