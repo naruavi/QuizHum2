@@ -18,7 +18,7 @@ import retrofit2.http.Query;
 public interface ContestService {
 
     @GET("/contest/contestofuser")
-    Call<ApiResponse<List<DetailsOfContest>>> getIncompletedContests(@Query("contestId") int contestId,@Query("userId") int userToken);
+    Call<ContestService> getIncompletedContests(@Query("contestId") int contestId,@Query("userId") int userToken);
 
     @GET("/contest/getquestionofcontest")
     Call<List<QuestionDefinition>> getContestResult(@Query("contestId") String contestId, @Query("userId") String userToken, @Query("username") String username);
