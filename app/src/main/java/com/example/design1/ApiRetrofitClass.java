@@ -38,9 +38,9 @@ public class ApiRetrofitClass {
 
     //TODO functionalities
 
-    public List<String> getAllCategories(){
+    public void getAllCategories(){
         String CATEGORIES_URL = "";
-        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CATEGORIES_URL);
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
         ContestService contestService=retrofit.create(ContestService.class);
         contestService.getCategories()
                 .enqueue(new Callback<List<CategoryDefinition>>() {
@@ -54,8 +54,6 @@ public class ApiRetrofitClass {
 
                     }
                 });
-
-        return null;
     }
 
     public void getContestsByCategrory(String category){

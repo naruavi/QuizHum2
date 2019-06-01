@@ -1,15 +1,14 @@
 package com.example.design1.models;
 
 public class CategoryDefinition {
-    private Integer categoryId;
+    private int categoryId;
     private String categoryName;
     private String imageURL;
 
-    public Integer getCategoryId() {
+    public int getCategoryId() {
         return categoryId;
     }
-
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
     }
 

@@ -8,14 +8,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.design1.R;
+import com.example.design1.models.ContestDefinition;
 
 import java.util.List;
 
 public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdapterForContest.RecyclerViewHolder> {
-    public List<String> l1;
+    public List<ContestDefinition> contestList;
 
-    public RecyclerAdapterForContest(List<String> l1) {
-        this.l1 = l1;
+    public RecyclerAdapterForContest(List<ContestDefinition> l1) {
+        this.contestList = l1;
     }
 
     class RecyclerViewHolder extends RecyclerView.ViewHolder {
@@ -24,9 +25,13 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
             super(itemView);
         }
 
-        public void bind(String item) {
-            TextView textView = itemView.findViewById(R.id.tv_category);
-            textView.setText(item);
+        public void bind(ContestDefinition item) {
+            TextView contestName = itemView.findViewById(R.id.tv_category);
+            TextView noOfQuestions = itemView.findViewById(R.id.no_of_questions);
+            TextView noOfSkips = itemView.findViewById(R.id.no_of_skips);
+            contestName.setText(item.getContestName());
+            noOfQuestions.setText("No of Questions: "+item.getTotalQuestionsInContest() +" ");
+            noOfSkips.setText("No of Skips: "+item.getSkipsAllowed()+" ");
         }
     }
 
@@ -40,12 +45,12 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapterForContest.RecyclerViewHolder recyclerViewHolder, int i) {
-        recyclerViewHolder.bind(l1.get(i));
+        recyclerViewHolder.bind(contestList.get(i));
 
     }
 
     @Override
     public int getItemCount() {
-        return l1.size();
+        return contestList.size();
     }
 }
