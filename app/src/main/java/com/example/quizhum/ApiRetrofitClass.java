@@ -1,5 +1,6 @@
 package com.example.quizhum;
 
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.example.quizhum.Pojo.ContestObject;
@@ -7,10 +8,16 @@ import com.example.quizhum.Pojo.DetailsOfContest;
 import com.example.quizhum.models.LeaderBoardListItem;
 import com.example.quizhum.restcalls.ApiResponse;
 import com.example.quizhum.restcalls.LeaderBoardService;
+import com.example.quizhum.restcalls.UserResponseService;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,16 +63,33 @@ public class ApiRetrofitClass {
     public String submitResponseSingleQuestion(String questionId,String contestId,String userToken,String response){
         String RESPONSE_URL = "/response/user";
 
-        switch (RESPONSE_URL) {
-            //@POST
-            case "Case 1":
-                //TODO implement for new response (includes skip)
-                break;
-            //@PUT
-            case "Case 2":
-                //TODO implement for updating response (skipped questions)
-                break;
-        }
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+
+        UserResponseService userResponseService = retrofit.create(UserResponseService.class);
+
+        HashMap<String, Object> jsonParams = new HashMap<>();
+        jsonParams.put("questionId",questionId);
+        jsonParams.put("contestId", contestId);
+        jsonParams.put("userToken", userToken);
+        jsonParams.put("response", response);
+
+        Log.d("ApiRetrofitClass","Json Value "+jsonParams.toString());
+
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
+
+        userResponseService.newResponseToQuestion(body)
+                .enqueue(new Callback<ApiResponse<String>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<String>> call, Response<ApiResponse<String>> response) {
+                        //TODO what is the response and
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<String>> call, Throwable t) {
+
+                    }
+                });
+
         return null;
 
     }
