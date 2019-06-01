@@ -20,10 +20,11 @@ public interface LeaderBoardService {
     Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardMonthly();
 
     @GET("/leaderboard/static")
-    Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardStaticContest(@Query("userId") String userToken, @Query("contestId") String contestId, @Query("noOfRecords") int noOfRecords);
+    Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardStaticContest(@Query("userId") String userToken, @Query("contestId") String contestId,@Query("noOfRecords") int noOfRecords);
 
     @GET("/leaderboard/dynamic")
-    Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardDynamicContest(@Query("userId") String userToken, @Query("contestId") String contestId, @Query("noOfRecords") int noOfRecords);
+    Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardDynamicContest(@Query("userId") String userToken, @Query("contestId") String contestId,@Query("noOfRecords") int noOfRecords);
+
 
 
 

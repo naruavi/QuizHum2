@@ -17,6 +17,7 @@ import retrofit2.http.Query;
 //TODO after gateway change the query --> userId to userToken && remove username applied anywhere
 public interface UserResponseService {
 
+
     @GET("/usercontest/useractive")
     Call<List<ContestDefinition>> getIncompletedContests(@Query("userId") String userToken);
 

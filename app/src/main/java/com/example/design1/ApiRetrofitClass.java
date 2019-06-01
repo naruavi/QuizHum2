@@ -4,8 +4,11 @@ import android.util.Log;
 
 import com.example.design1.Pojo.ContestObject;
 import com.example.design1.Pojo.DetailsOfContest;
+import com.example.design1.models.ContestDefinition;
+import com.example.design1.models.ContestTotal;
 import com.example.design1.models.LeaderBoardListItem;
 import com.example.design1.restcalls.ApiResponse;
+import com.example.design1.restcalls.ContestService;
 import com.example.design1.restcalls.LeaderBoardService;
 import com.example.design1.restcalls.UserResponseService;
 
@@ -38,24 +41,67 @@ public class ApiRetrofitClass {
         String CATEGORIES_URL = "";
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CATEGORIES_URL);
 
-
         return null;
     }
 
-    public List<DetailsOfContest> getContestsByCategrory(String category, String userToken){
-        String CATEGORY_CONTEST_URL = "No api endpoint yet";
-        return null;
+    public void getContestsByCategrory(String category){
+
+        String CATEGORY_CONTEST_URL = "/contest/getbycategory";
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+
+        ContestService contestService=retrofit.create(ContestService.class);
+
+        contestService.getContestsByCategory(category)
+                .enqueue(new Callback<List<ContestDefinition>>() {
+                    @Override
+                    public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+
+                    }
+                });
     }
 
     public List<DetailsOfContest> getIncompleteContests(String userToken){
         String INCOMPLETE_CONTESTS_URL = "/contest/useractive";
+
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+        UserResponseService userResponseService=retrofit.create(UserResponseService.class);
+        userResponseService.getIncompletedContests(userToken)
+                .enqueue(new Callback<List<ContestDefinition>>() {
+                    @Override
+                    public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+
+                    }
+                    @Override
+                    public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+
+                    }
+                });
         return null;
     }
 
-    public ContestObject getContestById(String contestId, String userId){
+    public void getContestById(int contestId, int userId){
         String CONTEST_BY_ID = "/contest/contests/contestbyid";
         //response, contest details and the list of questions of a particular contest
-        return null;
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+        ContestService contestService=retrofit.create(ContestService.class);
+        contestService.getTotalContest(contestId,userId)
+                .enqueue(new Callback<ContestTotal>() {
+                    @Override
+                    public void onResponse(Call<ContestTotal> call, Response<ContestTotal> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ContestTotal> call, Throwable t) {
+
+                    }
+                });
+
     }
 
     public String submitResponseSingleQuestion(String questionId,String contestId,String userToken,String response){
@@ -75,48 +121,90 @@ public class ApiRetrofitClass {
 
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
 
-        /*userResponseService.newResponseToQuestion(body)
-                .enqueue(new Callback<ApiResponse<String>>() {
+        userResponseService.newResponseToQuestion(body)
+                .enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<ApiResponse<String>> call, Response<ApiResponse<String>> response) {
+                    public void onResponse(Call<String> call, Response<String> response) {
                         //TODO what is the response and
                     }
 
                     @Override
-                    public void onFailure(Call<ApiResponse<String>> call, Throwable t) {
+                    public void onFailure(Call<String> call, Throwable t) {
 
                     }
-                });*/
+                });
 
         return null;
 
     }
 
     //TODO after the last question is submitted successfully
-    public String submitContest(String userToken,String contestId){
+    public void submitContest(String userToken,String contestId, String userName){
         String SUBMIT_CONTEST_URL = "/contest/userresult";
-        //TODO response from api contains scorecard details
-        return null;
+
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+        UserResponseService responseService=retrofit.create(UserResponseService.class);
+
+        responseService.getContestResult(contestId,userToken,userName)
+                .enqueue(new Callback<ScoreCard>() {
+                    @Override
+                    public void onResponse(Call<ScoreCard> call, Response<ScoreCard> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ScoreCard> call, Throwable t) {
+
+                    }
+                });
+
     }
-
-
-
-
-
 
     //TODO implement leaderboard api calls
     public void getDynamicLeaderboard(String contestId, String userToken, int length){
         //list of user score rank for leaderboard
         String DYNAMIC_LEADERBOARD_URL = "/leaderboard/dynamic";
+
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
+        LeaderBoardService leaderBoardService=retrofit.create(LeaderBoardService.class);
+
+        leaderBoardService.getLeaderBoardDynamicContest(userToken,contestId,length)
+                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+
+                    }
+                });
     }
+   /* @GET("/leaderboard/dynamic")
+    Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardDynamicContest(@Query("userId") String userToken, @Query("contestId") String contestId, @Query("noOfRecords") int noOfRecords);
+*/
 
     public void getStaticLeaderboard(String contestId,String userToken, int length){
         //list of user score rank for leaderboard
         String CATEGORIES_URL = "/leaderboard/static";
+
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
+        LeaderBoardService leaderBoardService=retrofit.create(LeaderBoardService.class);
+
+        leaderBoardService.getLeaderBoardStaticContest(userToken,contestId,length)
+                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+
+                    }
+                });
     }
-
-
-
 
     //TODO assign this model
     public void getDailyLeaderboard(){
