@@ -44,9 +44,48 @@ public class ApiRetrofitClass {
         return null;
     }
 
-    public List<DetailsOfContest> getContestsByCategrory(String category, String userToken){
-        String CATEGORY_CONTEST_URL = "No api endpoint yet";
-        return null;
+    public void getContestsByCategrory(String category){
+
+        /*  Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(CONSTANTS.PRODUCT_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client( new OkHttpClient())
+                .build();
+
+        ProductService service = retrofit.create(ProductService.class);
+
+
+        service.getSubCategory(category)
+                .enqueue(new Callback<ApiResponse<List<SubCategory>>>() {
+
+                    @Override                              //hover over the enqueue method to check what this is
+                    public void onResponse(Call<ApiResponse<List<SubCategory>>> call, Response<ApiResponse<List<SubCategory>>> response) {
+
+                        //List<Category> categoryList = new ArrayList<>();
+
+                        if(response.body() != null){
+                            subCategoryList.addAll(response.body().getData());
+
+
+                            subCategoryRecyclerViewAdapter.notifyDataSetChanged();
+
+
+                        }
+
+
+
+                    } //even 404 response from api it's success here because the api is connected and responding
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<SubCategory>>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),"Check your connection",Toast.LENGTH_LONG).show();
+                        Log.d("HOBOLandingPage",t.getMessage()+" failure");
+                    }// happens when api is not able to be connect or getting any response(even a failure response is called a response)
+                });
+*/
+        String CATEGORY_CONTEST_URL = "/contest/getbycategory";
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+
     }
 
     public List<DetailsOfContest> getIncompleteContests(String userToken){
