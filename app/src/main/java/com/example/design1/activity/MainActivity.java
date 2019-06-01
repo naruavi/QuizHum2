@@ -39,6 +39,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Button incompleteContests;
     //private int userToken;
     List<CategoryDefinition> categoryList = new ArrayList<>();
+    List<ContestDefinition> contestList=new ArrayList<>();
 
     public static final String EXTRA_MESSAGE = "message";
     @Override
@@ -80,7 +81,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         if(view.getId()==R.id.incomplete_contests){
-           /* Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+            /*Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
             UserResponseService userResponseService=retrofit.create(UserResponseService.class);
 
             userResponseService.getIncompletedContests(4)
@@ -88,8 +89,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
                             if(response.body()!=null) {
-                                Log.e("in incomple contest", response.body().toString());
-                                //categoryList.addAll(response.body());
+                                Log.e("in incomplete contest", response.body().toString());
+                                contestList.addAll(response.body());
                             }
                         }
                         @Override
@@ -97,6 +98,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             Log.e("in complete contest", "failure");
                         }
                     });*/
+            Intent intent = new Intent(view.getContext(), ContestActivity.class);
+            intent.putExtra("userId", 4);
+            view.getContext().startActivity(intent);
         }
     }
 

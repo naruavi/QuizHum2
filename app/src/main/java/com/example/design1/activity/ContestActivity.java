@@ -14,6 +14,7 @@ import com.example.design1.R;
 import com.example.design1.adapter.RecyclerAdapterForContest;
 import com.example.design1.models.ContestDefinition;
 import com.example.design1.restcalls.ContestService;
+import com.example.design1.restcalls.UserResponseService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,8 @@ import retrofit2.Retrofit;
 
 public class ContestActivity extends BaseActivity {
     String categoryName;
-    List<ContestDefinition> l1 = new ArrayList<>();
+    Integer userId;
+    List<ContestDefinition> contestList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,7 @@ public class ContestActivity extends BaseActivity {
             l1.add("Contest "+i);
         }*/
 
-        final RecyclerAdapterForContest recyclerAdapterForContest = new RecyclerAdapterForContest(l1);
+        final RecyclerAdapterForContest recyclerAdapterForContest = new RecyclerAdapterForContest(contestList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ContestActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerAdapterForContest);
@@ -45,24 +47,51 @@ public class ContestActivity extends BaseActivity {
         categoryName = getIntent().getStringExtra("Category");
         Log.e("in contest", categoryName +"" );
 
-        Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+        userId=getIntent().getIntExtra("userId", 0);
+        Log.e("in contest userId", userId + "");
 
-        ContestService contestService=retrofit.create(ContestService.class);
+        if(categoryName!=null) {
 
-        contestService.getContestsByCategory(categoryName)
-                .enqueue(new Callback<List<ContestDefinition>>() {
-                    @Override
-                    public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
-                        Log.e("In contest activity", response.body().toString());
-                        l1.addAll(response.body());
-                        recyclerAdapterForContest.notifyDataSetChanged();
-                    }
-                    @Override
-                    public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
-                        Log.e("In contest activity", "failure");
+            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
 
-                    }
-                });
+            ContestService contestService = retrofit.create(ContestService.class);
+
+            contestService.getContestsByCategory(categoryName)
+                    .enqueue(new Callback<List<ContestDefinition>>() {
+                        @Override
+                        public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+                            Log.e("In contest activity", response.body().toString());
+                            contestList.addAll(response.body());
+                            recyclerAdapterForContest.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+                            Log.e("In contest activity", "failure");
+
+                        }
+                    });
+        }
+        else if(userId!=0){
+            Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+            UserResponseService userResponseService=retrofit.create(UserResponseService.class);
+
+            userResponseService.getIncompletedContests(4)
+                    .enqueue(new Callback<List<ContestDefinition>>() {
+                        @Override
+                        public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+                            if(response.body()!=null) {
+                                Log.e("in incomplete contest", response.body().toString());
+                                contestList.addAll(response.body());
+                                recyclerAdapterForContest.notifyDataSetChanged();
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+                            Log.e("in complete contest", "failure");
+                        }
+                    });
+        }
     }
 
     public void openContest(View view) {
