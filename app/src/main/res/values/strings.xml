@@ -3,4 +3,14 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="subscribe_to_all">subscribe to all</string>
+
+    <!-- Notification Channel -->
+    <string name="dynamic_contest_notif_channel_name">Dynamic Contest Notification</string>
+    <string name="dynamic_contest_notif_channel_description">Notifications for dynamic contests</string>
+    <string name="dynamic_contest_notif_channel_id">dynamic_contest_notification_channel</string>
+
+    <string name="shared_pref_firebase">FirebaseSharedPref</string>
+    <string name="firebase_token">firebaseToken</string>
 </resources>

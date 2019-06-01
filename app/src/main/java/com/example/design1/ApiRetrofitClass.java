@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.design1.Pojo.ContestObject;
 import com.example.design1.Pojo.DetailsOfContest;
+import com.example.design1.models.CategoryDefinition;
 import com.example.design1.models.ContestDefinition;
 import com.example.design1.models.ContestTotal;
 import com.example.design1.models.LeaderBoardListItem;
@@ -40,6 +41,19 @@ public class ApiRetrofitClass {
     public List<String> getAllCategories(){
         String CATEGORIES_URL = "";
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CATEGORIES_URL);
+        ContestService contestService=retrofit.create(ContestService.class);
+        contestService.getCategories()
+                .enqueue(new Callback<List<CategoryDefinition>>() {
+                    @Override
+                    public void onResponse(Call<List<CategoryDefinition>> call, Response<List<CategoryDefinition>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<CategoryDefinition>> call, Throwable t) {
+
+                    }
+                });
 
         return null;
     }
