@@ -14,6 +14,7 @@ import com.example.quizhum.restcalls.UserResponseService;
 
 import org.json.JSONObject;
 
+import java.lang.invoke.ConstantCallSite;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,10 +88,12 @@ public class ApiRetrofitClass {
         return null;
     }
 
-    public ContestObject getContestById(String contestId, String userId){
+    public void getContestById(String contestId, String userId){
         String CONTEST_BY_ID = "/contest/contests/contestbyid";
         //response, contest details and the list of questions of a particular contest
-        return null;
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+        ContestService contestService=retrofit.create(ContestService.class);
+
     }
 
     public String submitResponseSingleQuestion(String questionId,String contestId,String userToken,String response){
