@@ -5,8 +5,10 @@ import android.util.Log;
 
 import com.example.quizhum.Pojo.ContestObject;
 import com.example.quizhum.Pojo.DetailsOfContest;
+import com.example.quizhum.models.ContestDefinition;
 import com.example.quizhum.models.LeaderBoardListItem;
 import com.example.quizhum.restcalls.ApiResponse;
+import com.example.quizhum.restcalls.ContestService;
 import com.example.quizhum.restcalls.LeaderBoardService;
 import com.example.quizhum.restcalls.UserResponseService;
 
@@ -44,13 +46,44 @@ public class ApiRetrofitClass {
         return null;
     }
 
-    public List<DetailsOfContest> getContestsByCategrory(String category, String userToken){
-        String CATEGORY_CONTEST_URL = "No api endpoint yet";
-        return null;
+    public void getContestsByCategrory(String category){
+
+        String CATEGORY_CONTEST_URL = "/contest/getbycategory";
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+
+        ContestService contestService=retrofit.create(ContestService.class);
+
+        contestService.getContestsByCategory(category)
+                .enqueue(new Callback<List<ContestDefinition>>() {
+                    @Override
+                    public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+
+                    }
+                });
     }
 
     public List<DetailsOfContest> getIncompleteContests(String userToken){
         String INCOMPLETE_CONTESTS_URL = "/contest/useractive";
+
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+        UserResponseService userResponseService=retrofit.create(UserResponseService.class);
+        userResponseService.getIncompletedContests(userToken)
+                .enqueue(new Callback<List<ContestDefinition>>() {
+                    @Override
+                    public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+
+                    }
+                });
         return null;
     }
 
@@ -78,14 +111,14 @@ public class ApiRetrofitClass {
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
 
         userResponseService.newResponseToQuestion(body)
-                .enqueue(new Callback<ApiResponse<String>>() {
+                .enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<ApiResponse<String>> call, Response<ApiResponse<String>> response) {
+                    public void onResponse(Call<String> call, Response<String> response) {
                         //TODO what is the response and
                     }
 
                     @Override
-                    public void onFailure(Call<ApiResponse<String>> call, Throwable t) {
+                    public void onFailure(Call<String> call, Throwable t) {
 
                     }
                 });

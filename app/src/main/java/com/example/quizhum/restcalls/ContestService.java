@@ -34,6 +34,4 @@ public interface ContestService {
     @GET("/contest/getbytype/{type}")
     Call<List<ContestDefinition>> getContestsByType(@Path("type") String type);
 
-
-
 }
