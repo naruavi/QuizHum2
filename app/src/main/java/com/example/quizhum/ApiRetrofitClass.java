@@ -5,8 +5,10 @@ import android.util.Log;
 
 import com.example.quizhum.Pojo.ContestObject;
 import com.example.quizhum.Pojo.DetailsOfContest;
+import com.example.quizhum.models.ContestDefinition;
 import com.example.quizhum.models.LeaderBoardListItem;
 import com.example.quizhum.restcalls.ApiResponse;
+import com.example.quizhum.restcalls.ContestService;
 import com.example.quizhum.restcalls.LeaderBoardService;
 import com.example.quizhum.restcalls.UserResponseService;
 
@@ -46,50 +48,42 @@ public class ApiRetrofitClass {
 
     public void getContestsByCategrory(String category){
 
-        /*  Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(CONSTANTS.PRODUCT_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .client( new OkHttpClient())
-                .build();
-
-        ProductService service = retrofit.create(ProductService.class);
-
-
-        service.getSubCategory(category)
-                .enqueue(new Callback<ApiResponse<List<SubCategory>>>() {
-
-                    @Override                              //hover over the enqueue method to check what this is
-                    public void onResponse(Call<ApiResponse<List<SubCategory>>> call, Response<ApiResponse<List<SubCategory>>> response) {
-
-                        //List<Category> categoryList = new ArrayList<>();
-
-                        if(response.body() != null){
-                            subCategoryList.addAll(response.body().getData());
-
-
-                            subCategoryRecyclerViewAdapter.notifyDataSetChanged();
-
-
-                        }
-
-
-
-                    } //even 404 response from api it's success here because the api is connected and responding
-
-                    @Override
-                    public void onFailure(Call<ApiResponse<List<SubCategory>>> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),"Check your connection",Toast.LENGTH_LONG).show();
-                        Log.d("HOBOLandingPage",t.getMessage()+" failure");
-                    }// happens when api is not able to be connect or getting any response(even a failure response is called a response)
-                });
-*/
         String CATEGORY_CONTEST_URL = "/contest/getbycategory";
         Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
 
+        ContestService contestService=retrofit.create(ContestService.class);
+
+        contestService.getContestsByCategory(category)
+                .enqueue(new Callback<List<ContestDefinition>>() {
+                    @Override
+                    public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+
+                    }
+                });
     }
 
     public List<DetailsOfContest> getIncompleteContests(String userToken){
         String INCOMPLETE_CONTESTS_URL = "/contest/useractive";
+
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+        UserResponseService userResponseService=retrofit.create(UserResponseService.class);
+        userResponseService.getIncompletedContests(userToken)
+                .enqueue(new Callback<List<ContestDefinition>>() {
+                    @Override
+                    public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+
+                    }
+                });
         return null;
     }
 
@@ -117,14 +111,14 @@ public class ApiRetrofitClass {
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
 
         userResponseService.newResponseToQuestion(body)
-                .enqueue(new Callback<ApiResponse<String>>() {
+                .enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<ApiResponse<String>> call, Response<ApiResponse<String>> response) {
+                    public void onResponse(Call<String> call, Response<String> response) {
                         //TODO what is the response and
                     }
 
                     @Override
-                    public void onFailure(Call<ApiResponse<String>> call, Throwable t) {
+                    public void onFailure(Call<String> call, Throwable t) {
 
                     }
                 });

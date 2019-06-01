@@ -1,6 +1,8 @@
 package com.example.quizhum.restcalls;
 
 import com.example.quizhum.Pojo.DetailsOfContest;
+import com.example.quizhum.ScoreCard;
+import com.example.quizhum.models.ContestDefinition;
 
 import java.util.List;
 
@@ -17,16 +19,16 @@ import retrofit2.http.Query;
 public interface UserResponseService {
 
     @GET("/usercontest/useractive")
-    Call<ApiResponse<List<DetailsOfContest>>> getIncompletedContests(@Query("userId") String userToken);
+    Call<List<ContestDefinition>> getIncompletedContests(@Query("userId") String userToken);
 
-    @GET("/usercontest/useractive")
-    Call<ApiResponse<List<DetailsOfContest>>> getContestResult(@Query("contestId") String contestId, @Query("userId") String userToken,@Query("username") String username);
+    @GET("/usercontest/userresult")
+    Call<ScoreCard> getContestResult(@Query("contestId") String contestId, @Query("userId") String userToken, @Query("username") String username);
 
     @POST("/response/user")
-    Call<ApiResponse<String>> newResponseToQuestion(@Body RequestBody requestBody);
+    Call<String> newResponseToQuestion(@Body RequestBody requestBody);
 
     @PUT("/response/user")
-    Call<ApiResponse<String>> updateResponseOfSkipped(@Body RequestBody requestBody);
+    Call<String> updateResponseOfSkipped(@Body RequestBody requestBody);
 
 
 }
