@@ -19,10 +19,10 @@ public interface UserResponseService {
 
 
     @GET("/usercontest/useractive")
-    Call<List<ContestDefinition>> getIncompletedContests(@Query("userId") String userToken);
+    Call<List<ContestDefinition>> getIncompletedContests(@Query("userId") int userToken);
 
     @GET("/usercontest/userresult")
-    Call<ScoreCard> getContestResult(@Query("contestId") String contestId, @Query("userId") String userToken, @Query("username") String username);
+    Call<ScoreCard> getContestResult(@Query("contestId") int contestId, @Query("userId") int userToken, @Query("username") String username);
 
     @POST("/response/user")
     Call<String> newResponseToQuestion(@Body RequestBody requestBody);

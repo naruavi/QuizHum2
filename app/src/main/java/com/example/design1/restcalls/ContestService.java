@@ -19,7 +19,7 @@ public interface ContestService {
     Call<ContestTotal> getTotalContest(@Query("contestId") int contestId, @Query("userId") int userToken);
 
     @GET("/contest/getquestionofcontest")
-    Call<List<QuestionDefinition>> getContestResult(@Query("contestId") String contestId, @Query("userId") String userToken, @Query("username") String username);
+    Call<List<QuestionDefinition>> getContestResult(@Query("contestId") int contestId, @Query("userId") int userToken, @Query("username") String username);
 
     @GET("/contest/getallcategory")
     Call<List<CategoryDefinition>> getCategories();
