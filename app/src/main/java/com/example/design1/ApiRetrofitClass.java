@@ -57,7 +57,6 @@ public class ApiRetrofitClass {
                     public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
 
                     }
-
                     @Override
                     public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
 
@@ -65,7 +64,7 @@ public class ApiRetrofitClass {
                 });
     }
 
-    public List<DetailsOfContest> getIncompleteContests(String userToken){
+    public List<DetailsOfContest> getIncompleteContests(int userToken){
         String INCOMPLETE_CONTESTS_URL = "/contest/useractive";
 
         Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
@@ -139,7 +138,7 @@ public class ApiRetrofitClass {
     }
 
     //TODO after the last question is submitted successfully
-    public void submitContest(String userToken,String contestId, String userName){
+    public void submitContest(int userToken,int contestId, String userName){
         String SUBMIT_CONTEST_URL = "/contest/userresult";
 
         Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
@@ -161,7 +160,7 @@ public class ApiRetrofitClass {
     }
 
     //TODO implement leaderboard api calls
-    public void getDynamicLeaderboard(String contestId, String userToken, int length){
+    public void getDynamicLeaderboard(int contestId, int userToken, int length){
         //list of user score rank for leaderboard
         String DYNAMIC_LEADERBOARD_URL = "/leaderboard/dynamic";
 
@@ -185,7 +184,7 @@ public class ApiRetrofitClass {
     Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardDynamicContest(@Query("userId") String userToken, @Query("contestId") String contestId, @Query("noOfRecords") int noOfRecords);
 */
 
-    public void getStaticLeaderboard(String contestId,String userToken, int length){
+    public void getStaticLeaderboard(int contestId,int userToken, int length){
         //list of user score rank for leaderboard
         String CATEGORIES_URL = "/leaderboard/static";
 
