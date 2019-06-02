@@ -12,6 +12,8 @@ import com.example.design1.restcalls.ApiResponse;
 import com.example.design1.restcalls.ContestService;
 import com.example.design1.restcalls.LeaderBoardService;
 import com.example.design1.restcalls.UserResponseService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
@@ -28,8 +30,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofitClass {
     public static Retrofit getNewRetrofit(String BASE_URL){
+        Gson gson = new GsonBuilder().setLenient().create();
         return new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(BASE_URL)
                 .client(new OkHttpClient())
                 .build();
@@ -132,18 +135,18 @@ public class ApiRetrofitClass {
 
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
 
-        userResponseService.newResponseToQuestion(body)
-                .enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-                        //TODO what is the response and
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-
-                    }
-                });
+//        userResponseService.newResponseToQuestion(body)
+//                .enqueue(new Callback<String>() {
+//                    @Override
+//                    public void onResponse(Call<String> call, Response<String> response) {
+//                        //TODO what is the response and
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<String> call, Throwable t) {
+//
+//                    }
+//                });
 
         return null;
 
@@ -156,18 +159,18 @@ public class ApiRetrofitClass {
         Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
         UserResponseService responseService=retrofit.create(UserResponseService.class);
 
-        responseService.getContestResult(contestId,userToken,userName)
-                .enqueue(new Callback<ScoreCard>() {
-                    @Override
-                    public void onResponse(Call<ScoreCard> call, Response<ScoreCard> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<ScoreCard> call, Throwable t) {
-
-                    }
-                });
+//        responseService.getContestResult(contestId,userToken,userName)
+//                .enqueue(new Callback<ScoreCard>() {
+//                    @Override
+//                    public void onResponse(Call<ScoreCard> call, Response<ScoreCard> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ScoreCard> call, Throwable t) {
+//
+//                    }
+//                });
 
     }
 
@@ -217,7 +220,6 @@ public class ApiRetrofitClass {
                 });
     }
 
-    //TODO assign this model
     public void getDailyLeaderboard(){
         //list of user score rank for leaderboard
 

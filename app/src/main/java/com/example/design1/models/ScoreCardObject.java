@@ -1,6 +1,6 @@
 package com.example.design1.models;
 
-public class ScoreCard {
+public class ScoreCardObject {
 
     private int totalScore;
     private int correctAnswers;

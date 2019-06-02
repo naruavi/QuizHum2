@@ -39,7 +39,7 @@ public class ContestActivity extends BaseActivity {
             l1.add("Contest "+i);
         }*/
 
-        final RecyclerAdapterForContest recyclerAdapterForContest = new RecyclerAdapterForContest(contestList);
+        final RecyclerAdapterForContest recyclerAdapterForContest = new RecyclerAdapterForContest(ContestActivity.this,contestList);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ContestActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerAdapterForContest);
@@ -94,8 +94,8 @@ public class ContestActivity extends BaseActivity {
         }
     }
 
-    public void openContest(View view) {
-        Intent intent = new Intent(this, PlayStaticContest.class);
-        startActivity(intent);
-    }
+//    public void openContest(View view) {
+//        Intent intent = new Intent(this, PlayStaticContest.class);
+//        startActivity(intent);
+//    }
 }

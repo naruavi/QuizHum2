@@ -2,6 +2,8 @@ package com.example.design1.restcalls;
 
 import com.example.design1.models.ContestDefinition;
 import com.example.design1.ScoreCard;
+import com.example.design1.models.NewResponse;
+import com.example.design1.models.ScoreCardObject;
 
 import java.util.List;
 
@@ -21,8 +23,8 @@ public interface UserResponseService {
     @GET("/usercontest/useractive")
     Call<List<ContestDefinition>> getIncompletedContests(@Query("userId") int userToken);
 
-    @GET("/usercontest/userresult")
-    Call<ScoreCard> getContestResult(@Query("contestId") int contestId, @Query("userId") int userToken, @Query("username") String username);
+    @POST("/usercontest/userresult")
+    Call<ScoreCardObject> getContestResult(@Body RequestBody requestBody);
 
     @POST("/response/user")
     Call<String> newResponseToQuestion(@Body RequestBody requestBody);
