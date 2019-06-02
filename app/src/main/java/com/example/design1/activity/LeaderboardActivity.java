@@ -92,7 +92,7 @@ public class LeaderboardActivity extends AppCompatActivity {
 
 
         // set white color https://stackoverflow.com/a/14986834
-        int labelColor = getResources().getColor(R.color.white);
+        int labelColor = getResources().getColor(R.color.black);
         String сolorString = String.format("%X", labelColor).substring(2); // !!strip alpha value!!
         getSupportActionBar().setTitle(Html.fromHtml(String.format("<font color=\"#%s\">Leaderboard</font>", сolorString)));
 
