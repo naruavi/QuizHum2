@@ -5,7 +5,7 @@ public class ContestDefinition {
     private int contestId;
     private String contestName;
     private String createdBy;
-    private String skipsAllowed;
+    private int skipsAllowed;
     private String contestType;
     private Long startTimeOfContest;
     private Long endTimeOfContest;
@@ -36,11 +36,11 @@ public class ContestDefinition {
         this.createdBy = createdBy;
     }
 
-    public String getSkipsAllowed() {
+    public int getSkipsAllowed() {
         return skipsAllowed;
     }
 
-    public void setSkipsAllowed(String skipsAllowed) {
+    public void setSkipsAllowed(int skipsAllowed) {
         this.skipsAllowed = skipsAllowed;
     }
 

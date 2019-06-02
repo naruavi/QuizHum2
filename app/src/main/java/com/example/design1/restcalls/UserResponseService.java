@@ -2,6 +2,7 @@ package com.example.design1.restcalls;
 
 import com.example.design1.models.ContestDefinition;
 import com.example.design1.ScoreCard;
+import com.example.design1.models.NewResponse;
 
 import java.util.List;
 
