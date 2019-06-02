@@ -105,10 +105,19 @@ public class Question {
         this.answerType = answerType;
     }
 
-    public Question(int questionId, int order, String question, String questionType, HashMap<Integer, String> options) {
+    public Question(int questionId, int order, String question, String questionType, String binaryFilePath,
+                    String optionA, String optionB, String optionC,
+                    String categoryOfQuestion, String difficultyLevel, String answerType) {
         this.questionId = questionId;
         this.order = order;
         this.question = question;
         this.questionType = questionType;
+        this.binaryFilePath = binaryFilePath;
+        this.optionA = optionA;
+        this.optionB = optionB;
+        this.optionC = optionC;
+        this.categoryOfQuestion = categoryOfQuestion;
+        this.difficultyLevel = difficultyLevel;
+        this.answerType = answerType;
     }
 }

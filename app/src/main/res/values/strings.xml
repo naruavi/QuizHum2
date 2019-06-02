@@ -13,4 +13,5 @@
 
     <string name="shared_pref_firebase">FirebaseSharedPref</string>
     <string name="firebase_token">firebaseToken</string>
+    <string name="shared_pref_session_id">com.example.design1.SessionId</string>
 </resources>
