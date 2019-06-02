@@ -5,15 +5,13 @@
     android:layout_marginTop="5dp"
     android:layout_marginStart="3dp"
     android:layout_marginEnd="3dp"
-    app:layout_constraintCircleRadius="4dp"
-    android:onClick="openContest">
+    app:layout_constraintCircleRadius="4dp">
 
 <android.support.constraint.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:layout_editor_absoluteX="5dp"
     tools:layout_editor_absoluteY="5dp"
     >
