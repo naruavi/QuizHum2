@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlayStaticContest">
+    tools:context=".activity.PlayStaticContest">
 
 
     <!--<TextView-->
@@ -83,7 +83,7 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <com.example.quizhum.CustomViewPager
+    <com.example.design1.CustomViewPager
         android:id="@+id/PlayStaticViewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"

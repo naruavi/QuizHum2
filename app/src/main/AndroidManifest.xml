@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.PlayStaticContest"></activity>
         <activity android:name=".activity.QuestionActivity"
             android:parentActivityName=".activity.ContestActivity"></activity>
         <activity android:name=".activity.LeaderboardActivity"></activity>
