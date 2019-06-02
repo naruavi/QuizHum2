@@ -16,7 +16,6 @@ public class Question {
     private String answerType;
 
 
-
     public int getQuestionId() {
         return questionId;
     }

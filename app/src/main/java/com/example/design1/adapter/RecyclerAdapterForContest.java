@@ -38,7 +38,8 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
     @NonNull
     @Override
     public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup , int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recycler_contests,viewGroup,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recycler_contests,
+                viewGroup,false);
         RecyclerViewHolder recyclerViewHolder = new RecyclerViewHolder(view);
         return recyclerViewHolder;
     }
@@ -46,7 +47,6 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapterForContest.RecyclerViewHolder recyclerViewHolder, int i) {
         recyclerViewHolder.bind(contestList.get(i));
-
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 
 import com.example.design1.Pojo.Question;
+import com.example.design1.adapter.ViewPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class PlayStaticContest extends AppCompatActivity {
 
     private CustomViewPager viewPager;
-    private  ViewPagerAdapter pagerAdapter;
+    private ViewPagerAdapter pagerAdapter;
     List<Question> liq;
     Button nextButton;
     Button skipbutton;
@@ -67,18 +68,37 @@ public class PlayStaticContest extends AppCompatActivity {
         Log.d("answerandskip", skipList.toString() + answered.toString());
 
         liq = new ArrayList<>();
-        Question q1 = new Question(1, 1, "this is the first questions1", "text", a);
-        Question q2 = new Question(1, 2, "this is the first questions2", "text", a);
-        Question q3 = new Question(1, 3, "this is the first questions3", "text", a);
-        Question q4 = new Question(1, 4, "this is the first questions4", "text", a);
-        Question q5 = new Question(1, 5, "this is the first questions5", "text", a);
-        Question q6 = new Question(1, 6, "this is the first questions5", "text", a);
-        Question q7 = new Question(1, 7, "this is the first questions5", "text", a);
-        Question q8 = new Question(1, 8, "this is the first questions5", "text", a);
-        Question q9 = new Question(1, 9, "this is the first questions5", "text", a);
+        Question q1 = new Question(1, 1, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
+        Question q2 = new Question(1, 2, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
+        Question q3 = new Question(1, 3, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
+        Question q4 = new Question(1, 4, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
+        Question q5 = new Question(1, 5, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
+        Question q6 = new Question(1, 6, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
+        Question q7 = new Question(1, 7, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
+        Question q8 = new Question(1, 8, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
+        Question q9 = new Question(1, 9, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
+        Question q10 = new Question(1, 10, "this is the first questions1", "text",
+                "","first option","second option","third option"
+                ,"sports","hard","single");
 
-        q7.setQuestionType("video");
-        q7.setBinaryFilePath("http://videocdn.bodybuilding.com/video/mp4/62000/62792m.mp4");
 
         liq.add(q1);
         liq.add(q2);
@@ -89,6 +109,7 @@ public class PlayStaticContest extends AppCompatActivity {
         liq.add(q7);
         liq.add(q8);
         liq.add(q9);
+        liq.add(q10);
 
         allOnClickListeners();
 
@@ -103,7 +124,6 @@ public class PlayStaticContest extends AppCompatActivity {
         viewPager.setAdapter(pagerAdapter);
 
         viewPager.setCurrentItem(skipList.size() + answered.size());
-//        viewPager.setCurrentItem();
 
         nextButton.setEnabled(false);
         if(viewPager.getCurrentItem() == 0){

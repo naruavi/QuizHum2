@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".PlayStaticContest">
 
-
     <!--<TextView-->
     <!--android:id="@+id/textView"-->
     <!--android:layout_width="match_parent"-->
@@ -15,99 +14,29 @@
     <!--app:layout_constraintEnd_toEndOf="parent"-->
     <!--app:layout_constraintStart_toStartOf="parent"-->
     <!--app:layout_constraintTop_toTopOf="parent" />-->
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/cardview_dark_background"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageButton
-                android:id="@+id/imageButton2"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/rounded_textview"
-                android:src="@drawable/medal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintCircleRadius="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.613"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0" />
-
-            <ImageButton
-                android:id="@+id/imageButton3"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/rounded_textview"
-                android:src="@drawable/account"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.115"
-                app:layout_constraintStart_toEndOf="@+id/imageButton2" />
-
-            <ImageButton
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/rounded_textview"
-                android:src="@drawable/logout"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageButton3"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.Toolbar>
 
     <com.example.quizhum.CustomViewPager
         android:id="@+id/PlayStaticViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="406dp"
+        android:layout_height="461dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/skip_btn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.883"/>
 
     <Button
         android:id="@+id/next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:text="next"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/submit_btn"
-        app:layout_constraintTop_toBottomOf="@+id/PlayStaticViewPager" />
+        tools:layout_editor_absoluteY="675dp" />
 
     <Button
         android:id="@+id/skip_btn"
@@ -124,14 +53,11 @@
         android:id="@+id/previous_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:text="previous"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/skip_btn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlayStaticViewPager" />
+        tools:layout_editor_absoluteY="675dp" />
 
     <Button
         android:id="@+id/submit_btn"
