@@ -108,9 +108,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Intent intent = new Intent(this, ContestActivity.class);
         startActivity(intent);
     }
-
-    public void goToLeaderBoard(View view) {
-        Intent intent = new Intent(this, LeaderboardActivity.class);
-        startActivity(intent);
-    }
 }

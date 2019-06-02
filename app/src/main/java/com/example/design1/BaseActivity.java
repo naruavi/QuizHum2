@@ -8,7 +8,14 @@ import com.example.design1.activity.LeaderboardActivity;
 
 public class BaseActivity extends AppCompatActivity {
 
-    public void goToLeaderBoard(View view) {
+    public void goToLeaderBoard(final View view) {
+        view.setClickable(false);
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setClickable(true);
+            }
+        }, 500);
         Intent intent = new Intent(this, LeaderboardActivity.class);
         startActivity(intent);
     }
