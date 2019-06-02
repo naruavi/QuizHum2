@@ -1,6 +1,9 @@
 package com.example.design1.activity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +31,7 @@ import com.example.design1.models.NewResponse;
 import com.example.design1.models.QuestionDefinition;
 import com.example.design1.restcalls.ContestService;
 import com.example.design1.restcalls.UserResponseService;
+import com.example.design1.rules;
 
 import org.json.JSONObject;
 
@@ -96,7 +100,7 @@ public class PlayStaticContest extends AppCompatActivity {
                                 + response.body().getContestDefinition().toString() + response.body().getUserResponse());
                                 if(stateResponse!=null){
                                     for(Map.Entry entry : stateResponse.entrySet()){
-                                        if(entry.getValue().equals("S")){
+                                        if(entry.getValue().equals("s")){
                                             skipList.add((Integer) entry.getKey() - 1);
                                         }
                                         else{
@@ -104,6 +108,31 @@ public class PlayStaticContest extends AppCompatActivity {
                                         }
                                     }
                                 }
+                                //fragment
+                                Integer questions= response.body().getContestDefinition().getTotalQuestionsInContest();
+                                Integer skips=response.body().getContestDefinition().getSkipsAllowed();
+                                Integer hard=0,easy=0,medium=0;
+
+                                Log.e("in response", response.body().getQuestionList().toString());
+                                for(int i=0;i<listOfQuestion.size();i++){
+                                    Log.e("in list of questions", listOfQuestion.get(i).getDifficultyLevel());
+
+                                    if(listOfQuestion.get(i).getDifficultyLevel().equals("hard"))
+                                        hard++;
+                                    else if(listOfQuestion.get(i).getDifficultyLevel().equals("easy"))
+                                        easy++;
+                                    else if(listOfQuestion.get(i).getDifficultyLevel().equals("medium"))
+                                        medium++;
+
+                                }
+                                Fragment fragment= rules.newInstance(PlayStaticContest.this,questions,skips,hard,medium,easy);
+                                FragmentManager fragmentManager = getSupportFragmentManager();
+                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                fragmentTransaction.replace(R.id.RulesHolder, fragment);
+
+                                //((rules) fragment).attachThings(questions,skips,hard,medium,easy);
+                                fragmentTransaction.commit();
+
                                 viewPager = findViewById(R.id.PlayStaticViewPager);
                                 pagerAdapter = new ViewPagerAdapter(PlayStaticContest.this, listOfQuestion);
                                 viewPager.setAdapter(pagerAdapter);

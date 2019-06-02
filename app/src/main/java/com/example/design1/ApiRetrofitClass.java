@@ -220,7 +220,6 @@ public class ApiRetrofitClass {
                 });
     }
 
-    //TODO assign this model
     public void getDailyLeaderboard(){
         //list of user score rank for leaderboard
 
