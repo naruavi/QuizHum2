@@ -25,6 +25,7 @@ import android.widget.VideoView;
 import com.bumptech.glide.Glide;
 import com.example.design1.Pojo.Question;
 import com.example.design1.R;
+import com.example.design1.models.QuestionDefinition;
 
 
 import java.io.IOException;
@@ -34,7 +35,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     Context context;
 
-    List<Question> questions;
+    List<QuestionDefinition> questions;
     LayoutInflater layoutInflater;
     private Context mContext;
     private Activity mActivity;
@@ -44,13 +45,13 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     public static MediaPlayer mPlayer;
     public static MediaController mediaController;
-    public static VideoView videoView;
+    private VideoView videoView;
 
-    public ViewPagerAdapter(Context context, List<Question> questions1) {
-        Log.d("custompager", "workscustructor");
+    public ViewPagerAdapter(Context context, List<QuestionDefinition> questions1) {
         this.context = context;
         this.questions = questions1;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        Log.d("custompager", questions.toString());
     }
 
     @Override
@@ -79,28 +80,26 @@ public class ViewPagerAdapter extends PagerAdapter {
         mButtonPlay = itemView.findViewById(R.id.playbutton);
         VideoView vi= imageView.findViewById(R.id.myVideo);
 
-        Log.d("ejijaefdj", String.valueOf(questions.get(position).getOrder()));
-        textView.setText(String.valueOf(questions.get(position).getOrder()));
-        textView1.setText(questions.get(position).getQuestion());
-      if(questions.get(position).getAnswerType().equals("single")||questions.get(position)
-              .getQuestionType().equals("video")) {
+        Log.d("ejijaefdj", String.valueOf(questions.get(position)));
+        textView.setText(String.valueOf(position + 1));
+        textView1.setText(questions.get(position).getQuestionText());
+      if(questions.get(position).getAnswerType().equals("single")) {
           Log.e("insingle","type single");
           radio1.setVisibility(View.VISIBLE);
           radio2.setVisibility(View.VISIBLE);
           radio3.setVisibility(View.VISIBLE);
-          radio1.setText("op1");//questions.get(position).getOptionA());
-          radio2.setText("op2");//questions.get(position).getOptionB());
-          radio3.setText("op3");//questions.get(position).getOptionC());
+          radio1.setText(questions.get(position).getOptionA());
+          radio2.setText(questions.get(position).getOptionB());
+          radio3.setText(questions.get(position).getOptionC());
       }else if(questions.get(position).getAnswerType().equals("multiple"))
       {
           box1.setVisibility(View.VISIBLE);
           box2.setVisibility(View.VISIBLE);
           box3.setVisibility(View.VISIBLE);
-          box1.setText("op1c");//questions.get(position).getOptionA());
-          box2.setText("op2c");//questions.get(position).getOptionB());
-          box3.setText("op3");//questions.get(position).getOptionC());
+          box1.setText(questions.get(position).getOptionA());
+          box2.setText(questions.get(position).getOptionB());
+          box3.setText(questions.get(position).getOptionC());
       }
-
         if(questions.get(position).getQuestionType().equals("video")){
             videoView.setVisibility(View.VISIBLE);
             Uri vidUri = Uri.parse(questions.get(position).getBinaryFilePath());
@@ -117,10 +116,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             imageView.setVisibility(View.VISIBLE);
             Glide.with(itemView.getContext()).load(questions.get(position).getBinaryFilePath()).into(imageView);
         }else if(questions.get(position).getQuestionType().equals("audio")){
-
             mButtonPlay.setVisibility(View.VISIBLE);
-
-
             mButtonPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -161,16 +157,12 @@ public class ViewPagerAdapter extends PagerAdapter {
                     mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                         @Override
                         public void onCompletion(MediaPlayer mediaPlayer) {
-                            Toast.makeText(mContext,"End",Toast.LENGTH_SHORT).show();
                             mButtonPlay.setEnabled(true);
                         }
                     });
                 }
             });
-
         }
-
-
         container.addView(itemView);
         return itemView;
     }

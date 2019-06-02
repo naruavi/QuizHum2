@@ -15,5 +15,27 @@ public class ContestTotal {
     @SerializedName("userResponseDTO")
     private HashMap<Integer,String> userResponse;
 
+    public ContestDefinition getContestDefinition() {
+        return contestDefinition;
+    }
 
+    public void setContestDefinition(ContestDefinition contestDefinition) {
+        this.contestDefinition = contestDefinition;
+    }
+
+    public List<QuestionDefinition> getQuestionList() {
+        return questionList;
+    }
+
+    public void setQuestionList(List<QuestionDefinition> questionList) {
+        this.questionList = questionList;
+    }
+
+    public HashMap<Integer, String> getUserResponse() {
+        return userResponse;
+    }
+
+    public void setUserResponse(HashMap<Integer, String> userResponse) {
+        this.userResponse = userResponse;
+    }
 }
