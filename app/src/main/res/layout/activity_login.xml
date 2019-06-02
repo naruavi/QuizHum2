@@ -63,7 +63,6 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="72dp"
         android:enabled="true"
-        android:textColor="#FFFF"
         android:text="Sign In"
         android:background="@drawable/custom_button"
         app:layout_constraintEnd_toEndOf="parent"

@@ -8,6 +8,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:background">@color/colorBack</item>
+        <item name="android:textAppearanceListItem">@color/TextInList</item>
+        <item name="android:textSize">20sp</item>
 
     </style>
 
