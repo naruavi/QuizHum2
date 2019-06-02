@@ -95,7 +95,7 @@ public class ContestActivity extends BaseActivity {
     }
 
     public void openContest(View view) {
-        Intent intent = new Intent(this, QuestionActivity.class);
+        Intent intent = new Intent(this, PlayStaticContest.class);
         startActivity(intent);
     }
 }
