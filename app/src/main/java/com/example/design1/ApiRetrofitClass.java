@@ -159,18 +159,18 @@ public class ApiRetrofitClass {
         Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
         UserResponseService responseService=retrofit.create(UserResponseService.class);
 
-        responseService.getContestResult(contestId,userToken,userName)
-                .enqueue(new Callback<ScoreCard>() {
-                    @Override
-                    public void onResponse(Call<ScoreCard> call, Response<ScoreCard> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<ScoreCard> call, Throwable t) {
-
-                    }
-                });
+//        responseService.getContestResult(contestId,userToken,userName)
+//                .enqueue(new Callback<ScoreCard>() {
+//                    @Override
+//                    public void onResponse(Call<ScoreCard> call, Response<ScoreCard> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ScoreCard> call, Throwable t) {
+//
+//                    }
+//                });
 
     }
 

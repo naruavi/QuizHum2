@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +33,9 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, PlayStaticContest.class);
-                    intent.putExtra("contesId",contestList.get(getAdapterPosition()).getContestId());
+                    intent.putExtra("contestId",contestList.get(getAdapterPosition()).getContestId());
                     context.startActivity(intent);
+                    Log.d("contestId",contestList.get(getAdapterPosition()).getContestId()+"");
                 }
             });
 

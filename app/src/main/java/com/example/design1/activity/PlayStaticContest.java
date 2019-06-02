@@ -1,6 +1,7 @@
 package com.example.design1.activity;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.FrameLayout;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -17,6 +20,7 @@ import com.example.design1.CONSTANTS;
 import com.example.design1.CustomViewPager;
 import com.example.design1.Pojo.Question;
 import com.example.design1.R;
+import com.example.design1.ScoreCard;
 import com.example.design1.adapter.ViewPagerAdapter;
 import com.example.design1.models.ContestDefinition;
 import com.example.design1.models.ContestTotal;
@@ -54,6 +58,7 @@ public class PlayStaticContest extends AppCompatActivity {
     List<Integer> answered;
     int skipCount;
     HashMap<Integer, String> stateResponse;
+    FrameLayout scoreCardHolder;
 
 
     @Override
@@ -69,10 +74,11 @@ public class PlayStaticContest extends AppCompatActivity {
         skipList = new ArrayList<>();
         answered= new ArrayList<>();
         stateResponse = new HashMap<>();
+        scoreCardHolder = findViewById(R.id.scoreCardHolder);
 
 
         Intent intent = getIntent();
-        contestId = intent.getIntExtra("constestId",1);
+        contestId = intent.getIntExtra("contestId",1);
         //TODO getting list of questions
 
         Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
@@ -205,8 +211,6 @@ public class PlayStaticContest extends AppCompatActivity {
             public void onPageSelected(int i) {
                 VideoView vi= findViewById(R.id.myVideo);
                 vi.stopPlayback();
-
-
                 if(i == 0){
                     previousButton.setEnabled(false);
                 }
@@ -320,6 +324,17 @@ public class PlayStaticContest extends AppCompatActivity {
                         Log.d("onsubmit","new page " + answered.size() + skipList.size() + skipList.get(0));
                         viewPager.setCurrentItem(skipList.get(0));
                     }
+                    else{
+                        ScoreCard scoreCard = new ScoreCard();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("contestId", PlayStaticContest.this.contestDefinition.getContestId());
+                        bundle.putInt("totalQuestions",PlayStaticContest.this.contestDefinition.getTotalQuestionsInContest());
+                        scoreCard.setArguments(bundle);
+                        scoreCardHolder.setVisibility(View.VISIBLE);
+                        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.scoreCardHolder,scoreCard);
+                        fragmentTransaction.commit();
+                    }
                 }
             //make response api call
                 String userResponse = "";
@@ -361,14 +376,6 @@ public class PlayStaticContest extends AppCompatActivity {
                 jsonParams.put("username","test");
 
                 Log.d("ApiRetrofitClass","Json Value "+jsonParams.toString());
-//                NewResponse newResponse = new NewResponse();
-//                newResponse.setQuestionId(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
-//                newResponse.setContestId(contestId);
-//                newResponse.setUserId(1);
-//                newResponse.setResponse(userResponse);
-//                newResponse.setUsername("test");
-//
-//                Log.d("newResponse",newResponse.toString());
 
                 RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
 
@@ -379,7 +386,7 @@ public class PlayStaticContest extends AppCompatActivity {
                                 //TODO what is the response and
                                 if(response.code()/100 == 2){
                                     Toast.makeText(PlayStaticContest.this, "Submitted successfully",
-                                            Toast.LENGTH_SHORT);
+                                            Toast.LENGTH_SHORT).show();
                                 }
                                 else{
                                     Log.d("responsenotsend",response.code() + "");
@@ -442,14 +449,8 @@ public class PlayStaticContest extends AppCompatActivity {
 
                 Log.d("ApiRetrofitClass","Json Value "+jsonParams.toString());
 
-                RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
-
-//                NewResponse newResponse = new NewResponse();
-//                newResponse.setQuestionId(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
-//                newResponse.setContestId(contestId);
-//                newResponse.setUserId(1);
-//                newResponse.setUsername("test");
-//                newResponse.setResponse("S");
+                RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                        (new JSONObject(jsonParams)).toString());
 
                 userResponseService.newResponseToQuestion(body)
                         .enqueue(new Callback<String>() {
@@ -458,7 +459,7 @@ public class PlayStaticContest extends AppCompatActivity {
                                 //TODO what is the response and
                                 if(response.code()/100 == 2){
                                     Toast.makeText(PlayStaticContest.this, "Submitted successfully",
-                                            Toast.LENGTH_SHORT);
+                                            Toast.LENGTH_SHORT).show();
                                 }
                                 else {
                                     Log.d("responsenotsend",response.code() + "");

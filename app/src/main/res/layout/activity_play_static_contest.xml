@@ -19,7 +19,6 @@
         android:id="@+id/toolbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:background="@color/cardview_dark_background"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -143,6 +142,13 @@
         app:layout_constraintEnd_toStartOf="@+id/next_btn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/skip_btn" />
+
+    <FrameLayout
+        android:background="@color/white"
+        android:visibility="gone"
+        android:id="@+id/scoreCardHolder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
 </android.support.constraint.ConstraintLayout>
