@@ -4,9 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import com.example.design1.activity.PlayStaticContest;
 
 
 /**
@@ -22,6 +28,8 @@ public class rules extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private TextView noOfQuestions, noOfSkips, noOfHard, noOfMedium, noOfEasy;
+    private Button rulesButton;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -37,17 +45,21 @@ public class rules extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
      * @return A new instance of fragment rules.
      */
     // TODO: Rename and change types and number of parameters
-    public static rules newInstance(String param1, String param2) {
+    public static rules newInstance(PlayStaticContest context,int noOfQuestions, int noOfSkips, int hard, int medium, int easy) {
         rules fragment = new rules();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putInt("noOfQuestions", noOfQuestions);
+        args.putInt("noOfSkips", noOfSkips);
+        args.putInt("hard", hard);
+        args.putInt("medium", medium);
+        args.putInt("easy", easy);
         fragment.setArguments(args);
+
+        (context.findViewById(R.id.RulesHolder)).setVisibility(View.VISIBLE);
+
         return fragment;
     }
 
@@ -64,7 +76,53 @@ public class rules extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rules, container, false);
+        View view=inflater.inflate(R.layout.fragment_rules, container, false);
+        noOfQuestions=(TextView)view.findViewById(R.id.total_questions);
+        noOfSkips=(TextView)view.findViewById(R.id.skips_allowed);
+        noOfHard=(TextView)view.findViewById(R.id.hard_questions);
+        noOfMedium=(TextView)view.findViewById(R.id.medium_questions);
+        noOfEasy=(TextView)view.findViewById(R.id.easy_questions);
+        rulesButton=(Button)view.findViewById(R.id.rulesButton);
+
+        Bundle bundle = getArguments();
+        if(bundle != null) {
+            Log.e("Bundle inside rules",bundle.toString());
+            bundle.getInt("noOfQuestions", -1);
+            bundle.getInt("noOfSkips", -1);
+            bundle.getInt("hard", -1);
+            bundle.getInt("medium", -1);
+            bundle.getInt("easy", -1);
+
+            attachThings(bundle.getInt("noOfQuestions", -1),
+            bundle.getInt("noOfSkips", -1),
+            bundle.getInt("hard", -1),
+            bundle.getInt("medium", -1),
+            bundle.getInt("easy", -1));
+
+
+            noOfQuestions.setText("  "+bundle.getInt("noOfQuestions", -1));
+            noOfSkips.setText("  "+bundle.getInt("noOfSkips", -1));
+            noOfHard.setText("  "+bundle.getInt("hard", -1));
+            noOfMedium.setText("  "+bundle.getInt("medium", -1));
+            noOfEasy.setText("  " +
+                    ""+bundle.getInt("easy", -1));
+
+
+            rulesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    (((PlayStaticContest)getContext()).findViewById(R.id.RulesHolder)).setVisibility(View.GONE);
+                    // getActivity().finish();
+                }
+            });
+        }
+
+        return view;
+    }
+
+
+    public void attachThings(Integer questions, Integer skips, Integer hard, Integer medium, Integer easy){
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -77,12 +135,12 @@ public class rules extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+        /*if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
+        }*/
     }
 
     @Override
@@ -105,4 +163,6 @@ public class rules extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
 }

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="RULES"
         android:gravity="center"
+        android:textColor="@color/colorAccent"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"/>
     <TextView
@@ -30,7 +31,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-2 extra mark each"
+        android:text="- 2 extra mark each"
         android:gravity="center"
         android:layout_marginTop="70dp"
         android:layout_marginStart="200dp"/>
@@ -54,7 +55,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-1 extra mark each"
+        android:text="- 1 extra mark each"
         android:gravity="center"
         android:layout_marginTop="100dp"
         android:layout_marginStart="260dp"/>
@@ -88,7 +89,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="5. Answer all questions to get +5 marks "
+        android:text="5. Answer all questions without skipping to get +5 marks "
         android:gravity="center"
         android:layout_marginTop="160dp"
         android:layout_marginStart="20dp"/>
@@ -96,12 +97,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="6.Total No of Questions "
+        android:text="6.Total No of Questions: "
         android:gravity="center"
         android:layout_marginTop="190dp"
         android:layout_marginStart="20dp"/>
 
     <TextView
+        android:id="@+id/total_questions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="180dp"
@@ -110,7 +112,7 @@
         android:text="5" />
 
     <TextView
-        android:id="@+id/total_questions"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="7.No of Skips Allowed :"
@@ -127,5 +129,11 @@
         android:gravity="center"
         android:text="5" />
 
+    <Button
+        android:id="@+id/rulesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Contest"
+        android:layout_gravity="center"/>
 
 </FrameLayout>
