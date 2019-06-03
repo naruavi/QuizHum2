@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Design1</string>
+    <string name="app_name">QuizHum</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -23,7 +23,6 @@
     <string name="category_name">Category Name</string>
     <string name="rules">RULES</string>
     <string name="hard_questions">- Hard Questions</string>
-    <string name="_5000">5000</string>
     <string name="no_of_easy_level_questions">- No. of Easy Level Questions:</string>
     <string name="_1_extra_mark_each">- 1 extra mark each</string>
     <string name="_5000">5000</string>
@@ -36,7 +35,7 @@
     <string name="total_no_of_questions">- Total No. of Questions:</string>
     <string name="_50000">50000</string>
     <string name="no_of_skips_allowed">- No. of Skips Allowed :</string>
-    <string name="_50000">50000</string>
+
     <string name="start_contest">Start Contest</string>
     <string name="medium_questions">- Medium Questions</string>
     <string name="easy_questions">- Easy Questions</string>
