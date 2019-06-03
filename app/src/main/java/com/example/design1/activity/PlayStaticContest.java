@@ -76,6 +76,7 @@ public class PlayStaticContest extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_play_static_contest);
 
         listOfQuestion = new ArrayList<>();

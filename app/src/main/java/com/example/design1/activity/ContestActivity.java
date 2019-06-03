@@ -36,6 +36,7 @@ public class ContestActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_contest);
 
         RecyclerView recyclerView = findViewById(R.id.rec2);
