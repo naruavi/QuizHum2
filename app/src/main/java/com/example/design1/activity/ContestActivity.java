@@ -66,7 +66,7 @@ public class ContestActivity extends BaseActivity {
 
             toolbarHeader.setText(categoryName);
 
-            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit("http://10.177.7.130:8080/");
 
             ContestService contestService = retrofit.create(ContestService.class);
 
@@ -75,7 +75,7 @@ public class ContestActivity extends BaseActivity {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
                             if(response.body()!=null && response.body().size() != 0) {
-                                Log.e("In contest activity", response.body().toString());
+                                Log.e("Incontestactivity", response.body().toString());
 
                                 contestList.addAll(response.body());
                                 recyclerAdapterForContest.notifyDataSetChanged();

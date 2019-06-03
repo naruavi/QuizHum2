@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.design1.activity.PlayStaticContest;
 import com.example.design1.models.ScoreCardObject;
 import com.example.design1.restcalls.UserResponseService;
 
@@ -28,7 +29,7 @@ import retrofit2.Retrofit;
 public class ScoreCard extends Fragment {
 
     private TextView CorrectAnswer, WrongAnswer, TotalScore;
-    private Button getTotal;
+    private Button endContest;
 
     public static ScoreCard newInstance(int contestId, int totalQuestion){
         Bundle bundle = new Bundle();
@@ -71,7 +72,14 @@ public class ScoreCard extends Fragment {
         CorrectAnswer = view.findViewById(R.id.CorrectAnswer);
         WrongAnswer = view.findViewById(R.id.WrongAnswer);
         TotalScore = view.findViewById(R.id.TotalScore);
-        getTotal = view.findViewById(R.id.endContest);
+        endContest = view.findViewById(R.id.endContest);
+
+        endContest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((PlayStaticContest)v.getContext()).finish();
+            }
+        });
 
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 (new JSONObject(jsonParams)).toString());
