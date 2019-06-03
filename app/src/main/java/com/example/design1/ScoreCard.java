@@ -65,15 +65,15 @@ public class ScoreCard extends Fragment {
 
         HashMap<String, Object> jsonParams = new HashMap<>();
         jsonParams.put("contestId", contestId);
-        jsonParams.put("userId", 4);
-        jsonParams.put("username","test");
+        //jsonParams.put("userId", 4);
+        //jsonParams.put("username","test");
 
         Log.d("ApiRetrofitClass","Json Value "+jsonParams.toString());
 
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 (new JSONObject(jsonParams)).toString());
 
-        responseService.getContestResult(body)
+        responseService.getContestResult(body, AuthToken.getToken(getContext()))
                 .enqueue(new Callback<ScoreCardObject>() {
                     @Override
                     public void onResponse(Call<ScoreCardObject> call, Response<ScoreCardObject> response) {

@@ -10,16 +10,18 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ContestService {
 
+
     @GET("/contest/contestofuser")
-    Call<ContestTotal> getTotalContest(@Query("contestId") int contestId, @Query("userId") int userToken);
+    Call<ContestTotal> getTotalContest(@Query("contestId") int contestId, @Header("cookie") String cookie);
 
     @GET("/contest/getquestionofcontest")
-    Call<List<QuestionDefinition>> getContestResult(@Query("contestId") int contestId, @Query("userId") int userToken, @Query("username") String username);
+    Call<List<QuestionDefinition>> getContestResult(@Query("contestId") int contestId, @Header("cookie") String cookie);
 
     @GET("/contest/getallcategory")
     Call<List<CategoryDefinition>> getCategories();

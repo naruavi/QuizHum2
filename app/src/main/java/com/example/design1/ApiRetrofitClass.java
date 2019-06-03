@@ -81,40 +81,40 @@ public class ApiRetrofitClass {
 
     public List<DetailsOfContest> getIncompleteContests(int userToken){
         String INCOMPLETE_CONTESTS_URL = "/contest/useractive";
-
-        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
-        UserResponseService userResponseService=retrofit.create(UserResponseService.class);
-        userResponseService.getIncompletedContests(userToken)
-                .enqueue(new Callback<List<ContestDefinition>>() {
-                    @Override
-                    public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
-
-                    }
-                    @Override
-                    public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
-
-                    }
-                });
+//
+//        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+//        UserResponseService userResponseService=retrofit.create(UserResponseService.class);
+//        userResponseService.getIncompletedContests(userToken)
+//                .enqueue(new Callback<List<ContestDefinition>>() {
+//                    @Override
+//                    public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+//
+//                    }
+//                    @Override
+//                    public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+//
+//                    }
+//                });
         return null;
     }
 
     public void getContestById(int contestId, int userId){
         String CONTEST_BY_ID = "/contest/contests/contestbyid";
         //response, contest details and the list of questions of a particular contest
-        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
-        ContestService contestService=retrofit.create(ContestService.class);
-        contestService.getTotalContest(contestId,userId)
-                .enqueue(new Callback<ContestTotal>() {
-                    @Override
-                    public void onResponse(Call<ContestTotal> call, Response<ContestTotal> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<ContestTotal> call, Throwable t) {
-
-                    }
-                });
+//        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+//        ContestService contestService=retrofit.create(ContestService.class);
+//        contestService.getTotalContest(contestId,userId)
+//                .enqueue(new Callback<ContestTotal>() {
+//                    @Override
+//                    public void onResponse(Call<ContestTotal> call, Response<ContestTotal> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ContestTotal> call, Throwable t) {
+//
+//                    }
+//                });
 
     }
 

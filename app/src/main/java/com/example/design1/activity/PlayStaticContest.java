@@ -19,6 +19,7 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.example.design1.ApiRetrofitClass;
+import com.example.design1.AuthToken;
 import com.example.design1.CONSTANTS;
 import com.example.design1.CustomViewPager;
 import com.example.design1.Pojo.Question;
@@ -87,7 +88,7 @@ public class PlayStaticContest extends AppCompatActivity {
 
         Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
         final ContestService contestService=retrofit.create(ContestService.class);
-        contestService.getTotalContest(contestId, 1)   //TODO ADD TOKEN HERE
+        contestService.getTotalContest(contestId, AuthToken.getToken(PlayStaticContest.this))   //TODO ADD TOKEN HERE
                 .enqueue(new Callback<ContestTotal>() {
                     @Override
                     public void onResponse(Call<ContestTotal> call, Response<ContestTotal> response) {
@@ -123,7 +124,6 @@ public class PlayStaticContest extends AppCompatActivity {
                                         easy++;
                                     else if(listOfQuestion.get(i).getDifficultyLevel().equals("medium"))
                                         medium++;
-
                                 }
                                 Fragment fragment= rules.newInstance(PlayStaticContest.this,questions,skips,hard,medium,easy);
                                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -146,7 +146,6 @@ public class PlayStaticContest extends AppCompatActivity {
                             Log.d("contestResponse", response.code()+"");
                         }
                     }
-
                     @Override
                     public void onFailure(Call<ContestTotal> call, Throwable t) {
                         Log.d("contestResponse", t.getMessage());
@@ -281,7 +280,6 @@ public class PlayStaticContest extends AppCompatActivity {
 
 
     public void allOnClickListeners(){
-
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -400,15 +398,15 @@ public class PlayStaticContest extends AppCompatActivity {
                 HashMap<String, Object> jsonParams = new HashMap<>();
                 jsonParams.put("questionId",listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
                 jsonParams.put("contestId", contestId);
-                jsonParams.put("userId", 4);
-                jsonParams.put("response", userResponse);
+                //jsonParams.put("userId", 4);
+                //jsonParams.put("response", userResponse);
                 jsonParams.put("username","test");
 
                 Log.d("ApiRetrofitClass","Json Value "+jsonParams.toString());
 
                 RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
 
-                userResponseService.newResponseToQuestion(body)
+                userResponseService.newResponseToQuestion(body, AuthToken.getToken(PlayStaticContest.this))
                         .enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {
@@ -472,8 +470,8 @@ public class PlayStaticContest extends AppCompatActivity {
                 HashMap<String, Object> jsonParams = new HashMap<>();
                 jsonParams.put("questionId",listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
                 jsonParams.put("contestId", contestId);
-                jsonParams.put("userId", 4);
-                jsonParams.put("username","test");
+                //jsonParams.put("userId", 4);
+                //jsonParams.put("username","test");
                 jsonParams.put("response", "s");
 
                 Log.d("ApiRetrofitClass","Json Value "+jsonParams.toString());
@@ -481,7 +479,7 @@ public class PlayStaticContest extends AppCompatActivity {
                 RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                         (new JSONObject(jsonParams)).toString());
 
-                userResponseService.newResponseToQuestion(body)
+                userResponseService.newResponseToQuestion(body,AuthToken.getToken(PlayStaticContest.this))
                         .enqueue(new Callback<String>() {
                             @Override
                             public void onResponse(Call<String> call, Response<String> response) {

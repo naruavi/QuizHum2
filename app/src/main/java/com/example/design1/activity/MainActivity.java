@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.design1.ApiRetrofitClass;
+import com.example.design1.AuthToken;
 import com.example.design1.BaseActivity;
 import com.example.design1.CONSTANTS;
 import com.example.design1.R;
@@ -61,7 +62,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(recyclerAdapterForHome);
 
-        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit("http://10.177.7.130:8080");
         ContestService contestService=retrofit.create(ContestService.class);
         contestService.getCategories()
                 .enqueue(new Callback<List<CategoryDefinition>>() {
@@ -80,6 +81,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
                     }
                 });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if(AuthToken.getToken(this)!=null)
+        Log.d("tokenauth", AuthToken.getToken(MainActivity.this));
+        if(AuthToken.getToken(MainActivity.this) == null){
+            //Log.d("tokenauth", AuthToken.getToken(MainActivity.this));
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override

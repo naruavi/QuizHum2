@@ -1,6 +1,7 @@
 package com.example.design1.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -95,10 +96,12 @@ public class LoginActivity extends AppCompatActivity {
                                 storeSesssionId(response.headers().get("Set-Cookie")
                                         .split(";")[0].split("=")[1]);
                                 Log.d("sessionid", response.headers().get("Set-Cookie")
-                                        .split(";")[0].split("=")[1]);
+                                .split(";")[0].split("=")[1]);
+                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                startActivity(intent);
                             }
                             if(response.body()!=null){
-                                Log.d("body", response.body().getRole().toString());
+                                Log.d("body", response.body().getRole().toString() + response.headers().get("JSESSIONID"));
                             }
                         }
                         else{
@@ -115,6 +118,7 @@ public class LoginActivity extends AppCompatActivity {
     public void storeSesssionId(String sessionId){
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE);
+        String tempString = "SESSION=" + sessionId;
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("TOKEN", sessionId);
         editor.apply();
