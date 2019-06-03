@@ -43,7 +43,7 @@ public class NotificationPublisher extends BroadcastReceiver {
         long longPresentTime = bundle.getLong("endTime") - new Date().getTime();
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context, channelId)
-                        .setSmallIcon(R.drawable.download111)
+                        .setSmallIcon(R.mipmap.quizhum_launcher_round)
                         .setContentTitle(bundle.getString("title"))
                         .setContentText(bundle.getString("body"))
                         .setTimeoutAfter(longPresentTime)
@@ -52,7 +52,7 @@ public class NotificationPublisher extends BroadcastReceiver {
                         .setContentIntent(pendingIntent)
                         .setDefaults(NotificationCompat.DEFAULT_ALL)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setLargeIcon(((BitmapDrawable) context.getResources().getDrawable(R.drawable.download111)).getBitmap());
+                        .setLargeIcon(((BitmapDrawable) context.getResources().getDrawable(R.mipmap.quizhum_launcher_round)).getBitmap());
 
 
 

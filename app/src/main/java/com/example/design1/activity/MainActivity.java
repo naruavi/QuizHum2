@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Button incompleteContests,dynamicContest;
     boolean doubleBackToExitPressedOnce = false;
     private int dynamicContestId;
-    private static final String TAG = "MainActivity.class Log: ";
+    private static final String TAG = "MainActivity Log:";
     TextView toolbarHeader;
 
     AlertDialog.Builder notificationPopUpBilder;
@@ -235,7 +235,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Long startTimeInLong = bundle.getLong("startTime");
 
 
-        Log.e(TAG+"end, start time in long", endTimeInLong + "  " + startTimeInLong);
+        Log.e(TAG,"end, start time in long "+ endTimeInLong + "  " + startTimeInLong);
         Date presentDate = new Date();
 
         long diffEndandPresentTime = (endTimeInLong - presentDate.getTime());
