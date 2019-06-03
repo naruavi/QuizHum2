@@ -76,6 +76,7 @@ public class PlayStaticContest extends BaseActivity {
         super.onCreate(savedInstanceState);
         if(!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_play_static_contest);
+        enableBackToolbar(R.id.static_contest_toolbar);
 
         listOfQuestion = new ArrayList<>();
         nextButton = findViewById(R.id.next_btn);

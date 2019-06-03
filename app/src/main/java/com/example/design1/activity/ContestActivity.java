@@ -40,6 +40,7 @@ public class ContestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         if(!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_contest);
+        enableBackToolbar(R.id.contest_activity_toolbar);
 
         handlerLayout = findViewById(R.id.contest_activity_empty_handler);
 
