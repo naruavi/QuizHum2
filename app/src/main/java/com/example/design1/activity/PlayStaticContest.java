@@ -56,6 +56,7 @@ public class PlayStaticContest extends BaseActivity {
     private CustomViewPager viewPager;
     private ViewPagerAdapter pagerAdapter;
     private int contestId;
+    private String contestName;
     List<QuestionDefinition> listOfQuestion;
     Button nextButton;
     Button skipbutton;
@@ -68,6 +69,7 @@ public class PlayStaticContest extends BaseActivity {
     HashMap<Integer, String> stateResponse;
     HashMap<Integer, Integer> state;
     FrameLayout scoreCardHolder;
+    TextView contestToolbarHeader;
     String VIDEO = "Video-Based";
 
 
@@ -80,15 +82,25 @@ public class PlayStaticContest extends BaseActivity {
         nextButton = findViewById(R.id.next_btn);
         submit_btn = findViewById(R.id.submit_btn);
         skipbutton =findViewById(R.id.skip_btn);
+        submit_btn.setEnabled(false);
+        skipbutton.setEnabled(false);
         previousButton = findViewById(R.id.previous_btn);
         skipList = new ArrayList<>();
         answered= new ArrayList<>();
         stateResponse = new HashMap<>();
         scoreCardHolder = findViewById(R.id.scoreCardHolder);
 
+        contestToolbarHeader = findViewById(R.id.toolbar_header_text);
+        contestToolbarHeader.setText("Play Contest");
+
 
         Intent intent = getIntent();
         contestId = intent.getIntExtra("contestId",1);
+        contestName = intent.getStringExtra("contestName");
+        if(contestName == null)
+            contestName = "Play Contest";
+        contestToolbarHeader.setText(contestName);
+
         //TODO getting list of questions
 
         Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
@@ -104,6 +116,8 @@ public class PlayStaticContest extends BaseActivity {
                                     TextView textView = findViewById(R.id.tv_noques);
                                     textView.setVisibility(View.VISIBLE);
                                 }
+                                submit_btn.setEnabled(true);
+                                skipbutton.setEnabled(true);
                                 listOfQuestion.addAll(response.body().getQuestionList());
                                 contestDefinition = response.body().getContestDefinition();
                                 stateResponse = response.body().getUserResponse();
@@ -217,6 +231,7 @@ public class PlayStaticContest extends BaseActivity {
                     }
                     @Override
                     public void onFailure(Call<ContestTotal> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),"Get Total Contest Server Response Failed", Toast.LENGTH_LONG).show();
                         Log.d("contestResponse", t.getMessage());
                     }
                 });
@@ -489,7 +504,7 @@ public class PlayStaticContest extends BaseActivity {
                                         //TODO what is the response and
                                         if(response.code()/100 == 2){
                                             if(response.body().getResponse()!=null)
-                                            {Toast.makeText(PlayStaticContest.this, "Submitted successfully",
+                                            {Toast.makeText(getApplicationContext(), "Submitted successfully",
                                                     Toast.LENGTH_SHORT).show();
                                                 answered.add(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
                                                 Collections.sort(answered);
@@ -498,7 +513,7 @@ public class PlayStaticContest extends BaseActivity {
                                                 Log.d("indexremoved",indexOfskip +"currentpage " + viewPager.getCurrentItem() + skipList.toString());
                                             }
                                             else{
-                                                Toast.makeText(PlayStaticContest.this, "response not sumbmitted" +
+                                                Toast.makeText(getApplicationContext(), "response not sumbmitted" +
                                                         "Server issue", Toast.LENGTH_SHORT).show();
                                             }
                                         }
@@ -508,6 +523,7 @@ public class PlayStaticContest extends BaseActivity {
                                     }
                                     @Override
                                     public void onFailure(Call<SubmittedResponseAck> call, Throwable t) {
+                                        Toast.makeText(getApplicationContext(),"Server Response Failed - update response of skipped", Toast.LENGTH_LONG).show();
                                         Log.d("responsenotsend",t.getMessage() + "");
                                     }
                                 });
@@ -525,13 +541,13 @@ public class PlayStaticContest extends BaseActivity {
                                 //TODO what is the response and
                                 if(response.code()/100 == 2){
                                     if(response.body().getResponse()!=null)
-                                    {Toast.makeText(PlayStaticContest.this, "Submitted successfully",
+                                    {Toast.makeText(getApplicationContext(), "Response Submitted successfully",
                                             Toast.LENGTH_SHORT).show();
                                     answered.add(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
                                     Collections.sort(answered);
                                     }
                                     else{
-                                        Toast.makeText(PlayStaticContest.this, "response not sumbmitted" +
+                                        Toast.makeText(getApplicationContext(), "response not sumbmitted" +
                                                 "Server issue", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -541,6 +557,7 @@ public class PlayStaticContest extends BaseActivity {
                             }
                             @Override
                             public void onFailure(Call<SubmittedResponseAck> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(),"Server Response Failed - new response to question", Toast.LENGTH_LONG).show();
                                 Log.d("responsenotsend",t.getMessage() + "");
                             }
                         });
@@ -573,12 +590,12 @@ public class PlayStaticContest extends BaseActivity {
                     }
                     Collections.sort(skipList);
                     skipbutton.setEnabled(false);
-                    Toast toast = Toast.makeText(PlayStaticContest.this, " added " + skipList.toString(), Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(getApplicationContext(), " added " + skipList.toString(), Toast.LENGTH_SHORT);
                     toast.show();
                     viewPager.setCurrentItem(viewPager.getCurrentItem() +1);
                 }
                 else {
-                    Toast toast = Toast.makeText(PlayStaticContest.this, " no more skip ", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(getApplicationContext(), " No More Skips Allowed ", Toast.LENGTH_LONG);
                     toast.show();
                 }
 
@@ -606,12 +623,12 @@ public class PlayStaticContest extends BaseActivity {
                                 //TODO what is the response and
                                 if(response.code()/100 == 2){
                                     if(response.body().getResponse()!=null)
-                                    {Toast.makeText(PlayStaticContest.this, "Submitted successfully",
+                                    {Toast.makeText(getApplicationContext(), "Skipped successfully",
                                             Toast.LENGTH_SHORT).show();
                                     skipList.add(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
                                     }
                                     else{
-                                        Toast.makeText(PlayStaticContest.this, "not submitted",
+                                        Toast.makeText(getApplicationContext(), "not submitted",
                                                 Toast.LENGTH_SHORT);
                                     }
                                 }
@@ -622,6 +639,7 @@ public class PlayStaticContest extends BaseActivity {
 
                             @Override
                             public void onFailure(Call<SubmittedResponseAck> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(), "Server Response Failed - new response to question",Toast.LENGTH_LONG).show();
                                 Log.d("responsenotsend",t.getMessage() + "");
                             }
                         });
