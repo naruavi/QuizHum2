@@ -88,6 +88,7 @@ public class PlayStaticContest extends AppCompatActivity {
 
         Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
         final ContestService contestService=retrofit.create(ContestService.class);
+        Log.d("gotthecontestId", contestId+" and key" + AuthToken.getToken(PlayStaticContest.this));
         contestService.getTotalContest(contestId, AuthToken.getToken(PlayStaticContest.this))   //TODO ADD TOKEN HERE
                 .enqueue(new Callback<ContestTotal>() {
                     @Override
