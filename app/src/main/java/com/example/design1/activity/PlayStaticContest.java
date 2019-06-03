@@ -112,6 +112,10 @@ public class PlayStaticContest extends BaseActivity {
                     public void onResponse(Call<ContestTotal> call, Response<ContestTotal> response) {
                         if(response.code()/100 == 2){
                             if(response.body()!=null){
+                                if(response.body().getQuestionList().size()==0) {
+                                    TextView textView = findViewById(R.id.tv_noques);
+                                    textView.setVisibility(View.VISIBLE);
+                                }
                                 submit_btn.setEnabled(true);
                                 skipbutton.setEnabled(true);
                                 listOfQuestion.addAll(response.body().getQuestionList());

@@ -9,8 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.example.design1.ApiRetrofitClass;
 import com.example.design1.AuthToken;
 import com.example.design1.BaseActivity;
