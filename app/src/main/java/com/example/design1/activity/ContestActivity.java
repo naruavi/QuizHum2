@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.design1.ApiRetrofitClass;
 import com.example.design1.AuthToken;
@@ -68,6 +69,7 @@ public class ContestActivity extends BaseActivity {
 
                         @Override
                         public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(), "Server Response Faield - get contest by category", Toast.LENGTH_LONG).show();
                             Log.e("In contest activity", "failure");
 
                         }
@@ -89,6 +91,7 @@ public class ContestActivity extends BaseActivity {
                         }
                         @Override
                         public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+                            Toast.makeText(getApplicationContext(),"Server Response Failed - get incomplete contest", Toast.LENGTH_LONG).show();
                             Log.e("in complete contest", "failure");
                         }
                     });

@@ -97,20 +97,22 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 if(response.code() == 200){
                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                    Toast.makeText(getApplicationContext(),"Signed up Succesfully - Sign In to continue", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
 
                     //Will be here if response.code() is 200
                     //TODO
                     //Go to landing page
-
                 }
                 else{
+                    Toast.makeText(getApplicationContext(),"Already User Exist", Toast.LENGTH_SHORT).show();
                     Log.d("responsenot200", "signup Failed");
                 }
             }
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 Log.e("SignUpfailure", t.getMessage());
+                Toast.makeText(getApplicationContext(),"SignUp failure - Response Failure", Toast.LENGTH_SHORT).show();
             }
         });
 

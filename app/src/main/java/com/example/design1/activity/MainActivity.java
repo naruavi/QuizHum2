@@ -94,6 +94,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                     @Override
                     public void onFailure(Call<List<CategoryDefinition>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),"Get Categories Server Response Failed", Toast.LENGTH_LONG).show();
                         Log.e("In get all catoegories", "failed"+t.getMessage());
 
                     }
@@ -175,6 +176,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                     @Override
                     public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Server Response Failed - get contest by type", Toast.LENGTH_LONG).show();
 
                     }
                 });
