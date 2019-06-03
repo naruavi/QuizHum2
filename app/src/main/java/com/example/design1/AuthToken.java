@@ -11,5 +11,4 @@ public class AuthToken {
         String s = sharedPreferences.getString("TOKEN",null);
         return s;
     }
-
 }

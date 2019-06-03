@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.design1.models.ScoreCardObject;
 import com.example.design1.restcalls.UserResponseService;
@@ -100,6 +101,7 @@ public class ScoreCard extends Fragment {
                     }
                     @Override
                     public void onFailure(Call<ScoreCardObject> call, Throwable t) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Get contest result - Server Response Failure", Toast.LENGTH_LONG).show();
                         Log.d("Final Score", t.getMessage());
                     }
                 });
