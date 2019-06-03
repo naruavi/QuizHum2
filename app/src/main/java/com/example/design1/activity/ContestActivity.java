@@ -31,7 +31,9 @@ public class ContestActivity extends BaseActivity {
     String categoryName;
     Integer userId;
     List<ContestDefinition> contestList = new ArrayList<>();
+    RecyclerAdapterForContest recyclerAdapterForContest;
     TextView toolbarHeader;
+    View handlerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +41,15 @@ public class ContestActivity extends BaseActivity {
         if(!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_contest);
 
+        handlerLayout = findViewById(R.id.contest_activity_empty_handler);
+
         RecyclerView recyclerView = findViewById(R.id.rec2);
         /*for(int i=1;i<=10;i++) {
             l1.add("Contest "+i);
         }*/
 
-        final RecyclerAdapterForContest recyclerAdapterForContest = new RecyclerAdapterForContest(ContestActivity.this,contestList);
+        recyclerAdapterForContest = new RecyclerAdapterForContest(ContestActivity.this,contestList);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ContestActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerAdapterForContest);
@@ -53,14 +58,15 @@ public class ContestActivity extends BaseActivity {
         Log.e("in contest", categoryName +"" );
 
         toolbarHeader = findViewById(R.id.toolbar_header_text);
-        toolbarHeader.setText(categoryName);
 
         userId=getIntent().getIntExtra("userId", 0);
         Log.e("in contest userId", userId + "");
 
         if(categoryName!=null) {
 
-            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit("http://10.177.7.130:8080");
+            toolbarHeader.setText(categoryName);
+
+            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
 
             ContestService contestService = retrofit.create(ContestService.class);
 
@@ -68,14 +74,15 @@ public class ContestActivity extends BaseActivity {
                     .enqueue(new Callback<List<ContestDefinition>>() {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
-                            if(response.body().size()==0) {
-                                TextView textView = findViewById(R.id.tv_incomp);
-                                textView.setText("No Contests in this category.");
-                                textView.setVisibility(View.VISIBLE);
+                            if(response.body()!=null && response.body().size() != 0) {
+                                Log.e("In contest activity", response.body().toString());
+
+                                contestList.addAll(response.body());
+                                recyclerAdapterForContest.notifyDataSetChanged();
+                            }else{
+                                handlerLayout.setVisibility(View.VISIBLE);
+                                ((TextView)handlerLayout.findViewById(R.id.handling_empty_layouts_text)).setText(getResources().getString(R.string.no_contest_available)+" in "+categoryName);
                             }
-                            Log.e("In contest activity", response.body().toString());
-                            contestList.addAll(response.body());
-                            recyclerAdapterForContest.notifyDataSetChanged();
                         }
 
                         @Override
@@ -87,6 +94,9 @@ public class ContestActivity extends BaseActivity {
                     });
         }
         else if(userId!=0){
+
+            toolbarHeader.setText("Incomplete Contest");
+
             Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_AUTH_URL);
             UserResponseService userResponseService=retrofit.create(UserResponseService.class);
 
@@ -94,14 +104,12 @@ public class ContestActivity extends BaseActivity {
                     .enqueue(new Callback<List<ContestDefinition>>() {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
-                            if(response.body()!=null) {
-                                if(response.body().size()==0) {
-                                  TextView textView = findViewById(R.id.tv_incomp);
-                                  textView.setVisibility(View.VISIBLE);
-                                }
-                                Log.e("in incomplete contest", response.body().toString());
+                            if(response.body()!=null && response.body().size() != 0) {
                                 contestList.addAll(response.body());
                                 recyclerAdapterForContest.notifyDataSetChanged();
+                            }else{
+                                handlerLayout.setVisibility(View.VISIBLE);
+                                ((TextView)handlerLayout.findViewById(R.id.handling_empty_layouts_text)).setText(getResources().getString(R.string.no_contest_available)+" to be completed");
                             }
                         }
                         @Override

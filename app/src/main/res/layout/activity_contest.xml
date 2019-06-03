@@ -43,4 +43,9 @@
 
     </android.support.v7.widget.RecyclerView>
 
+    <include
+        android:id="@+id/contest_activity_empty_handler"
+        layout="@layout/handling_layouts_constraint"
+        android:visibility="gone"/>
+
 </android.support.constraint.ConstraintLayout>
