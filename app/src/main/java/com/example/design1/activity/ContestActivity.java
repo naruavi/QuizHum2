@@ -74,7 +74,7 @@ public class ContestActivity extends BaseActivity {
                     });
         }
         else if(userId!=0){
-            Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+            Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_AUTH_URL);
             UserResponseService userResponseService=retrofit.create(UserResponseService.class);
 
             userResponseService.getIncompletedContests(AuthToken.getToken(ContestActivity.this))
