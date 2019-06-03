@@ -17,16 +17,17 @@
         <activity android:name=".activity.QuestionActivity"
             android:parentActivityName=".activity.ContestActivity"></activity>
         <activity android:name=".activity.LeaderboardActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+git
         </activity>
         <activity
             android:name=".activity.ContestActivity"
             android:parentActivityName=".activity.MainActivity" />
         <activity android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
         <service android:name=".FirebaseMS">

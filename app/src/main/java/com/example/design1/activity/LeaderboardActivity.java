@@ -90,7 +90,8 @@ public class LeaderboardActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(resourceId);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
 
 
         // set white color https://stackoverflow.com/a/14986834
