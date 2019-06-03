@@ -139,7 +139,7 @@ public class DynamicContestActivity extends BaseActivity{
 
                         @Override
                         public void onFailure(Call<QuestionDefinition> call, Throwable t) {
-
+                            //Toast.makeText(getApplicationContext(),"Server Response Failed", Toast.LENGTH_LONG).show();
                         }
                     });
 

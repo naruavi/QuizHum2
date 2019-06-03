@@ -8,7 +8,7 @@
 
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/contest_activity_toolbar"
         layout="@layout/toolbar" />
 
     <android.support.v7.widget.RecyclerView
@@ -25,7 +25,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include">
+        app:layout_constraintTop_toBottomOf="@+id/contest_activity_toolbar">
 
     </android.support.v7.widget.RecyclerView>
 

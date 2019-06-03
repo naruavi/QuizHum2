@@ -9,6 +9,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.design1.ApiRetrofitClass;
 import com.example.design1.CONSTANTS;
@@ -56,7 +57,7 @@ public class ContestLeaderboard extends Fragment {
         Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
         LeaderBoardService leaderBoardService=retrofit.create(LeaderBoardService.class);
 
-        leaderBoardService.getLeaderBoardStaticContest(userToken,contestId,length)
+/*        leaderBoardService.getLeaderBoardStaticContest(userToken,contestId,length)
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
@@ -66,6 +67,22 @@ public class ContestLeaderboard extends Fragment {
 
                     @Override
                     public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+
+                    }
+                });*/
+
+
+        leaderBoardService.getLeaderBoardByContest(contestId)
+                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
+                        leaderBoardListItemArrayList.addAll(response.body().getData());
+                        recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+                        Toast.makeText(getActivity().getApplicationContext(),"Server Response Failed - get leaderboard by contest",Toast.LENGTH_LONG).show();
 
                     }
                 });

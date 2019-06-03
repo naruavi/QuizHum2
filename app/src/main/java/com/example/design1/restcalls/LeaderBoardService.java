@@ -19,6 +19,10 @@ public interface LeaderBoardService {
     @GET("/leaderboard/monthly")
     Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardMonthly();
 
+    @GET("/leaderboard/contest")
+    Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardByContest(@Query("contestId") int contestId);
+
+
     @GET("/leaderboard/static")
     Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardStaticContest(@Query("userId") int userToken, @Query("contestId") int contestId,@Query("noOfRecords") int noOfRecords);
 
