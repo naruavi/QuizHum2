@@ -107,7 +107,7 @@ public class FirebaseMS extends FirebaseMessagingService {
                     scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime(), 2);
 
                     //for reminder notification about the contest
-                    scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - 600000, 2);
+                    //scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - 600000, 2);
 
                 }
                 else {

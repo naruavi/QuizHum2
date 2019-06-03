@@ -24,6 +24,7 @@ import com.example.design1.BaseActivity;
 import com.example.design1.CONSTANTS;
 import com.example.design1.CustomViewPager;
 import com.example.design1.Pojo.Question;
+import com.example.design1.Pojo.SubmittedResponseAck;
 import com.example.design1.R;
 import com.example.design1.ScoreCard;
 import com.example.design1.adapter.ViewPagerAdapter;
@@ -64,7 +65,9 @@ public class PlayStaticContest extends BaseActivity {
     List<Integer> answered;
     int skipCount;
     HashMap<Integer, String> stateResponse;
+    HashMap<Integer, Integer> state;
     FrameLayout scoreCardHolder;
+    String VIDEO = "Video-Based";
 
 
     @Override
@@ -99,18 +102,22 @@ public class PlayStaticContest extends BaseActivity {
                                 listOfQuestion.addAll(response.body().getQuestionList());
                                 contestDefinition = response.body().getContestDefinition();
                                 stateResponse = response.body().getUserResponse();
-                                Log.d("questions",response.body().getQuestionList().toString()
-                                + response.body().getContestDefinition().toString() + response.body().getUserResponse());
+                                Log.d("questions", response.body().getQuestionList().toString()+response.body().getContestDefinition().toString() + "userresponse" +response.body().getUserResponse());
                                 if(stateResponse!=null){
+                                    Log.d("stateResponse", stateResponse.toString());
                                     for(Map.Entry entry : stateResponse.entrySet()){
                                         if(entry.getValue().equals("s")){
-                                            skipList.add((Integer) entry.getKey() - 1);
+                                            skipList.add((Integer) entry.getKey());
                                         }
                                         else{
-                                            answered.add((Integer) entry.getKey() - 1);
+                                            answered.add((Integer) entry.getKey());
                                         }
                                     }
                                 }
+                                else{
+                                    Log.d("stateResponse", "state null");
+                                }
+                                Log.d("just", skipList.toString() + " answered" + answered);
                                 //fragment
                                 Integer questions= response.body().getContestDefinition().getTotalQuestionsInContest();
                                 Integer skips=response.body().getContestDefinition().getSkipsAllowed();
@@ -120,12 +127,13 @@ public class PlayStaticContest extends BaseActivity {
                                 for(int i=0;i<listOfQuestion.size();i++){
                                     Log.e("in list of questions", listOfQuestion.get(i).getDifficultyLevel());
 
-                                    if(listOfQuestion.get(i).getDifficultyLevel().equals("hard"))
+                                    if(listOfQuestion.get(i).getDifficultyLevel().toLowerCase().equals("hard"))
                                         hard++;
-                                    else if(listOfQuestion.get(i).getDifficultyLevel().equals("easy"))
+                                    else if(listOfQuestion.get(i).getDifficultyLevel().toLowerCase().equals("easy"))
                                         easy++;
-                                    else if(listOfQuestion.get(i).getDifficultyLevel().equals("medium"))
+                                    else if(listOfQuestion.get(i).getDifficultyLevel().toLowerCase().equals("medium"))
                                         medium++;
+
                                 }
                                 Fragment fragment= rules.newInstance(PlayStaticContest.this,questions,skips,hard,medium,easy);
                                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -139,6 +147,60 @@ public class PlayStaticContest extends BaseActivity {
                                 pagerAdapter = new ViewPagerAdapter(PlayStaticContest.this, listOfQuestion);
                                 viewPager.setAdapter(pagerAdapter);
                                 viewPager.setCurrentItem(skipList.size() + answered.size());
+
+
+                                nextButton.setEnabled(false);
+                                if(viewPager.getCurrentItem() == 0){
+                                    previousButton.setEnabled(false);
+                                }
+
+                                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+                                    @Override
+                                    public void onPageScrolled(int i, float v, int i1) {
+
+                                    }
+                                    @Override
+                                    public void onPageSelected(int i) {
+                                        VideoView vi= findViewById(R.id.myVideo);
+                                        vi.stopPlayback();
+                                        if(i == 0){
+                                            previousButton.setEnabled(false);
+                                        }
+                                        else{
+                                            previousButton.setEnabled(true);
+                                        }
+
+                                        if(skipList.contains(listOfQuestion.get(i).getQuestionId())){
+                                            Log.d("onpageselected","in skiplist");
+                                            nextButton.setEnabled(true);
+                                            submit_btn.setEnabled(true);
+                                            skipbutton.setEnabled(false);
+                                        }
+                                        else if(answered.contains(listOfQuestion.get(i).getQuestionId())){
+                                            Log.d("onpageselected","in answered");
+                                            skipbutton.setEnabled(false);
+                                            nextButton.setEnabled(true);
+                                            submit_btn.setEnabled(false);
+                                        }
+                                        else{
+                                            Log.d("onpageselected","in nothing");
+                                            nextButton.setEnabled(false);
+                                            skipbutton.setEnabled(true);
+                                            submit_btn.setEnabled(true);
+                                        }
+
+                                        if(i == listOfQuestion.size()-1){
+                                            nextButton.setEnabled(false);
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onPageScrollStateChanged(int i) {
+
+                                    }
+                                });
                             }
                             else{
                                 Log.d("contestResponse", "No data");
@@ -221,9 +283,8 @@ public class PlayStaticContest extends BaseActivity {
         viewPager = findViewById(R.id.PlayStaticViewPager);
         pagerAdapter = new ViewPagerAdapter(PlayStaticContest.this, listOfQuestion);
         viewPager.setAdapter(pagerAdapter);
-
         viewPager.setCurrentItem(skipList.size() + answered.size());
-//        viewPager.setCurrentItem();
+
 
         nextButton.setEnabled(false);
         if(viewPager.getCurrentItem() == 0){
@@ -236,7 +297,6 @@ public class PlayStaticContest extends BaseActivity {
             public void onPageScrolled(int i, float v, int i1) {
 
             }
-
             @Override
             public void onPageSelected(int i) {
                 VideoView vi= findViewById(R.id.myVideo);
@@ -278,6 +338,7 @@ public class PlayStaticContest extends BaseActivity {
 
             }
         });
+
     }
 
 
@@ -306,10 +367,12 @@ public class PlayStaticContest extends BaseActivity {
             }
         });
 
+
+    // submit button
+
         submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                answered.add(viewPager.getCurrentItem());
                 if(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionType().equals("video")){
 //                    if(ViewPagerAdapter.videoView.isPlaying()) {
 //                        Log.d("vidio", "stopped");
@@ -326,20 +389,19 @@ public class PlayStaticContest extends BaseActivity {
                         ViewPagerAdapter.mPlayer = null;
                     }
                 }
-                Collections.sort(answered);
-                Log.d("skiplistbtn",String.valueOf(viewPager.getCurrentItem()));
-                if(skipList.contains(viewPager.getCurrentItem()))
-                {
-                    int indexOfskip = skipList.indexOf(viewPager.getCurrentItem());
-                    try{
-                        skipList.remove(indexOfskip);
-                        Collections.sort(skipList);
-                        Log.d("indexremoved",indexOfskip +"currentpage " + viewPager.getCurrentItem() + skipList.toString());
-                    }
-                    catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
+                Log.d("submitbtn",String.valueOf(viewPager.getCurrentItem()));
+//                if(skipList.contains(viewPager.getCurrentItem()))
+//                {
+//                    int indexOfskip = skipList.indexOf(viewPager.getCurrentItem());
+//                    try{
+//                        skipList.remove(indexOfskip);
+//                        Collections.sort(skipList);
+//                        Log.d("indexremoved",indexOfskip +"currentpage " + viewPager.getCurrentItem() + skipList.toString());
+//                    }
+//                    catch (Exception e){
+//                        e.printStackTrace();
+//                    }
+//                }
                 skipbutton.setEnabled(false);
                 submit_btn.setEnabled(false);
                 if(viewPager.getCurrentItem() == listOfQuestion.size() - 1){
@@ -366,15 +428,18 @@ public class PlayStaticContest extends BaseActivity {
                     }
                 }
             //make response api call
-                String userResponse = "";
+                String userResponse = new String();
+                //viewPager.findViewWithTag("current")
                 RadioGroup radioGroup = findViewById(R.id.radioGroup);
                 if (radioGroup!=null) {
                     int radioId = radioGroup.getCheckedRadioButtonId();
                     if (radioId == R.id.textView4) {
                         userResponse = "a";
-                    } else if (radioId == R.id.textView5) {
+                    }
+                    if (radioId == R.id.textView5) {
                         userResponse = "b";
-                    } else if (radioId == R.id.textView6) {
+                    }
+                    if (radioId == R.id.textView6) {
                         userResponse = "c";
                     }
                 }
@@ -393,7 +458,7 @@ public class PlayStaticContest extends BaseActivity {
 
                 //Submit response
 
-                Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+                Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_AUTH_URL);
 
                 UserResponseService userResponseService = retrofit.create(UserResponseService.class);
 
@@ -408,24 +473,73 @@ public class PlayStaticContest extends BaseActivity {
 
                 RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
 
+                if(skipList.contains(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId()))
+                {
+                    final int indexOfskip = skipList.indexOf(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
+                    try{
+                        userResponseService.updateResponseOfSkipped(body, AuthToken.getToken(PlayStaticContest.this))
+                                .enqueue(new Callback<SubmittedResponseAck>() {
+                                    @Override
+                                    public void onResponse(Call<SubmittedResponseAck> call, Response<SubmittedResponseAck> response) {
+                                        //TODO what is the response and
+                                        if(response.code()/100 == 2){
+                                            if(response.body().getResponse()!=null)
+                                            {Toast.makeText(PlayStaticContest.this, "Submitted successfully",
+                                                    Toast.LENGTH_SHORT).show();
+                                                answered.add(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
+                                                Collections.sort(answered);
+                                                skipList.remove(indexOfskip);
+                                                Collections.sort(skipList);
+                                                Log.d("indexremoved",indexOfskip +"currentpage " + viewPager.getCurrentItem() + skipList.toString());
+                                            }
+                                            else{
+                                                Toast.makeText(PlayStaticContest.this, "response not sumbmitted" +
+                                                        "Server issue", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                        else{
+                                            Log.d("responsenotsend",response.code() + "");
+                                        }
+                                    }
+                                    @Override
+                                    public void onFailure(Call<SubmittedResponseAck> call, Throwable t) {
+                                        Log.d("responsenotsend",t.getMessage() + "");
+                                    }
+                                });
+
+                    }
+                    catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+                else{
                 userResponseService.newResponseToQuestion(body, AuthToken.getToken(PlayStaticContest.this))
-                        .enqueue(new Callback<String>() {
+                        .enqueue(new Callback<SubmittedResponseAck>() {
                             @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
+                            public void onResponse(Call<SubmittedResponseAck> call, Response<SubmittedResponseAck> response) {
                                 //TODO what is the response and
                                 if(response.code()/100 == 2){
-                                    Toast.makeText(PlayStaticContest.this, "Submitted successfully",
+                                    if(response.body().getResponse()!=null)
+                                    {Toast.makeText(PlayStaticContest.this, "Submitted successfully",
                                             Toast.LENGTH_SHORT).show();
+                                    answered.add(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
+                                    Collections.sort(answered);
+                                    }
+                                    else{
+                                        Toast.makeText(PlayStaticContest.this, "response not sumbmitted" +
+                                                "Server issue", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                                 else{
                                     Log.d("responsenotsend",response.code() + "");
                                 }
                             }
                             @Override
-                            public void onFailure(Call<String> call, Throwable t) {
+                            public void onFailure(Call<SubmittedResponseAck> call, Throwable t) {
                                 Log.d("responsenotsend",t.getMessage() + "");
                             }
                         });
+                }
             }
         });
 
@@ -452,7 +566,6 @@ public class PlayStaticContest extends BaseActivity {
                             ViewPagerAdapter.mPlayer = null;
                         }
                     }
-                    skipList.add(viewPager.getCurrentItem());
                     Collections.sort(skipList);
                     skipbutton.setEnabled(false);
                     Toast toast = Toast.makeText(PlayStaticContest.this, " added " + skipList.toString(), Toast.LENGTH_SHORT);
@@ -482,13 +595,20 @@ public class PlayStaticContest extends BaseActivity {
                         (new JSONObject(jsonParams)).toString());
 
                 userResponseService.newResponseToQuestion(body,AuthToken.getToken(PlayStaticContest.this))
-                        .enqueue(new Callback<String>() {
+                        .enqueue(new Callback<SubmittedResponseAck>() {
                             @Override
-                            public void onResponse(Call<String> call, Response<String> response) {
+                            public void onResponse(Call<SubmittedResponseAck> call, Response<SubmittedResponseAck> response) {
                                 //TODO what is the response and
                                 if(response.code()/100 == 2){
-                                    Toast.makeText(PlayStaticContest.this, "Submitted successfully",
+                                    if(response.body().getResponse()!=null)
+                                    {Toast.makeText(PlayStaticContest.this, "Submitted successfully",
                                             Toast.LENGTH_SHORT).show();
+                                    skipList.add(listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
+                                    }
+                                    else{
+                                        Toast.makeText(PlayStaticContest.this, "not submitted",
+                                                Toast.LENGTH_SHORT);
+                                    }
                                 }
                                 else {
                                     Log.d("responsenotsend",response.code() + "");
@@ -496,7 +616,7 @@ public class PlayStaticContest extends BaseActivity {
                             }
 
                             @Override
-                            public void onFailure(Call<String> call, Throwable t) {
+                            public void onFailure(Call<SubmittedResponseAck> call, Throwable t) {
                                 Log.d("responsenotsend",t.getMessage() + "");
                             }
                         });

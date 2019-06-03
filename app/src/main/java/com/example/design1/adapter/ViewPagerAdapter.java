@@ -47,6 +47,83 @@ public class ViewPagerAdapter extends PagerAdapter {
     public static MediaController mediaController;
     private VideoView videoView;
 
+    RadioGroup radioGroup;
+    RadioButton radio1;
+    RadioButton radio2;
+    RadioButton radio3;
+
+    public View getItemView() {
+        return itemView;
+    }
+
+    public void setItemView(View itemView) {
+        this.itemView = itemView;
+    }
+
+    View itemView;
+
+    public RadioGroup getRadioGroup() {
+        return radioGroup;
+    }
+
+    public void setRadioGroup(RadioGroup radioGroup) {
+        this.radioGroup = radioGroup;
+    }
+
+    public RadioButton getRadio1() {
+        return radio1;
+    }
+
+    public void setRadio1(RadioButton radio1) {
+        this.radio1 = radio1;
+    }
+
+    public RadioButton getRadio2() {
+        return radio2;
+    }
+
+    public void setRadio2(RadioButton radio2) {
+        this.radio2 = radio2;
+    }
+
+    public RadioButton getRadio3() {
+        return radio3;
+    }
+
+    public void setRadio3(RadioButton radio3) {
+        this.radio3 = radio3;
+    }
+
+    public CheckBox getBox1() {
+        return box1;
+    }
+
+    public void setBox1(CheckBox box1) {
+        this.box1 = box1;
+    }
+
+    public CheckBox getBox2() {
+        return box2;
+    }
+
+    public void setBox2(CheckBox box2) {
+        this.box2 = box2;
+    }
+
+    public CheckBox getBox3() {
+        return box3;
+    }
+
+    public void setBox3(CheckBox box3) {
+        this.box3 = box3;
+    }
+
+    CheckBox   box1;
+    CheckBox   box2;
+    CheckBox   box3;
+
+
+
     public ViewPagerAdapter(Context context, List<QuestionDefinition> questions1) {
         this.context = context;
         this.questions = questions1;
@@ -61,20 +138,20 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
-        View itemView = layoutInflater.inflate(R.layout.text_layout, container, false);
-
+        itemView = layoutInflater.inflate(R.layout.text_layout, container, false);
+        itemView.setTag("currentView" + questions.get(position));
         Log.d("custompager", "worksinstantiate");
 
         videoView = itemView.findViewById(R.id.myVideo);
         TextView textView=itemView.findViewById(R.id.textView2);
         TextView textView1=itemView.findViewById(R.id.textView3);
-        RadioGroup radioGroup = itemView.findViewById(R.id.radioGroup);
-        RadioButton radio1 = itemView.findViewById(R.id.textView4);
-        RadioButton radio2 = itemView.findViewById(R.id.textView5);
-        RadioButton radio3 = itemView.findViewById(R.id.textView6);
-        CheckBox   box1 = itemView.findViewById(R.id.textView4c);
-        CheckBox   box2 = itemView.findViewById(R.id.textView5c);
-        CheckBox   box3 = itemView.findViewById(R.id.textView6c);
+         radioGroup = itemView.findViewById(R.id.radioGroup);
+         radio1 = itemView.findViewById(R.id.textView4);
+         radio2 = itemView.findViewById(R.id.textView5);
+         radio3 = itemView.findViewById(R.id.textView6);
+           box1 = itemView.findViewById(R.id.textView4c);
+           box2 = itemView.findViewById(R.id.textView5c);
+           box3 = itemView.findViewById(R.id.textView6c);
         ImageView imageView = itemView.findViewById(R.id.questionImage);
         mRootLayout = itemView.findViewById(R.id.textlayout);
         mButtonPlay = itemView.findViewById(R.id.playbutton);
@@ -83,7 +160,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         Log.d("ejijaefdj", String.valueOf(questions.get(position)));
         textView.setText(String.valueOf(position + 1));
         textView1.setText(questions.get(position).getQuestionText());
-      if(questions.get(position).getAnswerType().equals("single")) {
+      if(questions.get(position).getAnswerType().equals("Single-Correct")) {
           Log.e("insingle","type single");
           radio1.setVisibility(View.VISIBLE);
           radio2.setVisibility(View.VISIBLE);
@@ -91,7 +168,7 @@ public class ViewPagerAdapter extends PagerAdapter {
           radio1.setText(questions.get(position).getOptionA());
           radio2.setText(questions.get(position).getOptionB());
           radio3.setText(questions.get(position).getOptionC());
-      }else if(questions.get(position).getAnswerType().equals("multiple"))
+      }else if(questions.get(position).getAnswerType().equals("Multiple-Correct"))
       {
           box1.setVisibility(View.VISIBLE);
           box2.setVisibility(View.VISIBLE);
@@ -100,8 +177,17 @@ public class ViewPagerAdapter extends PagerAdapter {
           box2.setText(questions.get(position).getOptionB());
           box3.setText(questions.get(position).getOptionC());
       }
-        if(questions.get(position).getQuestionType().equals("video")){
+      else{
+          radio1.setVisibility(View.VISIBLE);
+          radio2.setVisibility(View.VISIBLE);
+          radio3.setVisibility(View.VISIBLE);
+          radio1.setText(questions.get(position).getOptionA());
+          radio2.setText(questions.get(position).getOptionB());
+          radio3.setText(questions.get(position).getOptionC());
+      }
+        if(questions.get(position).getQuestionType().equals("Video-Based")){
             videoView.setVisibility(View.VISIBLE);
+            try{
             Uri vidUri = Uri.parse(questions.get(position).getBinaryFilePath());
             videoView.setVideoURI(vidUri);
             mediaController = new MediaController(context);
@@ -109,13 +195,20 @@ public class ViewPagerAdapter extends PagerAdapter {
             videoView.setMediaController(mediaController);
             videoView.start();
             Log.d("video", videoView.isPlaying()+"..");
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
            // Log.d("video", vi.isPlaying()+"..");
         }
-        else if(questions.get(position).getQuestionType().equals("image")){
+        else if(questions.get(position).getQuestionType().equals("Image-Based")){
             imageView.setVisibility(View.VISIBLE);
-            Glide.with(itemView.getContext()).load(questions.get(position).getBinaryFilePath()).into(imageView);
-        }else if(questions.get(position).getQuestionType().equals("audio")){
+            try {
+                Glide.with(itemView.getContext()).load(questions.get(position).getBinaryFilePath()).into(imageView);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else if(questions.get(position).getQuestionType().equals("Audio-Based")){
             mButtonPlay.setVisibility(View.VISIBLE);
             mButtonPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -124,7 +217,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                     mButtonPlay.setEnabled(false);
 
                     // The audio url to play
-                    String audioUrl = "http://10.177.7.137:8000/audio.ogg";
+                    String audioUrl = questions.get(position).getBinaryFilePath();
 
                     // Initialize a new media player instance
                     mPlayer = new MediaPlayer();
