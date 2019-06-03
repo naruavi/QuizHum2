@@ -400,8 +400,8 @@ public class PlayStaticContest extends AppCompatActivity {
                 jsonParams.put("questionId",listOfQuestion.get(viewPager.getCurrentItem()).getQuestionId());
                 jsonParams.put("contestId", contestId);
                 //jsonParams.put("userId", 4);
-                //jsonParams.put("response", userResponse);
-                jsonParams.put("username","test");
+                jsonParams.put("response", userResponse);
+                //jsonParams.put("username","test");
 
                 Log.d("ApiRetrofitClass","Json Value "+jsonParams.toString());
 
