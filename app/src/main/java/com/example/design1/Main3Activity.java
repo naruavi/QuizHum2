@@ -33,7 +33,7 @@ public class Main3Activity extends AppCompatActivity {
 
         notificationPopUpBilder = new AlertDialog.Builder(this);
 
-        createNotificationChannel();
+        //createNotificationChannel();
 
         if (getIntent().getBundleExtra("Notification") != null) {
             handleNotificationIntent();

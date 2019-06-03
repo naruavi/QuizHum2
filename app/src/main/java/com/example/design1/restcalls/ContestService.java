@@ -18,6 +18,11 @@ public interface ContestService {
     @GET("/contest/contestofuser")
     Call<ContestTotal> getTotalContest(@Query("contestId") int contestId, @Query("userId") int userToken);
 
+
+    @GET("/contest/fetchquestionbyid")
+    Call<QuestionDefinition> getQuestionById(@Query("questionId") int questionId);
+
+
     @GET("/contest/getquestionofcontest")
     Call<List<QuestionDefinition>> getContestResult(@Query("contestId") int contestId, @Query("userId") int userToken, @Query("username") String username);
 

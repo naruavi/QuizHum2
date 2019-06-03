@@ -8,6 +8,7 @@ import com.example.design1.models.CategoryDefinition;
 import com.example.design1.models.ContestDefinition;
 import com.example.design1.models.ContestTotal;
 import com.example.design1.models.LeaderBoardListItem;
+import com.example.design1.models.QuestionDefinition;
 import com.example.design1.restcalls.ApiResponse;
 import com.example.design1.restcalls.ContestService;
 import com.example.design1.restcalls.LeaderBoardService;
@@ -117,6 +118,27 @@ public class ApiRetrofitClass {
                 });
 
     }
+
+    public void getQuestionById(int questionId){
+        //response, contest details and the list of questions of a particular contest
+
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+        ContestService contestService=retrofit.create(ContestService.class);
+        contestService.getQuestionById(questionId)
+                .enqueue(new Callback<QuestionDefinition>() {
+                    @Override
+                    public void onResponse(Call<QuestionDefinition> call, Response<QuestionDefinition> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<QuestionDefinition> call, Throwable t) {
+
+                    }
+                });
+
+    }
+
 
     public String submitResponseSingleQuestion(String questionId,String contestId,String userToken,String response){
         String RESPONSE_URL = "/response/user";

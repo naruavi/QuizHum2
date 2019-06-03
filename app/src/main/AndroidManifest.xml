@@ -15,6 +15,14 @@
         <activity android:name=".activity.QuestionActivity"
             android:parentActivityName=".activity.ContestActivity"></activity>
         <activity android:name=".activity.LeaderboardActivity"></activity>
+
+        <receiver
+            android:name=".MyNotificationPublisher"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".activity.ContestActivity"
             android:parentActivityName=".activity.MainActivity" />
