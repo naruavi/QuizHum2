@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.design1.activity.PlayStaticContest;
@@ -94,10 +93,10 @@ public class rules extends Fragment {
             bundle.getInt("easy", -1);
 
             attachThings(bundle.getInt("noOfQuestions", -1),
-            bundle.getInt("noOfSkips", -1),
-            bundle.getInt("hard", -1),
-            bundle.getInt("medium", -1),
-            bundle.getInt("easy", -1));
+                    bundle.getInt("noOfSkips", -1),
+                    bundle.getInt("hard", -1),
+                    bundle.getInt("medium", -1),
+                    bundle.getInt("easy", -1));
 
 
             noOfQuestions.setText("  "+bundle.getInt("noOfQuestions", -1));
