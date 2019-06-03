@@ -11,11 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/leaderboard_toolbar"
-        app:title=""
         android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:text="LeaderBoard"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:background="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toTopOf="@+id/tab_layout"
+            app:layout_constraintStart_toStartOf="@+id/leaderboard_toolbar"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
 
     </android.support.v7.widget.Toolbar>

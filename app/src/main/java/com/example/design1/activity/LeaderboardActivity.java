@@ -90,14 +90,14 @@ public class LeaderboardActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(resourceId);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
         // set white color https://stackoverflow.com/a/14986834
-        int labelColor = getResources().getColor(R.color.black);
+        /*int labelColor = getResources().getColor(R.color.black);
         String сolorString = String.format("%X", labelColor).substring(2); // !!strip alpha value!!
         getSupportActionBar().setTitle(Html.fromHtml(String.format("<font color=\"#%s\">Leaderboard</font>", сolorString)));
-
+*/
 
     }
 }

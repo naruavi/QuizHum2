@@ -16,16 +16,18 @@
         <activity android:name=".activity.PlayStaticContest"/>
         <activity android:name=".activity.QuestionActivity"
             android:parentActivityName=".activity.ContestActivity"></activity>
-        <activity android:name=".activity.LeaderboardActivity"></activity>
-        <activity
-            android:name=".activity.ContestActivity"
-            android:parentActivityName=".activity.MainActivity" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.LeaderboardActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activity.ContestActivity"
+            android:parentActivityName=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivity">
+
         </activity>
         <service android:name=".FirebaseMS">
             <intent-filter>
