@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.design1.ApiRetrofitClass;
 import com.example.design1.AuthToken;
@@ -29,6 +31,7 @@ public class ContestActivity extends BaseActivity {
     String categoryName;
     Integer userId;
     List<ContestDefinition> contestList = new ArrayList<>();
+    TextView toolbarHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,9 @@ public class ContestActivity extends BaseActivity {
 
         categoryName = getIntent().getStringExtra("Category");
         Log.e("in contest", categoryName +"" );
+
+        toolbarHeader = findViewById(R.id.toolbar_header_text);
+        toolbarHeader.setText(categoryName);
 
         userId=getIntent().getIntExtra("userId", 0);
         Log.e("in contest userId", userId + "");

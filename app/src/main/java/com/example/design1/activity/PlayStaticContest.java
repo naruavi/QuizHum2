@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -54,6 +55,7 @@ public class PlayStaticContest extends BaseActivity {
     private CustomViewPager viewPager;
     private ViewPagerAdapter pagerAdapter;
     private int contestId;
+    private String contestName;
     List<QuestionDefinition> listOfQuestion;
     Button nextButton;
     Button skipbutton;
@@ -65,6 +67,7 @@ public class PlayStaticContest extends BaseActivity {
     int skipCount;
     HashMap<Integer, String> stateResponse;
     FrameLayout scoreCardHolder;
+    TextView contestToolbarHeader;
 
 
     @Override
@@ -82,9 +85,17 @@ public class PlayStaticContest extends BaseActivity {
         stateResponse = new HashMap<>();
         scoreCardHolder = findViewById(R.id.scoreCardHolder);
 
+        contestToolbarHeader = findViewById(R.id.toolbar_header_text);
+        contestToolbarHeader.setText("Play Contest");
+
 
         Intent intent = getIntent();
         contestId = intent.getIntExtra("contestId",1);
+        contestName = intent.getStringExtra("contestName");
+        if(contestName == null)
+            contestName = "Play Contest";
+        contestToolbarHeader.setText(contestName);
+
         //TODO getting list of questions
 
         Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
