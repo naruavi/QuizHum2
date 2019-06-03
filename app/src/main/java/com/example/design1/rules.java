@@ -99,12 +99,11 @@ public class rules extends Fragment {
                     bundle.getInt("easy", -1));
 
 
-            noOfQuestions.setText("  "+bundle.getInt("noOfQuestions", -1));
-            noOfSkips.setText("  "+bundle.getInt("noOfSkips", -1));
-            noOfHard.setText("  "+bundle.getInt("hard", -1));
-            noOfMedium.setText("  "+bundle.getInt("medium", -1));
-            noOfEasy.setText("  " +
-                    ""+bundle.getInt("easy", -1));
+            noOfQuestions.setText(""+bundle.getInt("noOfQuestions", -1));
+            noOfSkips.setText(""+bundle.getInt("noOfSkips", -1));
+            noOfHard.setText(""+bundle.getInt("hard", -1));
+            noOfMedium.setText(""+bundle.getInt("medium", -1));
+            noOfEasy.setText(""+bundle.getInt("easy", -1));
 
 
             rulesButton.setOnClickListener(new View.OnClickListener() {
