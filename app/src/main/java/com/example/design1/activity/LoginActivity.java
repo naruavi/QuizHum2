@@ -98,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("sessionid", response.headers().get("Set-Cookie")
                                 .split(";")[0].split("=")[1]);
                                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             }
                             if(response.body()!=null){
