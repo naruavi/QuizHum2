@@ -38,6 +38,7 @@ public class ContestActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_contest);
 
         handlerLayout = findViewById(R.id.contest_activity_empty_handler);

@@ -13,14 +13,17 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+
+import com.example.design1.BaseActivity;
 import com.example.design1.R;
 import com.example.design1.adapter.TabsAdapter;
 
-public class LeaderboardActivity extends AppCompatActivity {
+public class LeaderboardActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isConnected()) buildDialog().show();
 
         Intent intent = getIntent();
         Integer contestId = intent.getIntExtra("contestId", -1);

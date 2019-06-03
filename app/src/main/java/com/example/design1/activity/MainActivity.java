@@ -44,7 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Button incompleteContests,dynamicContest;
     boolean doubleBackToExitPressedOnce = false;
     private int dynamicContestId;
-    private static final String TAG = "MainActivity Log:";
+    private static final String TAG = "MainActivity.class Log ";
     TextView toolbarHeader;
 
     AlertDialog.Builder notificationPopUpBilder;
@@ -56,6 +56,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isConnected()) buildDialog().show();
+
         setContentView(R.layout.activity_main);
 
         incompleteContests=findViewById(R.id.incomplete_contests);
