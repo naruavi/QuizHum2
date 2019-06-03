@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.design1.ClickHandler;
 import com.example.design1.R;
 import com.example.design1.activity.LeaderboardActivity;
 import com.example.design1.activity.PlayStaticContest;
@@ -34,13 +35,8 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    v.setClickable(false);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            v.setClickable(true);
-                        }
-                    }, 500);
+                    ClickHandler.clickDelay(v);
+
                     Intent intent = new Intent(context, PlayStaticContest.class);
                     intent.putExtra("contestId",contestList.get(getAdapterPosition()).getContestId());
                     context.startActivity(intent);
@@ -63,13 +59,7 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    v.setClickable(false);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            v.setClickable(true);
-                        }
-                    }, 500);
+                    ClickHandler.clickDelay(v);
 
                     Intent intent = new Intent(itemView.getContext(), LeaderboardActivity.class);
                     intent.putExtra("contestId",contestList.get(getAdapterPosition()).getContestId());

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.design1.ClickHandler;
 import com.example.design1.R;
 import com.example.design1.activity.ContestActivity;
 import com.example.design1.models.CategoryDefinition;
@@ -36,6 +37,7 @@ public class RecyclerAdapterForHome extends RecyclerView.Adapter<RecyclerAdapter
 
         @Override
         public void onClick(View view) {
+            ClickHandler.clickDelay(view);
             Intent intent = new Intent(view.getContext(), ContestActivity.class);
             Log.e("in adapter", categoryList.get(getAdapterPosition()).getCategoryId() + "");
             intent.putExtra("Category",categoryList.get(getAdapterPosition()).getCategoryName());

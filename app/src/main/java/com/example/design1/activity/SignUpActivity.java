@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.design1.ApiRetrofitClass;
 import com.example.design1.CONSTANTS;
+import com.example.design1.ClickHandler;
 import com.example.design1.Pojo.SignupUserData;
 import com.example.design1.R;
 import com.example.design1.RetrofitClient;
@@ -39,6 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ClickHandler.clickDelay(v);
 
                 getUserData();
 
