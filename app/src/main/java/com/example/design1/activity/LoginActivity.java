@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.design1.Pojo.LoginUserData;
@@ -28,6 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText userId;
     private EditText password;
     private LoginUserData loginData;
+    private TextView signupButton;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     @Override
@@ -37,11 +39,15 @@ public class LoginActivity extends AppCompatActivity {
         init();
     }
 
+
+
+
     private void init() {
 
         userId = findViewById(R.id.login_username);
         password = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_button);
+        signupButton = findViewById(R.id.signup_button);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,21 +67,29 @@ public class LoginActivity extends AppCompatActivity {
 //                        //If Email
 //                        userVerifyThroughEmail();
 //                    }
-                }
-                else{
+                } else {
                     userVerify();
                 }
+            }
+        });
+
+
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
+
             }
         });
     }
 
 
-
-    private void userVerifyThroughEmail(String user){
+    private void userVerifyThroughEmail(String user) {
         userVerify();
     }
 
-    private void  userVerifyThroughPass(){
+    private void userVerifyThroughPass() {
         userVerify();
     }
 
@@ -91,32 +105,32 @@ public class LoginActivity extends AppCompatActivity {
                 .enqueue(new Callback<HttpResponse>() {
                     @Override
                     public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                        if(response.code() == 200){
-                            if(response.headers().get("Set-Cookie")!=null){
+                        if (response.code() == 200) {
+                            if (response.headers().get("Set-Cookie") != null) {
                                 storeSesssionId(response.headers().get("Set-Cookie")
                                         .split(";")[0].split("=")[1]);
-                                Log.d("sessionid", response.headers().get("Set-Cookie")
-                                .split(";")[0].split("=")[1]);
+                                Log.d("sessionid", response.headers().get("Set-Cookie").split(";")[0].split("=")[1]);
                                 Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             }
-                            if(response.body()!=null){
+                            if (response.body() != null) {
                                 Log.d("body", response.body().getRole().toString() + response.headers().get("JSESSIONID"));
                             }
-                        }
-                        else{
+                        } else {
                             Log.d("responsecode", String.valueOf(response.code()));
                         }
                     }
+
                     @Override
                     public void onFailure(Call<HttpResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
                         Log.e("loginfailure", t.getMessage());
                     }
                 });
     }
 
-    public void storeSesssionId(String sessionId){
+    public void storeSesssionId(String sessionId) {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE);
         String tempString = "SESSION=" + sessionId;
@@ -124,4 +138,5 @@ public class LoginActivity extends AppCompatActivity {
         editor.putString("TOKEN", sessionId);
         editor.apply();
     }
+
 }
