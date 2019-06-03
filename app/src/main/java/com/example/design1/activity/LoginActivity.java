@@ -1,13 +1,16 @@
 package com.example.design1.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.design1.Pojo.LoginUserData;
@@ -27,7 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     private EditText userId;
     private EditText password;
     private LoginUserData loginData;
+    private TextView signupButton;
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,11 +41,15 @@ public class LoginActivity extends AppCompatActivity {
         init();
     }
 
+
+
+
     private void init() {
 
         userId = findViewById(R.id.login_username);
         password = findViewById(R.id.login_password);
         loginButton = findViewById(R.id.login_button);
+        signupButton = findViewById(R.id.signup_button);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,21 +69,29 @@ public class LoginActivity extends AppCompatActivity {
 //                        //If Email
 //                        userVerifyThroughEmail();
 //                    }
-                }
-                else{
+                } else {
                     userVerify();
                 }
+            }
+        });
+
+
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
+
             }
         });
     }
 
 
-
-    private void userVerifyThroughEmail(String user){
+    private void userVerifyThroughEmail(String user) {
         userVerify();
     }
 
-    private void  userVerifyThroughPass(){
+    private void userVerifyThroughPass() {
         userVerify();
     }
 
@@ -90,33 +107,60 @@ public class LoginActivity extends AppCompatActivity {
                 .enqueue(new Callback<HttpResponse>() {
                     @Override
                     public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                        if(response.code() == 200){
-                            if(response.headers().get("Set-Cookie")!=null){
+                        if (response.code()/100 == 2) {
+                            if (response.headers().get("Set-Cookie") != null) {
                                 storeSesssionId(response.headers().get("Set-Cookie")
                                         .split(";")[0].split("=")[1]);
-                                Log.d("sessionid", response.headers().get("Set-Cookie")
-                                        .split(";")[0].split("=")[1]);
+                                Log.d("sessionid", response.headers().get("Set-Cookie").split(";")[0].split("=")[1]);
+                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
                             }
-                            if(response.body()!=null){
-                                Log.d("body", response.body().getRole().toString());
+                            if (response.body() != null) {
+                                Log.d("body", response.body().getRole().toString() + response.headers().get("JSESSIONID"));
                             }
-                        }
-                        else{
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
                             Log.d("responsecode", String.valueOf(response.code()));
                         }
                     }
+
                     @Override
                     public void onFailure(Call<HttpResponse> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Connecting to server failed", Toast.LENGTH_SHORT).show();
                         Log.e("loginfailure", t.getMessage());
                     }
                 });
     }
 
-    public void storeSesssionId(String sessionId){
+    public void storeSesssionId(String sessionId) {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE);
+        String tempString = "SESSION=" + sessionId;
+        Log.d("tempString",tempString);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("TOKEN", sessionId);
+        editor.putString("TOKEN", tempString);
         editor.apply();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory( Intent.CATEGORY_HOME );
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(getApplicationContext(), "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

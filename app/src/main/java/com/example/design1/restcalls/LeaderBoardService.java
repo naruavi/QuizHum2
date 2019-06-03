@@ -25,7 +25,4 @@ public interface LeaderBoardService {
     @GET("/leaderboard/dynamic")
     Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardDynamicContest(@Query("userId") int userToken, @Query("contestId") int contestId,@Query("noOfRecords") int noOfRecords);
 
-
-
-
 }

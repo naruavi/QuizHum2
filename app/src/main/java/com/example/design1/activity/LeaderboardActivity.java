@@ -1,6 +1,8 @@
 package com.example.design1.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableContainer;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -89,13 +91,14 @@ public class LeaderboardActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("");
 
 
         // set white color https://stackoverflow.com/a/14986834
-        int labelColor = getResources().getColor(R.color.black);
+        /*int labelColor = getResources().getColor(R.color.black);
         String сolorString = String.format("%X", labelColor).substring(2); // !!strip alpha value!!
         getSupportActionBar().setTitle(Html.fromHtml(String.format("<font color=\"#%s\">Leaderboard</font>", сolorString)));
-
+*/
 
     }
 }

@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.design1.ApiRetrofitClass;
+import com.example.design1.CONSTANTS;
 import com.example.design1.Pojo.SignupUserData;
 import com.example.design1.R;
 import com.example.design1.RetrofitClient;
@@ -70,7 +72,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void init() {
-        Retrofit retrofit = RetrofitClient.getRetrofitAuthClient();
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_AUTH_URL);
 
         ApiLoginSignUp api = retrofit.create(ApiLoginSignUp.class);
         SignupUserData user = new SignupUserData();

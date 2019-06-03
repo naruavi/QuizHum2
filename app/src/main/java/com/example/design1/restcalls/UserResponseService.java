@@ -11,6 +11,7 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -21,16 +22,15 @@ public interface UserResponseService {
 
 
     @GET("/usercontest/useractive")
-    Call<List<ContestDefinition>> getIncompletedContests(@Query("userId") int userToken);
+    Call<List<ContestDefinition>> getIncompletedContests(@Header("cookie") String cookie);
 
     @POST("/usercontest/userresult")
-    Call<ScoreCardObject> getContestResult(@Body RequestBody requestBody);
+    Call<ScoreCardObject> getContestResult(@Body RequestBody requestBody,@Header("cookie") String cookie);
 
     @POST("/response/user")
-    Call<String> newResponseToQuestion(@Body RequestBody requestBody);
+    Call<String> newResponseToQuestion(@Body RequestBody requestBody,@Header("cookie") String cookie);
 
     @PUT("/response/user")
-    Call<String> updateResponseOfSkipped(@Body RequestBody requestBody);
-
+    Call<String> updateResponseOfSkipped(@Body RequestBody requestBody, @Header("cookie") String cookie);
 
 }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.design1.ApiRetrofitClass;
+import com.example.design1.AuthToken;
 import com.example.design1.BaseActivity;
 import com.example.design1.CONSTANTS;
 import com.example.design1.R;
@@ -52,7 +53,7 @@ public class ContestActivity extends BaseActivity {
 
         if(categoryName!=null) {
 
-            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit("http://10.177.7.130:8080");
 
             ContestService contestService = retrofit.create(ContestService.class);
 
@@ -76,7 +77,7 @@ public class ContestActivity extends BaseActivity {
             Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
             UserResponseService userResponseService=retrofit.create(UserResponseService.class);
 
-            userResponseService.getIncompletedContests(4)
+            userResponseService.getIncompletedContests(AuthToken.getToken(ContestActivity.this))
                     .enqueue(new Callback<List<ContestDefinition>>() {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {

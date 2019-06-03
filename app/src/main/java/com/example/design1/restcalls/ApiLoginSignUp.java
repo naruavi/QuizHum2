@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface ApiLoginSignUp {
@@ -20,4 +21,6 @@ public interface ApiLoginSignUp {
     @POST("/signup")
     Call<Object> userSignUp(@Body SignupUserData userData);
 
+    @POST("/logout")
+    Call<Object> userLogout(@Header("cookie") String cookie);
 }
