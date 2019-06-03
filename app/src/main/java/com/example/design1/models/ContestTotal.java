@@ -12,8 +12,8 @@ public class ContestTotal {
     @SerializedName("questionDTOList")
     private List<QuestionDefinition> questionList;
 
-    @SerializedName("userResponseDTO")
-    private HashMap<Integer,String> userResponse;
+
+    private HashMap<Integer,String> response;
 
     public ContestDefinition getContestDefinition() {
         return contestDefinition;
@@ -32,10 +32,10 @@ public class ContestTotal {
     }
 
     public HashMap<Integer, String> getUserResponse() {
-        return userResponse;
+        return response;
     }
 
     public void setUserResponse(HashMap<Integer, String> userResponse) {
-        this.userResponse = userResponse;
+        this.response = userResponse;
     }
 }

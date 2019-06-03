@@ -1,5 +1,6 @@
 package com.example.design1.restcalls;
 
+import com.example.design1.Pojo.SubmittedResponseAck;
 import com.example.design1.models.ContestDefinition;
 import com.example.design1.ScoreCard;
 import com.example.design1.models.NewResponse;
@@ -28,9 +29,9 @@ public interface UserResponseService {
     Call<ScoreCardObject> getContestResult(@Body RequestBody requestBody,@Header("cookie") String cookie);
 
     @POST("/response/user")
-    Call<String> newResponseToQuestion(@Body RequestBody requestBody,@Header("cookie") String cookie);
+    Call<SubmittedResponseAck> newResponseToQuestion(@Body RequestBody requestBody, @Header("cookie") String cookie);
 
     @PUT("/response/user")
-    Call<String> updateResponseOfSkipped(@Body RequestBody requestBody, @Header("cookie") String cookie);
+    Call<SubmittedResponseAck> updateResponseOfSkipped(@Body RequestBody requestBody, @Header("cookie") String cookie);
 
 }

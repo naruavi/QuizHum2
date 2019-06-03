@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.design1.ApiRetrofitClass;
 import com.example.design1.CONSTANTS;
@@ -70,6 +71,7 @@ public class DailyLeaderBoard extends Fragment {
 
                     @Override
                     public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Server Response Failed - get leaderboard daily", Toast.LENGTH_LONG).show();
                         Log.e("Response LeaderBoard","Failure response");
                     }
                 });
