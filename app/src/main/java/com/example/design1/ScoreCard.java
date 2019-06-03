@@ -3,6 +3,7 @@ package com.example.design1;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -109,8 +110,11 @@ public class ScoreCard extends Fragment {
                     }
                     @Override
                     public void onFailure(Call<ScoreCardObject> call, Throwable t) {
-                        Toast.makeText(getActivity().getApplicationContext(), "Get contest result - Server Response Failure", Toast.LENGTH_LONG).show();
-                        Log.d("Final Score", t.getMessage());
+                        FragmentActivity fragmentActivity = getActivity();
+                        if(fragmentActivity != null)  {
+                            Toast.makeText(fragmentActivity.getApplicationContext(),"Get contest result - Server Response Failure", Toast.LENGTH_LONG).show();
+                            Log.e("Response LeaderBoard","Failure response");
+                        }
                     }
                 });
     }

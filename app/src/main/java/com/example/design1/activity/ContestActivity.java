@@ -40,8 +40,11 @@ public class ContestActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         if(!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_contest);
+        enableBackToolbar(R.id.contest_activity_toolbar);
 
         handlerLayout = findViewById(R.id.contest_activity_empty_handler);
+        handlerLayout.setVisibility(View.VISIBLE);
+        handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.VISIBLE);
 
         RecyclerView recyclerView = findViewById(R.id.rec2);
         /*for(int i=1;i<=10;i++) {
@@ -75,14 +78,16 @@ public class ContestActivity extends BaseActivity {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
                             if(response.body()!=null && response.body().size() != 0) {
-                                Log.e("Incontestactivity", response.body().toString());
-
+                                Log.e("In contest activity", response.body().toString());
                                 contestList.addAll(response.body());
                                 recyclerAdapterForContest.notifyDataSetChanged();
+                                handlerLayout.setVisibility(View.GONE);
                             }else{
-                                handlerLayout.setVisibility(View.VISIBLE);
-                                ((TextView)handlerLayout.findViewById(R.id.handling_empty_layouts_text)).setText(getResources().getString(R.string.no_contest_available)+" in "+categoryName);
+                                TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
+                                textView.setText(getResources().getString(R.string.no_contest_available)+" in "+categoryName);
+                                textView.setVisibility(View.VISIBLE);
                             }
+
                         }
 
                         @Override
@@ -109,8 +114,11 @@ public class ContestActivity extends BaseActivity {
                                 recyclerAdapterForContest.notifyDataSetChanged();
                             }else{
                                 handlerLayout.setVisibility(View.VISIBLE);
-                                ((TextView)handlerLayout.findViewById(R.id.handling_empty_layouts_text)).setText(getResources().getString(R.string.no_contest_available)+" to be completed");
+                                TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
+                                textView.setText(getResources().getString(R.string.no_contest_available)+" to be completed");
+                                textView.setVisibility(View.VISIBLE);
                             }
+                            handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
                         }
                         @Override
                         public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
