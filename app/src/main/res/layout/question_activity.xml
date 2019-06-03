@@ -7,7 +7,7 @@
 
 
     <include android:id="@+id/question_activity_included"
-        layout="@layout/activity_question"
+        layout="@layout/text_layout"
         android:visibility="gone"/>
 
     <TextView
@@ -27,6 +27,23 @@
         android:text="Timer:"
         android:textColor="@color/black"/>
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:id="@+id/constraint_layout_dynamic_activity"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="10dp"
+            android:text="Sorry! The contest is not available right now"/>
+
+    </android.support.constraint.ConstraintLayout>
 
     <!--<android.support.v7.widget.Toolbar-->
         <!--android:id="@+id/toolbar2"-->
