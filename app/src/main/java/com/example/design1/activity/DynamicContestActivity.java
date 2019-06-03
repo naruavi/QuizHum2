@@ -92,14 +92,13 @@ public class DynamicContestActivity extends BaseActivity{
     Bundle bundle;
     long endTime,startTime;
     int questionId;
-    ConstraintLayout constraintLayout;
     View view;
+    View handlerLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState,PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         setContentView(R.layout.question_activity);
-        constraintLayout = findViewById(R.id.constraint_layout_dynamic_activity);
         bundle =  getIntent().getExtras();
 
         questionId = bundle.getInt("questionId");
@@ -107,6 +106,9 @@ public class DynamicContestActivity extends BaseActivity{
         startTime = bundle.getLong("endTime");
 
         view = findViewById(R.id.question_activity_included);
+        handlerLayout = findViewById(R.id.question_activity_empty_handler);
+        handlerLayout.setVisibility(View.VISIBLE);
+        handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.VISIBLE);
 
 /*
 
@@ -132,9 +134,22 @@ public class DynamicContestActivity extends BaseActivity{
                     .enqueue(new Callback<QuestionDefinition>() {
                         @Override
                         public void onResponse(Call<QuestionDefinition> call, Response<QuestionDefinition> response) {
-                            if(response.body() != null) {
-                                assigningQuestion(response.body());
+                            if(response != null) {
+                                if(response.body() != null){
+                                    handlerLayout.setVisibility(View.GONE);
+                                    assigningQuestion(response.body());
+                                }
+                                else{
+                                    handlerLayout.setVisibility(View.VISIBLE);
+                                    TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
+                                    textView.setText(getResources().getString(R.string.no_contest_available)+" to be completed");
+                                    textView.setVisibility(View.VISIBLE);
+                                }
+
                             }
+
+                            handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
+
                         }
 
                         @Override
@@ -148,7 +163,7 @@ public class DynamicContestActivity extends BaseActivity{
             //getQuestionById();
         }else{
             //TODO no questions available page visible
-            constraintLayout.setVisibility(View.VISIBLE);
+            handlerLayout.setVisibility(View.VISIBLE);
         }
 
 

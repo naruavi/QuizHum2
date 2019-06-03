@@ -29,7 +29,7 @@
 
 
     <include
-        android:id="@+id/constraint_layout_dynamic_activity"
+        android:id="@+id/question_activity_empty_handler"
         layout="@layout/handling_layouts_constraint"
         android:visibility="gone"
         />
