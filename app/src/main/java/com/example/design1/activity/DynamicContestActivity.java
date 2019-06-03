@@ -98,6 +98,7 @@ public class DynamicContestActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle savedInstanceState,PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
+        if(!isConnected()) buildDialog().show();
         setContentView(R.layout.question_activity);
         bundle =  getIntent().getExtras();
 

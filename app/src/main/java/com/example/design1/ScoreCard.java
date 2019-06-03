@@ -43,10 +43,6 @@ public class ScoreCard extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_score_card, container, false);
-        CorrectAnswer = view.findViewById(R.id.CorrectAnswer);
-        WrongAnswer = view.findViewById(R.id.WrongAnswer);
-        TotalScore = view.findViewById(R.id.TotalScore);
-        getTotal = view.findViewById(R.id.endContest);
         return view;
     }
 
@@ -71,6 +67,12 @@ public class ScoreCard extends Fragment {
 
         Log.d("ApiRetrofitClass","Json Value "+jsonParams.toString());
 
+
+        CorrectAnswer = view.findViewById(R.id.CorrectAnswer);
+        WrongAnswer = view.findViewById(R.id.WrongAnswer);
+        TotalScore = view.findViewById(R.id.TotalScore);
+        getTotal = view.findViewById(R.id.endContest);
+
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 (new JSONObject(jsonParams)).toString());
 
@@ -80,12 +82,17 @@ public class ScoreCard extends Fragment {
                     public void onResponse(Call<ScoreCardObject> call, Response<ScoreCardObject> response) {
                         if(response.code()/100 == 2){
                             if (response.body()!=null){
-                                CorrectAnswer.setText(response.body().getCorrectAnswers());
-                                WrongAnswer.setText(totalQuestion - response.body().getCorrectAnswers());
-                                TotalScore.setText(response.body().getTotalScore());
+                                Log.e("finalscoresu", response.body().getCorrectAnswers() + "");
+                                try{
+                                CorrectAnswer.setText(String.valueOf(response.body().getCorrectAnswers()));
+                                WrongAnswer.setText(String.valueOf(totalQuestion - response.body().getCorrectAnswers()));
+                                TotalScore.setText(String.valueOf(response.body().getTotalScore()));
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                }
                             }
                             else{
-                                Log.d("Final Score",  "nothing in body");
+                                Log.e("Final Score",  "nothing in body");
                             }
                         }
                         else{
