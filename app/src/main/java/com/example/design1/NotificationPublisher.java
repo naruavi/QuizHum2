@@ -16,7 +16,7 @@ import com.example.design1.activity.MainActivity;
 
 import java.util.Date;
 
-public class MyNotificationPublisher extends BroadcastReceiver {
+public class NotificationPublisher extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification_id";
     public static String NOTIFICATION = "notification";
@@ -26,6 +26,8 @@ public class MyNotificationPublisher extends BroadcastReceiver {
 
         Bundle bundle = intent.getExtras();
 
+        if(bundle.getString("type").equals("question"))
+            (context.getSharedPreferences(context.getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE)).edit().putInt("questionId",bundle.getInt("cqid")).apply();
 
         Intent onOpenIntent = new Intent(context.getApplicationContext(), MainActivity.class);
         onOpenIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

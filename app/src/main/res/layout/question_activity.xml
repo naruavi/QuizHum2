@@ -3,8 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".PlayStaticContest">
+    android:layout_height="match_parent">
+
+
+    <include android:id="@+id/question_activity_included"
+        layout="@layout/activity_question"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/timer_dynamic_contest"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:textColor="@color/black"/>
+    <TextView
+        app:layout_constraintEnd_toStartOf="@id/timer_dynamic_contest"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Timer:"
+        android:textColor="@color/black"/>
+
+
     <!--<android.support.v7.widget.Toolbar-->
         <!--android:id="@+id/toolbar2"-->
         <!--android:layout_width="match_parent"-->
