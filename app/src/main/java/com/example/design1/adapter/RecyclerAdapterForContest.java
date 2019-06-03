@@ -62,7 +62,15 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
             ImageView imageView = itemView.findViewById(R.id.imageButton);
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(final View v) {
+                    v.setClickable(false);
+                    v.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            v.setClickable(true);
+                        }
+                    }, 500);
+
                     Intent intent = new Intent(itemView.getContext(), LeaderboardActivity.class);
                     intent.putExtra("contestId",contestList.get(getAdapterPosition()).getContestId());
 
