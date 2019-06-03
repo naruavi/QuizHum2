@@ -6,12 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".activity.LeaderboardActivity">
 
-    <include
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/leaderboard_toolbar"
-        layout="@layout/toolbar"
+        app:title=""
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+
+    </android.support.v7.widget.Toolbar>
 
 
     <android.support.design.widget.TabLayout

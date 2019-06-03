@@ -45,9 +45,6 @@ public class ContestLeaderboard extends Fragment {
         Bundle bundle = getArguments();
         int contestId = bundle.getInt("contestId");
 
-
-
-
         // TODO pass proper details here
         getStaticLeaderboard(contestId, 1,CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
 
@@ -60,18 +57,18 @@ public class ContestLeaderboard extends Fragment {
         LeaderBoardService leaderBoardService=retrofit.create(LeaderBoardService.class);
 
         leaderBoardService.getLeaderBoardStaticContest(userToken,contestId,length)
-            .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
-                @Override
-                public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-                    leaderBoardListItemArrayList.addAll(response.body().getData());
-                    recyclerAdapterForLeaderboard.notifyDataSetChanged();
-                }
+                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
+                        leaderBoardListItemArrayList.addAll(response.body().getData());
+                        recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                    }
 
-                @Override
-                public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
 
-                }
-            });
+                    }
+                });
     }
 
 }

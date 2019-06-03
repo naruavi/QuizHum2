@@ -1,6 +1,7 @@
 package com.example.design1;
 
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -55,12 +57,13 @@ public class FirebaseMS extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String token) {
-        getSharedPreferences(getString(R.string.shared_pref_firebase), MODE_PRIVATE)
+        getSharedPreferences(getResources().getString(R.string.shared_pref_firebase), MODE_PRIVATE)
                 .edit()
                 .putString(getString(R.string.firebase_token), token)
                 .apply();
 
         // suscribe the token to topic "All"
+        Log.e(TAG, "token: " + token);
         subscribeToAll(token);
     }
 
@@ -110,7 +113,9 @@ public class FirebaseMS extends FirebaseMessagingService {
                         .setTimeoutAfter(15000)
                         .setAutoCancel(true)
                         .setSound(defaultSoundUri)
-                        .setContentIntent(pendingIntent);
+                        .setContentIntent(pendingIntent)
+                        .setDefaults(NotificationCompat.DEFAULT_ALL)
+                        .setPriority(NotificationCompat.PRIORITY_HIGH);
 
 
         NotificationManager notificationManager =
