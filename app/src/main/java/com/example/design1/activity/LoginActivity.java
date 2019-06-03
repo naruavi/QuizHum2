@@ -134,8 +134,9 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE);
         String tempString = "SESSION=" + sessionId;
+        Log.d("tempString",tempString);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("TOKEN", sessionId);
+        editor.putString("TOKEN", tempString);
         editor.apply();
     }
 
