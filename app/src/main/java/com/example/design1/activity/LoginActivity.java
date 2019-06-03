@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 .enqueue(new Callback<HttpResponse>() {
                     @Override
                     public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                        if (response.code() == 200) {
+                        if (response.code()/100 == 2) {
                             if (response.headers().get("Set-Cookie") != null) {
                                 storeSesssionId(response.headers().get("Set-Cookie")
                                         .split(";")[0].split("=")[1]);
@@ -120,13 +120,14 @@ public class LoginActivity extends AppCompatActivity {
                                 Log.d("body", response.body().getRole().toString() + response.headers().get("JSESSIONID"));
                             }
                         } else {
+                            Toast.makeText(getApplicationContext(), "Login failed", Toast.LENGTH_SHORT).show();
                             Log.d("responsecode", String.valueOf(response.code()));
                         }
                     }
 
                     @Override
                     public void onFailure(Call<HttpResponse> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(), "Login Failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Connecting to server failed", Toast.LENGTH_SHORT).show();
                         Log.e("loginfailure", t.getMessage());
                     }
                 });
