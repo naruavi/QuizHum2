@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -99,6 +100,10 @@ public class PlayStaticContest extends BaseActivity {
                     public void onResponse(Call<ContestTotal> call, Response<ContestTotal> response) {
                         if(response.code()/100 == 2){
                             if(response.body()!=null){
+                                if(response.body().getQuestionList().size()==0) {
+                                    TextView textView = findViewById(R.id.tv_noques);
+                                    textView.setVisibility(View.VISIBLE);
+                                }
                                 listOfQuestion.addAll(response.body().getQuestionList());
                                 contestDefinition = response.body().getContestDefinition();
                                 stateResponse = response.body().getUserResponse();

@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.design1.ApiRetrofitClass;
 import com.example.design1.AuthToken;
@@ -61,6 +62,11 @@ public class ContestActivity extends BaseActivity {
                     .enqueue(new Callback<List<ContestDefinition>>() {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
+                            if(response.body().size()==0) {
+                                TextView textView = findViewById(R.id.tv_incomp);
+                                textView.setText("No Contests in this category.");
+                                textView.setVisibility(View.VISIBLE);
+                            }
                             Log.e("In contest activity", response.body().toString());
                             contestList.addAll(response.body());
                             recyclerAdapterForContest.notifyDataSetChanged();
@@ -82,6 +88,10 @@ public class ContestActivity extends BaseActivity {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
                             if(response.body()!=null) {
+                                if(response.body().size()==0) {
+                                  TextView textView = findViewById(R.id.tv_incomp);
+                                  textView.setVisibility(View.VISIBLE);
+                                }
                                 Log.e("in incomplete contest", response.body().toString());
                                 contestList.addAll(response.body());
                                 recyclerAdapterForContest.notifyDataSetChanged();
