@@ -20,20 +20,14 @@ import retrofit2.Retrofit;
 public class BaseActivity extends AppCompatActivity {
 
     public void goToLeaderBoard(final View view) {
-        view.setClickable(false);
-        view.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                view.setClickable(true);
-            }
-        }, 500);
+        ClickHandler.clickDelay(view);
         Intent intent = new Intent(this, LeaderboardActivity.class);
         startActivity(intent);
     }
 
     public void logOut(View view) {
         //Log.e("BASE ACTIVITY", "Logout is being called");
-        view.setClickable(false);
+        ClickHandler.clickDelay(view);
 
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_AUTH_URL);
         ApiLoginSignUp service = retrofit.create(ApiLoginSignUp.class);

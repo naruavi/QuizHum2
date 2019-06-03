@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.design1.ClickHandler;
 import com.example.design1.Pojo.LoginUserData;
 import com.example.design1.R;
 import com.example.design1.RetrofitClient;
@@ -54,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ClickHandler.clickDelay(v);
 
                 loginData = new LoginUserData();
                 loginData.setUserId(userId.getText().toString());
@@ -79,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ClickHandler.clickDelay(v);
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(intent);
 
