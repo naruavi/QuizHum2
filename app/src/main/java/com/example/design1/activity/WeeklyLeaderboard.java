@@ -1,6 +1,7 @@
 package com.example.design1.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -71,7 +72,23 @@ public class WeeklyLeaderboard extends Fragment {
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-                        if (response != null){
+
+                        if(response.code()==401){
+                            FragmentActivity fragmentActivity = getActivity();
+                            if(fragmentActivity!=null) {
+                                Intent intent = new Intent(fragmentActivity.getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        }
+                        else if(response.code()/100 ==  5){
+                            FragmentActivity fragmentActivity = getActivity();
+                            if(fragmentActivity!=null){
+                                Toast.makeText(fragmentActivity.getApplicationContext(),"Internal Server Error, please come back later.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else if (response.body() != null){
                             Log.e("Response LeaderBoard", response.body().getMessage());
                             Log.e("Response LeaderBoard", response.body().getData().toString());
 

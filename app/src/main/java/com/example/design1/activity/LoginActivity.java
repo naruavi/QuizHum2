@@ -39,12 +39,10 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!isConnected()) buildDialog().show();
+        if (!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_login);
         init();
     }
-
-
 
 
     private void init() {
@@ -112,12 +110,23 @@ public class LoginActivity extends BaseActivity {
                 .enqueue(new Callback<HttpResponse>() {
                     @Override
                     public void onResponse(Call<HttpResponse> call, Response<HttpResponse> response) {
-                        if (response.code()/100 == 2) {
+                        Log.e("login: ", response.code()+ " code");
+                        if (response.code() == 401) {
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            //TODO make toast
+                            finish();
+                        } else if (response.code() / 100 == 5) {
+                            Toast.makeText(getApplicationContext(), "Internal Server Error, please come back later.",
+                                    Toast.LENGTH_LONG).show();
+
+                        } else if (response.code() / 100 == 2) {
                             if (response.headers().get("Set-Cookie") != null) {
                                 storeSesssionId(response.headers().get("Set-Cookie")
                                         .split(";")[0].split("=")[1]);
                                 Log.d("sessionid", response.headers().get("Set-Cookie").split(";")[0].split("=")[1]);
-                                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                             }
@@ -142,7 +151,7 @@ public class LoginActivity extends BaseActivity {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
                 getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE);
         String tempString = "SESSION=" + sessionId;
-        Log.d("tempString",tempString);
+        Log.d("tempString", tempString);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("TOKEN", tempString);
         editor.apply();
@@ -152,7 +161,7 @@ public class LoginActivity extends BaseActivity {
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-            homeIntent.addCategory( Intent.CATEGORY_HOME );
+            homeIntent.addCategory(Intent.CATEGORY_HOME);
             homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(homeIntent);
         }
@@ -164,7 +173,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }

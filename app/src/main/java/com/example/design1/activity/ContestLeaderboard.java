@@ -1,5 +1,6 @@
 package com.example.design1.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -49,15 +50,15 @@ public class ContestLeaderboard extends Fragment {
         int contestId = bundle.getInt("contestId");
 
         // TODO pass proper details here
-        getStaticLeaderboard(contestId, 1,CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
+        getStaticLeaderboard(contestId, 1, CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
 
         return contestLeaderboard;
     }
 
-    public void getStaticLeaderboard(int contestId,int userToken, int length){
+    public void getStaticLeaderboard(int contestId, int userToken, int length) {
 
-        Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
-        LeaderBoardService leaderBoardService=retrofit.create(LeaderBoardService.class);
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
+        LeaderBoardService leaderBoardService = retrofit.create(LeaderBoardService.class);
 
 /*        leaderBoardService.getLeaderBoardStaticContest(userToken,contestId,length)
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
@@ -78,17 +79,32 @@ public class ContestLeaderboard extends Fragment {
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-                        leaderBoardListItemArrayList.addAll(response.body().getData());
-                        recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                        if (response.code() == 401) {
+                            FragmentActivity fragmentActivity = getActivity();
+                            if (fragmentActivity != null) {
+                                Intent intent = new Intent(fragmentActivity.getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        } else if (response.code() / 100 == 5) {
+                            FragmentActivity fragmentActivity = getActivity();
+                            if (fragmentActivity != null) {
+                                Toast.makeText(fragmentActivity.getApplicationContext(), "Internal Server Error, please come back later.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            leaderBoardListItemArrayList.addAll(response.body().getData());
+                            recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
 
                         FragmentActivity fragmentActivity = getActivity();
-                        if(fragmentActivity != null)  {
-                            Toast.makeText(fragmentActivity.getApplicationContext(),"Server Response Failed - get leaderboard contest", Toast.LENGTH_LONG).show();
-                            Log.e("Response LeaderBoard","Failure response");
+                        if (fragmentActivity != null) {
+                            Toast.makeText(fragmentActivity.getApplicationContext(), "Server Response Failed - get leaderboard contest", Toast.LENGTH_LONG).show();
+                            Log.e("Response LeaderBoard", "Failure response");
                         }
                     }
                 });

@@ -77,7 +77,19 @@ public class ContestActivity extends BaseActivity {
                     .enqueue(new Callback<List<ContestDefinition>>() {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
-                            if(response.body()!=null && response.body().size() != 0) {
+
+                            if(response.code()==401){
+                                Intent intent =new Intent(getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else if(response.code()/100 ==  5){
+                                Toast.makeText(getApplicationContext(),"Internal Server Error, please come back later.",
+                                        Toast.LENGTH_LONG).show();
+
+                            }
+                            else if(response.body()!=null && response.body().size() != 0) {
                                 Log.e("In contest activity", response.body().toString());
                                 contestList.addAll(response.body());
                                 recyclerAdapterForContest.notifyDataSetChanged();
@@ -93,7 +105,7 @@ public class ContestActivity extends BaseActivity {
 
                         @Override
                         public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
-                            Toast.makeText(getApplicationContext(), "Server Response Faield - get contest by category", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Server Response Failed - get contest by category", Toast.LENGTH_LONG).show();
                             Log.e("In contest activity", "failure");
 
                         }
@@ -110,7 +122,19 @@ public class ContestActivity extends BaseActivity {
                     .enqueue(new Callback<List<ContestDefinition>>() {
                         @Override
                         public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
-                            if(response.body()!=null && response.body().size() != 0) {
+                            if(response.code()==401) {
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+
+                            }
+                            else if(response.code()/100 ==  5){
+                                Toast.makeText(getApplicationContext(),"Internal Server Error, please come back later.",
+                                        Toast.LENGTH_LONG).show();
+
+                            }
+                            else if(response.body()!=null && response.body().size() != 0) {
                                 contestList.addAll(response.body());
                                 recyclerAdapterForContest.notifyDataSetChanged();
                             }else{

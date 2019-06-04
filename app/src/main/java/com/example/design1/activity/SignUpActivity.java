@@ -92,12 +92,23 @@ public class SignUpActivity extends BaseActivity {
         api.userSignUp(user).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                if (response.body()!=null){
+                if(response.code()==401){
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+                else if(response.code()/100 ==  5){
+                    Toast.makeText(getApplicationContext(),"Internal Server Error, please come back later.",
+                            Toast.LENGTH_LONG).show();
+
+                }
+                else if (response.body()!=null){
                     Log.d("signup", "response not null");
                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
-                if(response.code() == 200){
+                else if(response.code() == 200){
                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                     Toast.makeText(getApplicationContext(),"Signed up Succesfully - Sign In to continue", Toast.LENGTH_SHORT).show();
                     startActivity(intent);

@@ -303,7 +303,8 @@ public class ApiRetrofitClass {
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-                        if (response != null){
+
+                        if (response.body() != null){
                             Log.e("Response LeaderBoard", response.body().getMessage());
                             Log.e("Response LeaderBoard", response.body().getData().toString());
                         }

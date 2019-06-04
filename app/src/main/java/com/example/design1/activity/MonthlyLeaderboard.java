@@ -1,6 +1,7 @@
 package com.example.design1.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -37,7 +38,7 @@ public class MonthlyLeaderboard extends Fragment {
     List<LeaderBoardListItem> leaderBoardListItemArrayList = new ArrayList<>();
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View monthlyLeaderboard = inflater.inflate(R.layout.fragment_leaderboard, container, false);
         recyclerAdapterForLeaderboard = new RecyclerAdapterForLeaderboard(leaderBoardListItemArrayList);
@@ -52,7 +53,7 @@ public class MonthlyLeaderboard extends Fragment {
         //return inflater.inflate(R.layout.fragment_monthly_leaderboard, viewGroup, false);
     }
 
-    public void getMonthlyLeaderboard(){
+    public void getMonthlyLeaderboard() {
         //list of user score rank for leaderboard
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
 
@@ -62,21 +63,37 @@ public class MonthlyLeaderboard extends Fragment {
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-                        if (response != null){
-                            Log.e("Response LeaderBoard", response.body().getMessage());
-                            Log.e("Response LeaderBoard", response.body().getData().toString());
 
-                            leaderBoardListItemArrayList.addAll(response.body().getData());
-                            recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                        if (response.code() == 401) {
+                            FragmentActivity fragmentActivity = getActivity();
+                            if (fragmentActivity != null) {
+                                Intent intent = new Intent(fragmentActivity.getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        } else if (response.code() / 100 == 5) {
+                            FragmentActivity fragmentActivity = getActivity();
+                            if (fragmentActivity != null) {
+                                Toast.makeText(fragmentActivity.getApplicationContext(), "Internal Server Error, please come back later.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        else if (response.body()!= null) {
+
+                                Log.e("Response LeaderBoard", response.body().getMessage());
+                                Log.e("Response LeaderBoard", response.body().getData().toString());
+
+                                leaderBoardListItemArrayList.addAll(response.body().getData());
+                                recyclerAdapterForLeaderboard.notifyDataSetChanged();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
                         FragmentActivity fragmentActivity = getActivity();
-                        if(fragmentActivity != null)  {
-                            Toast.makeText(fragmentActivity.getApplicationContext(),"Server Response Failed - get leaderboard monthly", Toast.LENGTH_LONG).show();
-                            Log.e("Response LeaderBoard","Failure response");
+                        if (fragmentActivity != null) {
+                            Toast.makeText(fragmentActivity.getApplicationContext(), "Server Response Failed - get leaderboard monthly", Toast.LENGTH_LONG).show();
+                            Log.e("Response LeaderBoard", "Failure response");
                         }
                     }
                 });

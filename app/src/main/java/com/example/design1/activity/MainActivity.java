@@ -89,12 +89,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .enqueue(new Callback<List<CategoryDefinition>>() {
                     @Override
                     public void onResponse(Call<List<CategoryDefinition>> call, Response<List<CategoryDefinition>> response) {
-                        if(response.body()!=null){
-                            Log.e("In get all categories", response.body().toString());
+                        Log.d("login: main:", response.code()+" code");
+                        Log.d("login: main:", response.body()+" body");
+                        Log.d("login: main:", "response body bool: " + (response.body() == null));
+                        if(response.code()==401){
+                            Log.d("login: main: ", "reached 1");
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            //Todo toast
+                            finish();
+                        }
+                        else if(response.code()/100 ==  5){
+                            Log.d("login: main: ", "reached 2");
+                            Toast.makeText(getApplicationContext(),"Internal Server Error, please come back later.",
+                                    Toast.LENGTH_LONG).show();
 
+                        }
+                        else if(response.body()!=null){
+                            Log.d("login: main: ", "reached 3");
+                            Log.e("In get all categories", response.body().toString());
                             categoryList.addAll(response.body());
                             recyclerAdapterForHome.notifyDataSetChanged();
                         }
+
+                        Log.d("login: main: ", "reached here");
                     }
                     @Override
                     public void onFailure(Call<List<CategoryDefinition>> call, Throwable t) {
@@ -157,7 +176,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void getDynamicContest() {
 
-        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL_WITHOUT_GATEWAY);
 
         ContestService contestService=retrofit.create(ContestService.class);
 
@@ -165,7 +184,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .enqueue(new Callback<List<ContestDefinition>>() {
                     @Override
                     public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
-                        if(response.body() !=  null){
+
+                        if(response.code()==401){
+                            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else if(response.code()/100 ==  5){
+                            Toast.makeText(getApplicationContext(),"Internal Server Error, please come back later.",
+                                    Toast.LENGTH_LONG).show();
+
+                        }
+
+                        else if(response.body() !=  null){
                             if(response.body().size()!=0) {
                                 //checking if the last dynamic contest slot is right now
                                 long presentTime = new Date().getTime();

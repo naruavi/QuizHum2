@@ -1,5 +1,6 @@
 package com.example.design1.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 ;
 import android.support.v4.app.Fragment;
@@ -50,7 +51,7 @@ public class DailyLeaderBoard extends Fragment {
 
 
     //TODO assign this model
-    public void getDailyLeaderboard(){
+    public void getDailyLeaderboard() {
         //list of user score rank for leaderboard
 
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
@@ -61,7 +62,21 @@ public class DailyLeaderBoard extends Fragment {
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-                        if (response != null){
+
+                        if (response.code() == 401) {
+                            FragmentActivity fragmentActivity = getActivity();
+                            if (fragmentActivity != null) {
+                                Intent intent = new Intent(fragmentActivity.getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        } else if (response.code() / 100 == 5) {
+                            FragmentActivity fragmentActivity = getActivity();
+                            if (fragmentActivity != null) {
+                                Toast.makeText(fragmentActivity.getApplicationContext(), "Internal Server Error, please come back later.",
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        } else if (response.body() != null) {
                             Log.e("Response LeaderBoard", response.body().getMessage());
                             Log.e("Response LeaderBoard", response.body().getData().toString());
 
@@ -73,9 +88,9 @@ public class DailyLeaderBoard extends Fragment {
                     @Override
                     public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
                         FragmentActivity fragmentActivity = getActivity();
-                        if(fragmentActivity != null)  {
-                            Toast.makeText(fragmentActivity.getApplicationContext(),"Server Response Failed - get leaderboard daily", Toast.LENGTH_LONG).show();
-                            Log.e("Response LeaderBoard","Failure response");
+                        if (fragmentActivity != null) {
+                            Toast.makeText(fragmentActivity.getApplicationContext(), "Server Response Failed - get leaderboard daily", Toast.LENGTH_LONG).show();
+                            Log.e("Response LeaderBoard", "Failure response");
                         }
                     }
                 });

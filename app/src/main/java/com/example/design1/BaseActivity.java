@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,6 +41,18 @@ public class BaseActivity extends AppCompatActivity {
                 .enqueue(new Callback<Object>() {
                     @Override
                     public void onResponse(Call<Object> call, Response<Object> response) {
+
+                        if(response.code()==401){
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                        }
+                        else if(response.code()/100 ==  5){
+                                Toast.makeText(getApplicationContext(),"Internal Server Error, please come back later.",
+                                        Toast.LENGTH_LONG).show();
+
+                        }
                         if (response.code() / 100 == 2) {
                             if (response.body() != null) {
                                 //Log.e("logout", "logout is success");

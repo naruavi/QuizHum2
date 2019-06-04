@@ -69,7 +69,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class DynamicContestActivity extends BaseActivity{
+public class DynamicContestActivity extends BaseActivity {
 
     private static final String TAG = "DynamicContestActivity";
 
@@ -90,17 +90,17 @@ public class DynamicContestActivity extends BaseActivity{
     private long timeLeft = 0;
     private TextView timer;
     Bundle bundle;
-    long endTime,startTime;
+    long endTime, startTime;
     int questionId;
     View view;
     View handlerLayout;
 
     @Override
-    public void onCreate(Bundle savedInstanceState,PersistableBundle persistentState) {
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        if(!isConnected()) buildDialog().show();
+        if (!isConnected()) buildDialog().show();
         setContentView(R.layout.question_activity);
-        bundle =  getIntent().getExtras();
+        bundle = getIntent().getExtras();
 
         questionId = bundle.getInt("questionId");
         endTime = bundle.getLong("endTime");
@@ -120,12 +120,12 @@ public class DynamicContestActivity extends BaseActivity{
         startTime = sharedPreferences.getLong("startTime",-1);
 */
 
-        Log.e(TAG,"On Create - End time"+endTime+" Start Time "+startTime+" QuestionId"+questionId);
+        Log.e(TAG, "On Create - End time" + endTime + " Start Time " + startTime + " QuestionId" + questionId);
 
-        if(questionId != -1 && bundle.getInt("questionId")!= questionId){
-            showAlert("Question has expired","Please try out the current question if available");
+        if (questionId != -1 && bundle.getInt("questionId") != questionId) {
+            showAlert("Question has expired", "Please try out the current question if available");
         }
-        if(questionId != -1 && endTime != -1 && startTime != -1){
+        if (questionId != -1 && endTime != -1 && startTime != -1) {
 
             Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
 
@@ -135,41 +135,47 @@ public class DynamicContestActivity extends BaseActivity{
                     .enqueue(new Callback<QuestionDefinition>() {
                         @Override
                         public void onResponse(Call<QuestionDefinition> call, Response<QuestionDefinition> response) {
-                            if(response != null) {
-                                if(response.body() != null){
+
+                            if (response.code() == 401) {
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            } else if (response.code() / 100 == 5) {
+                                Toast.makeText(getApplicationContext(), "Internal Server Error, please come back later.",
+                                        Toast.LENGTH_LONG).show();
+
+                            } else {
+                                if (response.body() != null) {
                                     handlerLayout.setVisibility(View.GONE);
                                     assigningQuestion(response.body());
-                                }
-                                else{
+                                } else {
                                     handlerLayout.setVisibility(View.VISIBLE);
                                     TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
                                     textView.setText("No dynamic question available right now\n\nPlease come back later");
                                     textView.setVisibility(View.VISIBLE);
                                 }
-
                             }
-
                             handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
-
                         }
 
-                        @Override
-                        public void onFailure(Call<QuestionDefinition> call, Throwable t) {
-                            //Toast.makeText(getApplicationContext(),"Server Response Failed", Toast.LENGTH_LONG).show();
-                        }
-                    });
+            @Override
+            public void onFailure (Call < QuestionDefinition > call, Throwable t){
+                //Toast.makeText(getApplicationContext(),"Server Response Failed", Toast.LENGTH_LONG).show();
+            }
+        });
 
 
+        //getQuestionById();
+    } else
 
-            //getQuestionById();
-        }else{
-            //TODO no questions available page visible
-            handlerLayout.setVisibility(View.VISIBLE);
-        }
-
-
-
+    {
+        //TODO no questions available page visible
+        handlerLayout.setVisibility(View.VISIBLE);
     }
+
+
+}
 
     private void assigningQuestion(final QuestionDefinition questionDefinition) {
 
@@ -177,37 +183,36 @@ public class DynamicContestActivity extends BaseActivity{
 
 
         videoView = findViewById(R.id.myVideo);
-        TextView textView=findViewById(R.id.textView2);
-        TextView textView1=findViewById(R.id.textView3);
+        TextView textView = findViewById(R.id.textView2);
+        TextView textView1 = findViewById(R.id.textView3);
         RadioGroup radioGroup = findViewById(R.id.radioGroup);
         RadioButton radio1 = findViewById(R.id.textView4);
         RadioButton radio2 = findViewById(R.id.textView5);
         RadioButton radio3 = findViewById(R.id.textView6);
-        CheckBox   box1 = findViewById(R.id.textView4c);
-        CheckBox   box2 = findViewById(R.id.textView5c);
-        CheckBox   box3 = findViewById(R.id.textView6c);
+        CheckBox box1 = findViewById(R.id.textView4c);
+        CheckBox box2 = findViewById(R.id.textView5c);
+        CheckBox box3 = findViewById(R.id.textView6c);
         ImageView imageView = findViewById(R.id.questionImage);
         mRootLayout = findViewById(R.id.textlayout);
         mButtonPlay = findViewById(R.id.playbutton);
-        VideoView vi= imageView.findViewById(R.id.myVideo);
+        VideoView vi = imageView.findViewById(R.id.myVideo);
 
         Log.d("DynamicContestActivity", questionDefinition.toString());
         textView.setText("Q");
         textView1.setText(questionDefinition.getQuestionText());
 
 
-        timer(endTime- new Date().getTime());
+        timer(endTime - new Date().getTime());
 
-        if(questionDefinition.getAnswerType().equals("single")) {
-            Log.e(TAG,"Single Correct Type");
+        if (questionDefinition.getAnswerType().equals("single")) {
+            Log.e(TAG, "Single Correct Type");
             radio1.setVisibility(View.VISIBLE);
             radio2.setVisibility(View.VISIBLE);
             radio3.setVisibility(View.VISIBLE);
             radio1.setText(questionDefinition.getOptionA());
             radio2.setText(questionDefinition.getOptionB());
             radio3.setText(questionDefinition.getOptionC());
-        }else if(questionDefinition.getAnswerType().equals("multiple"))
-        {
+        } else if (questionDefinition.getAnswerType().equals("multiple")) {
             box1.setVisibility(View.VISIBLE);
             box2.setVisibility(View.VISIBLE);
             box3.setVisibility(View.VISIBLE);
@@ -216,7 +221,7 @@ public class DynamicContestActivity extends BaseActivity{
             box3.setText(questionDefinition.getOptionC());
         }
 
-        if(questionDefinition.getQuestionType().equals("video")){
+        if (questionDefinition.getQuestionType().equals("video")) {
             videoView.setVisibility(View.VISIBLE);
             Uri vidUri = Uri.parse(questionDefinition.getBinaryFilePath());
             videoView.setVideoURI(vidUri);
@@ -224,16 +229,15 @@ public class DynamicContestActivity extends BaseActivity{
             mediaController.setAnchorView(videoView);
             videoView.setMediaController(mediaController);
             videoView.start();
-            Log.d("video", videoView.isPlaying()+"..");
+            Log.d("video", videoView.isPlaying() + "..");
 
             // Log.d("video", vi.isPlaying()+"..");
-        }
-        else if(questionDefinition.getQuestionType().equals("image")){
+        } else if (questionDefinition.getQuestionType().equals("image")) {
             imageView.setVisibility(View.VISIBLE);
             Glide.with(DynamicContestActivity.this)
                     .load(questionDefinition.getBinaryFilePath())
-                        .into(imageView);
-        }else if(questionDefinition.getQuestionType().equals("audio")){
+                    .into(imageView);
+        } else if (questionDefinition.getQuestionType().equals("audio")) {
             mButtonPlay.setVisibility(View.VISIBLE);
             mButtonPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -250,7 +254,7 @@ public class DynamicContestActivity extends BaseActivity{
                     // Set the media player audio stream type
                     mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                     //Try to play music/audio from url
-                    try{
+                    try {
 
                         mPlayer.setDataSource(audioUrl);
 
@@ -260,15 +264,15 @@ public class DynamicContestActivity extends BaseActivity{
                         mPlayer.start();
 
                         // Inform user for audio streaming
-                        Toast.makeText(DynamicContestActivity.this,"Playing",Toast.LENGTH_SHORT).show();
-                    }catch (IOException e){
+                        Toast.makeText(DynamicContestActivity.this, "Playing", Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
                         // Catch the exception
                         e.printStackTrace();
-                    }catch (IllegalArgumentException e){
+                    } catch (IllegalArgumentException e) {
                         e.printStackTrace();
-                    }catch (SecurityException e){
+                    } catch (SecurityException e) {
                         e.printStackTrace();
-                    }catch (IllegalStateException e){
+                    } catch (IllegalStateException e) {
                         e.printStackTrace();
                     }
 
@@ -284,7 +288,7 @@ public class DynamicContestActivity extends BaseActivity{
 
     }
 
-    public void timer(long diffEndandPresentTime){
+    public void timer(long diffEndandPresentTime) {
         timer = findViewById(R.id.timer);
         //timer.setText(diffEndandPresent+"");
         timeLeft = diffEndandPresentTime;
@@ -302,8 +306,8 @@ public class DynamicContestActivity extends BaseActivity{
         }.start();
     }
 
-    public void updateTimer(){
-        String timeText= String.format("%02d:%02d:%02d",
+    public void updateTimer() {
+        String timeText = String.format("%02d:%02d:%02d",
                 TimeUnit.MILLISECONDS.toHours(timeLeft),
                 TimeUnit.MILLISECONDS.toMinutes(timeLeft) -
                         TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(timeLeft)),

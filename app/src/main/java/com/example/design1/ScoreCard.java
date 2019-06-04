@@ -1,5 +1,6 @@
 package com.example.design1;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.design1.activity.LoginActivity;
 import com.example.design1.activity.PlayStaticContest;
 import com.example.design1.models.ScoreCardObject;
 import com.example.design1.restcalls.UserResponseService;
@@ -89,7 +91,25 @@ public class ScoreCard extends Fragment {
                 .enqueue(new Callback<ScoreCardObject>() {
                     @Override
                     public void onResponse(Call<ScoreCardObject> call, Response<ScoreCardObject> response) {
-                        if(response.code()/100 == 2){
+
+                        if(response.code()==401){
+                            FragmentActivity fragmentActivity = getActivity();
+                            if(fragmentActivity!=null) {
+                                Intent intent = new Intent(fragmentActivity.getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                        }
+                        else if(response.code()/100 ==  5){
+                            FragmentActivity fragmentActivity = getActivity();
+                            if(fragmentActivity!=null){
+                            Toast.makeText(fragmentActivity.getApplicationContext(),"Internal Server Error, please come back later.",
+                                    Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+
+                        else if(response.code()/100 == 2){
                             if (response.body()!=null){
                                 Log.e("finalscoresu", response.body().getCorrectAnswers() + "");
                                 try{
