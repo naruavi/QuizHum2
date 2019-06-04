@@ -131,7 +131,7 @@ public class DynamicContestActivity extends BaseActivity{
 
             ContestService contestService = retrofit.create(ContestService.class);
 
-            contestService.getQuestionById(questionId)
+            contestService.getCQId(questionId)
                     .enqueue(new Callback<QuestionDefinition>() {
                         @Override
                         public void onResponse(Call<QuestionDefinition> call, Response<QuestionDefinition> response) {

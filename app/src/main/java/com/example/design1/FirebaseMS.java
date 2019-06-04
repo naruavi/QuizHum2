@@ -18,7 +18,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 public class FirebaseMS extends FirebaseMessagingService {
@@ -42,10 +46,11 @@ public class FirebaseMS extends FirebaseMessagingService {
             bundle.putString("type", data.get("type"));
             bundle.putString("title", data.get("title"));
             bundle.putString("body", data.get("body"));
+
             bundle.putLong("endTime", Long.valueOf(data.get("endTime")));
             bundle.putLong("startTime",Long.valueOf(data.get("startTime")));
             if(data.get("cqid")!= null)
-                bundle.putInt("cqid",Integer.parseInt(data.get("cqid")));
+                bundle.putInt("questionId",Integer.parseInt(data.get("cqid")));
 
             sendNotification(data);
 

@@ -27,7 +27,7 @@ public class NotificationPublisher extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
 
         if(bundle.getString("type").equals("question"))
-            (context.getSharedPreferences(context.getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE)).edit().putInt("questionId",bundle.getInt("cqid")).apply();
+            (context.getSharedPreferences(context.getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE)).edit().putInt("questionId",bundle.getInt("questionId")).apply();
 
         Intent onOpenIntent = new Intent(context.getApplicationContext(), MainActivity.class);
         onOpenIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -43,7 +43,7 @@ public class NotificationPublisher extends BroadcastReceiver {
         long longPresentTime = bundle.getLong("endTime") - new Date().getTime();
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context, channelId)
-                        .setSmallIcon(R.mipmap.quizhum_launcher_round)
+                        .setSmallIcon(R.drawable.notification_launcher)
                         .setContentTitle(bundle.getString("title"))
                         .setContentText(bundle.getString("body"))
                         .setTimeoutAfter(longPresentTime)
@@ -52,7 +52,7 @@ public class NotificationPublisher extends BroadcastReceiver {
                         .setContentIntent(pendingIntent)
                         .setDefaults(NotificationCompat.DEFAULT_ALL)
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setLargeIcon(((BitmapDrawable) context.getResources().getDrawable(R.mipmap.quizhum_launcher_round)).getBitmap());
+                        .setLargeIcon(((BitmapDrawable) context.getResources().getDrawable(R.drawable.notification_launcher)).getBitmap());
 
 
 
