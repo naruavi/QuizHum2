@@ -69,7 +69,7 @@ public class ContestActivity extends BaseActivity {
 
             toolbarHeader.setText(categoryName);
 
-            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit("http://10.177.7.130:8080/");
 
             ContestService contestService = retrofit.create(ContestService.class);
 
