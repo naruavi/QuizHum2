@@ -69,6 +69,7 @@ public class PlayStaticContest extends BaseActivity {
     TextView contestToolbarHeader;
     String VIDEO = "Video-Based";
     String AUDIO = "Audio-Based";
+    View handlerLayout;
 
 
     @Override
@@ -94,6 +95,11 @@ public class PlayStaticContest extends BaseActivity {
         contestToolbarHeader = findViewById(R.id.toolbar_header_text);
         contestToolbarHeader.setText("Play Contest");
 
+        //For progress bar and empty handler
+        handlerLayout = findViewById(R.id.static_contest_empty_handler);
+        handlerLayout.setVisibility(View.VISIBLE);
+        handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.VISIBLE);
+
 
         Intent intent = getIntent();
         contestId = intent.getIntExtra("contestId",1);
@@ -112,11 +118,7 @@ public class PlayStaticContest extends BaseActivity {
                     @Override
                     public void onResponse(Call<ContestTotal> call, Response<ContestTotal> response) {
                         if(response.code()/100 == 2){
-                            if(response.body()!=null){
-                                if(response.body().getQuestionList().size()==0) {
-                                    TextView textView = findViewById(R.id.tv_noques);
-                                    textView.setVisibility(View.VISIBLE);
-                                }
+                            if(response.body()!=null && response.body().getQuestionList().size()!=0) {
                                 submit_btn.setEnabled(true);
                                 skipbutton.setEnabled(true);
                                 listOfQuestion.addAll(response.body().getQuestionList());
@@ -302,10 +304,19 @@ public class PlayStaticContest extends BaseActivity {
                                 });
                             }
                             else{
-                                Log.d("contestResponse", "No data");
+                                handlerLayout.setVisibility(View.VISIBLE);
+                                TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
+                                textView.setText("This contest is empty\n\nTry another contest");
+                                textView.setVisibility(View.VISIBLE);
                             }
+                            handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
                         }
                         else{
+                            handlerLayout.setVisibility(View.VISIBLE);
+                            TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
+                            textView.setText("Something went wrong please try again");
+                            textView.setVisibility(View.VISIBLE);
+                            handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
                             Log.d("contestResponse", response.code()+"");
                         }
                     }

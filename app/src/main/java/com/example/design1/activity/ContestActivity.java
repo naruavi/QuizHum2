@@ -87,6 +87,7 @@ public class ContestActivity extends BaseActivity {
                                 textView.setText(getResources().getString(R.string.no_contest_available)+" in "+categoryName);
                                 textView.setVisibility(View.VISIBLE);
                             }
+                            handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
 
                         }
 

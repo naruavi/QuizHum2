@@ -25,7 +25,9 @@ import com.example.design1.R;
 import com.example.design1.adapter.RecyclerAdapterForHome;
 import com.example.design1.models.CategoryDefinition;
 import com.example.design1.models.ContestDefinition;
+import com.example.design1.restcalls.ApiLoginSignUp;
 import com.example.design1.restcalls.ContestService;
+import com.example.design1.restcalls.UserResponseService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -109,12 +111,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onStart() {
         super.onStart();
         if(AuthToken.getToken(this)!=null)
-        Log.d("tokenauth", AuthToken.getToken(MainActivity.this));
-        if(AuthToken.getToken(MainActivity.this) == null){
-            //Log.d("tokenauth", AuthToken.getToken(MainActivity.this));
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-        }
+            Log.d("tokenauth", AuthToken.getToken(MainActivity.this));
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_AUTH_URL);
+            ApiLoginSignUp apiLoginSignUp = retrofit.create(ApiLoginSignUp.class);
+
+            apiLoginSignUp.verifyUserSession(AuthToken.getToken(MainActivity.this))
+                    .enqueue(new Callback<Object>() {
+                        @Override
+                        public void onResponse(Call<Object> call, Response<Object> response) {
+                            if(response != null && response.code()/100 ==2 && response.body() != null){
+                                //TODO when the user is valid
+
+                            }
+                            else{
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Object> call, Throwable t) {
+
+                        }
+                    });
 
         dynamicContest.setEnabled(false);
         getDynamicContest();
