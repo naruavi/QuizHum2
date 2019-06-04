@@ -43,6 +43,8 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     private ConstraintLayout mRootLayout;
     private Button mButtonPlay;
+    private Button mStop;
+
 
     public static MediaPlayer mPlayer;
     public static MediaController mediaController;
@@ -159,6 +161,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         ImageView imageView = itemView.findViewById(R.id.questionImage);
         mRootLayout = itemView.findViewById(R.id.textlayout);
         mButtonPlay = itemView.findViewById(R.id.playbutton);
+        mStop = itemView.findViewById(R.id.mStop);
         VideoView vi= imageView.findViewById(R.id.myVideo);
 
         Log.d("ejijaefdj", String.valueOf(questions.get(position)));
@@ -214,6 +217,18 @@ public class ViewPagerAdapter extends PagerAdapter {
             }
         }else if(questions.get(position).getQuestionType().equals("Audio-Based")){
             mButtonPlay.setVisibility(View.VISIBLE);
+            mStop.setVisibility(View.VISIBLE);
+            mStop.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer.isPlaying()){
+                        ViewPagerAdapter.mPlayer.stop();
+                        ViewPagerAdapter.mPlayer.release();
+                        ViewPagerAdapter.mPlayer = null;
+                    }
+                }
+            });
+
             mButtonPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

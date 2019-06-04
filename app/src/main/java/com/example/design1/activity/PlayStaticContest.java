@@ -222,6 +222,11 @@ public class PlayStaticContest extends BaseActivity {
                                     public void onPageSelected(int i) {
                                         VideoView vi= findViewById(R.id.myVideo);
                                         vi.stopPlayback();
+                                        if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer.isPlaying()){
+                                            ViewPagerAdapter.mPlayer.stop();
+                                            ViewPagerAdapter.mPlayer.release();
+                                            ViewPagerAdapter.mPlayer = null;
+                                        }
                                         if(i == 0){
                                             previousButton.setEnabled(false);
                                         }
