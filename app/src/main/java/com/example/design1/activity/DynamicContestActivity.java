@@ -143,7 +143,7 @@ public class DynamicContestActivity extends BaseActivity{
                                 else{
                                     handlerLayout.setVisibility(View.VISIBLE);
                                     TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
-                                    textView.setText(getResources().getString(R.string.no_contest_available)+" to be completed");
+                                    textView.setText("No dynamic question available right now\n\nPlease come back later");
                                     textView.setVisibility(View.VISIBLE);
                                 }
 

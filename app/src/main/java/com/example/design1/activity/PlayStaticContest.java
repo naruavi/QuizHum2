@@ -69,6 +69,7 @@ public class PlayStaticContest extends BaseActivity {
     TextView contestToolbarHeader;
     String VIDEO = "Video-Based";
     String AUDIO = "Audio-Based";
+    View handlerLayout;
 
 
     @Override
@@ -93,6 +94,11 @@ public class PlayStaticContest extends BaseActivity {
         contestToolbarHeader = findViewById(R.id.toolbar_header_text);
         contestToolbarHeader.setText("Play Contest");
 
+        //For progress bar and empty handler
+        handlerLayout = findViewById(R.id.static_contest_empty_handler);
+        handlerLayout.setVisibility(View.VISIBLE);
+        handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.VISIBLE);
+
 
         Intent intent = getIntent();
         contestId = intent.getIntExtra("contestId",1);
@@ -111,123 +117,124 @@ public class PlayStaticContest extends BaseActivity {
                     @Override
                     public void onResponse(Call<ContestTotal> call, Response<ContestTotal> response) {
                         if(response.code()/100 == 2){
-                            if(response.body()!=null){
-                                if(response.body().getQuestionList().size()==0) {
-                                    TextView textView = findViewById(R.id.tv_noques);
-                                    textView.setVisibility(View.VISIBLE);
-                                }
-                                submit_btn.setEnabled(true);
-                                skipbutton.setEnabled(true);
-                                listOfQuestion.addAll(response.body().getQuestionList());
-                                contestDefinition = response.body().getContestDefinition();
-                                stateResponse = response.body().getUserResponse();
-                                Log.d("questions", response.body().getQuestionList().toString()
-                                        +response.body().getContestDefinition().toString() +
-                                        "userresponse" +response.body().getUserResponse());
-                                if(stateResponse!=null){
-                                    Log.d("stateResponse", stateResponse.toString());
-                                    for(Map.Entry entry : stateResponse.entrySet()){
-                                        if(entry.getValue().equals("s")){
-                                            skipList.add((Integer) entry.getKey());
+                            if(response.body()!=null && response.body().getQuestionList().size()!=0) {
+                                    submit_btn.setEnabled(true);
+                                    skipbutton.setEnabled(true);
+                                    listOfQuestion.addAll(response.body().getQuestionList());
+                                    contestDefinition = response.body().getContestDefinition();
+                                    stateResponse = response.body().getUserResponse();
+                                    Log.d("questions", response.body().getQuestionList().toString()
+                                            + response.body().getContestDefinition().toString() +
+                                            "userresponse" + response.body().getUserResponse());
+                                    if (stateResponse != null) {
+                                        Log.d("stateResponse", stateResponse.toString());
+                                        for (Map.Entry entry : stateResponse.entrySet()) {
+                                            if (entry.getValue().equals("s")) {
+                                                skipList.add((Integer) entry.getKey());
+                                            } else {
+                                                answered.add((Integer) entry.getKey());
+                                            }
                                         }
-                                        else{
-                                            answered.add((Integer) entry.getKey());
-                                        }
+                                    } else {
+                                        Log.d("stateResponse", "state null");
                                     }
-                                }
-                                else{
-                                    Log.d("stateResponse", "state null");
-                                }
-                                Log.d("just", skipList.toString() + " answered" + answered);
-                                //fragment
-                                Integer questions= response.body().getContestDefinition().getTotalQuestionsInContest();
-                                Integer skips=response.body().getContestDefinition().getSkipsAllowed();
-                                Integer hard=0,easy=0,medium=0;
+                                    Log.d("just", skipList.toString() + " answered" + answered);
+                                    //fragment
+                                    Integer questions = response.body().getContestDefinition().getTotalQuestionsInContest();
+                                    Integer skips = response.body().getContestDefinition().getSkipsAllowed();
+                                    Integer hard = 0, easy = 0, medium = 0;
 
-                                Log.e("in response", response.body().getQuestionList().toString());
-                                for(int i=0;i<listOfQuestion.size();i++){
-                                    Log.e("in list of questions", listOfQuestion.get(i).getDifficultyLevel());
+                                    Log.e("in response", response.body().getQuestionList().toString());
+                                    for (int i = 0; i < listOfQuestion.size(); i++) {
+                                        Log.e("in list of questions", listOfQuestion.get(i).getDifficultyLevel());
 
-                                    if(listOfQuestion.get(i).getDifficultyLevel().toLowerCase().equals("hard"))
-                                        hard++;
-                                    else if(listOfQuestion.get(i).getDifficultyLevel().toLowerCase().equals("easy"))
-                                        easy++;
-                                    else if(listOfQuestion.get(i).getDifficultyLevel().toLowerCase().equals("medium"))
-                                        medium++;
-
-                                }
-                                Fragment fragment= rules.newInstance(PlayStaticContest.this,questions,skips,hard,medium,easy);
-                                FragmentManager fragmentManager = getSupportFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                fragmentTransaction.replace(R.id.RulesHolder, fragment);
-
-                                //((rules) fragment).attachThings(questions,skips,hard,medium,easy);
-                                fragmentTransaction.commit();
-
-                                viewPager = findViewById(R.id.PlayStaticViewPager);
-                                pagerAdapter = new ViewPagerAdapter(PlayStaticContest.this, listOfQuestion);
-                                viewPager.setAdapter(pagerAdapter);
-                                viewPager.setCurrentItem(skipList.size() + answered.size());
-
-
-                                nextButton.setEnabled(false);
-                                if(viewPager.getCurrentItem() == 0){
-                                    previousButton.setEnabled(false);
-                                }
-
-                                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-                                    @Override
-                                    public void onPageScrolled(int i, float v, int i1) {
+                                        if (listOfQuestion.get(i).getDifficultyLevel().toLowerCase().equals("hard"))
+                                            hard++;
+                                        else if (listOfQuestion.get(i).getDifficultyLevel().toLowerCase().equals("easy"))
+                                            easy++;
+                                        else if (listOfQuestion.get(i).getDifficultyLevel().toLowerCase().equals("medium"))
+                                            medium++;
 
                                     }
-                                    @Override
-                                    public void onPageSelected(int i) {
-                                        VideoView vi= findViewById(R.id.myVideo);
-                                        vi.stopPlayback();
-                                        if(i == 0){
-                                            previousButton.setEnabled(false);
-                                        }
-                                        else{
-                                            previousButton.setEnabled(true);
-                                        }
+                                    Fragment fragment = rules.newInstance(PlayStaticContest.this, questions, skips, hard, medium, easy);
+                                    FragmentManager fragmentManager = getSupportFragmentManager();
+                                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                                    fragmentTransaction.replace(R.id.RulesHolder, fragment);
 
-                                        if(skipList.contains(listOfQuestion.get(i).getQuestionId())){
-                                            Log.d("onpageselected","in skiplist");
-                                            nextButton.setEnabled(true);
-                                            submit_btn.setEnabled(true);
-                                            skipbutton.setEnabled(false);
-                                        }
-                                        else if(answered.contains(listOfQuestion.get(i).getQuestionId())){
-                                            Log.d("onpageselected","in answered");
-                                            skipbutton.setEnabled(false);
-                                            nextButton.setEnabled(true);
-                                            submit_btn.setEnabled(false);
-                                        }
-                                        else{
-                                            Log.d("onpageselected","in nothing");
-                                            nextButton.setEnabled(false);
-                                            skipbutton.setEnabled(true);
-                                            submit_btn.setEnabled(true);
-                                        }
+                                    //((rules) fragment).attachThings(questions,skips,hard,medium,easy);
+                                    fragmentTransaction.commit();
 
-                                        if(i == listOfQuestion.size()-1){
-                                            nextButton.setEnabled(false);
-                                        }
+                                    viewPager = findViewById(R.id.PlayStaticViewPager);
+                                    pagerAdapter = new ViewPagerAdapter(PlayStaticContest.this, listOfQuestion);
+                                    viewPager.setAdapter(pagerAdapter);
+                                    viewPager.setCurrentItem(skipList.size() + answered.size());
 
+
+                                    nextButton.setEnabled(false);
+                                    if (viewPager.getCurrentItem() == 0) {
+                                        previousButton.setEnabled(false);
                                     }
 
-                                    @Override
-                                    public void onPageScrollStateChanged(int i) {
+                                    viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
-                                    }
-                                });
-                            }
+                                        @Override
+                                        public void onPageScrolled(int i, float v, int i1) {
+
+                                        }
+
+                                        @Override
+                                        public void onPageSelected(int i) {
+                                            VideoView vi = findViewById(R.id.myVideo);
+                                            vi.stopPlayback();
+                                            if (i == 0) {
+                                                previousButton.setEnabled(false);
+                                            } else {
+                                                previousButton.setEnabled(true);
+                                            }
+
+                                            if (skipList.contains(listOfQuestion.get(i).getQuestionId())) {
+                                                Log.d("onpageselected", "in skiplist");
+                                                nextButton.setEnabled(true);
+                                                submit_btn.setEnabled(true);
+                                                skipbutton.setEnabled(false);
+                                            } else if (answered.contains(listOfQuestion.get(i).getQuestionId())) {
+                                                Log.d("onpageselected", "in answered");
+                                                skipbutton.setEnabled(false);
+                                                nextButton.setEnabled(true);
+                                                submit_btn.setEnabled(false);
+                                            } else {
+                                                Log.d("onpageselected", "in nothing");
+                                                nextButton.setEnabled(false);
+                                                skipbutton.setEnabled(true);
+                                                submit_btn.setEnabled(true);
+                                            }
+
+                                            if (i == listOfQuestion.size() - 1) {
+                                                nextButton.setEnabled(false);
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onPageScrollStateChanged(int i) {
+
+                                        }
+                                    });
+                                }
                             else{
-                                Log.d("contestResponse", "No data");
-                            }
+                                handlerLayout.setVisibility(View.VISIBLE);
+                                TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
+                                textView.setText("This contest is empty\n\nTry another contest");
+                                textView.setVisibility(View.VISIBLE);
+                                }
+                            handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
                         }
                         else{
+                            handlerLayout.setVisibility(View.VISIBLE);
+                            TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
+                            textView.setText("Something went wrong please try again");
+                            textView.setVisibility(View.VISIBLE);
+                            handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
                             Log.d("contestResponse", response.code()+"");
                         }
                     }
