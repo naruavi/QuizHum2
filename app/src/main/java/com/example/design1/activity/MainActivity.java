@@ -116,7 +116,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             startActivity(intent);
         }
 
-        dynamicContest.setClickable(false);
+        dynamicContest.setEnabled(false);
         getDynamicContest();
 
     }
@@ -173,7 +173,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                 long startTime = response.body().get(response.body().size()-1).getStartTimeOfContest();
                                 if(startTime-presentTime < 0 && endTime-presentTime > 0) {
                                     dynamicContestId = response.body().get(response.body().size() - 1).getContestId();
-                                    dynamicContest.setClickable(true);
+                                    dynamicContest.setEnabled(true);
                                 }
                             }
                         }

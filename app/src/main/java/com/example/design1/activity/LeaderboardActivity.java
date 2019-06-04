@@ -27,6 +27,7 @@ public class LeaderboardActivity extends BaseActivity {
 
         Intent intent = getIntent();
         Integer contestId = intent.getIntExtra("contestId", -1);
+        Log.d("abhi", contestId + "");
         if(contestId != -1){
             //tabLayout.setVisibility(View.GONE);
             setContentView(R.layout.contest_leaderboard_layout);
@@ -41,7 +42,7 @@ public class LeaderboardActivity extends BaseActivity {
 
             contestLeaderboard.setArguments(bundle);
 
-            getSupportFragmentManager().beginTransaction().add(R.id.contest_leaderboard_frame_layout,contestLeaderboard).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.contest_leaderboard_frame_layout,contestLeaderboard).commit();
 
         }
 

@@ -201,21 +201,21 @@ public class ApiRetrofitClass {
         //list of user score rank for leaderboard
         String DYNAMIC_LEADERBOARD_URL = "/leaderboard/dynamic";
 
-        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
-        LeaderBoardService leaderBoardService=retrofit.create(LeaderBoardService.class);
-
-        leaderBoardService.getLeaderBoardDynamicContest(userToken,contestId,length)
-                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
-                    @Override
-                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
-
-                    }
-                });
+//        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
+//        LeaderBoardService leaderBoardService=retrofit.create(LeaderBoardService.class);
+//
+//        leaderBoardService.getLeaderBoardDynamicContest(userToken,contestId,length)
+//                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
+//                    @Override
+//                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+//
+//                    }
+//                });
     }
    /* @GET("/leaderboard/dynamic")
     Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardDynamicContest(@Query("userId") String userToken, @Query("contestId") String contestId, @Query("noOfRecords") int noOfRecords);
@@ -228,18 +228,18 @@ public class ApiRetrofitClass {
         Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
         LeaderBoardService leaderBoardService=retrofit.create(LeaderBoardService.class);
 
-        leaderBoardService.getLeaderBoardStaticContest(userToken,contestId,length)
-                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
-                    @Override
-                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
-
-                    }
-                });
+//        leaderBoardService.getLeaderBoardStaticContest(userToken,contestId,length)
+//                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
+//                    @Override
+//                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+//
+//                    }
+//                });
     }
 
     public void getDailyLeaderboard(){
