@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +14,7 @@ import android.transition.Transition;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.design1.ApiRetrofitClass;
@@ -26,18 +26,15 @@ import com.example.design1.adapter.RecyclerAdapterForHome;
 import com.example.design1.models.CategoryDefinition;
 import com.example.design1.models.ContestDefinition;
 import com.example.design1.restcalls.ContestService;
-import com.example.design1.restcalls.UserResponseService;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -47,7 +44,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private Button incompleteContests,dynamicContest;
     boolean doubleBackToExitPressedOnce = false;
     private int dynamicContestId;
-    private String TAG = "MainActivity.class Log: ";
+    private static final String TAG = "MainActivity.class Log ";
+    TextView toolbarHeader;
+
     AlertDialog.Builder notificationPopUpBilder;
     //private int userToken;
     List<CategoryDefinition> categoryList = new ArrayList<>();
@@ -57,10 +56,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isConnected()) buildDialog().show();
+
         setContentView(R.layout.activity_main);
 
         incompleteContests=findViewById(R.id.incomplete_contests);
         incompleteContests.setOnClickListener(this);
+
+        TextView toolbarHeader = findViewById(R.id.toolbar_header_text);
+        toolbarHeader.setText("QuizHum");
 
         createNotificationChannel();
 
@@ -94,6 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                     @Override
                     public void onFailure(Call<List<CategoryDefinition>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(),"Get Categories Server Response Failed", Toast.LENGTH_LONG).show();
                         Log.e("In get all catoegories", "failed"+t.getMessage());
 
                     }
@@ -175,6 +180,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     }
                     @Override
                     public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
+                        Toast.makeText(getApplicationContext(), "Server Response Failed - get contest by type", Toast.LENGTH_LONG).show();
 
                     }
                 });
@@ -231,7 +237,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         Long startTimeInLong = bundle.getLong("startTime");
 
 
-        Log.e(TAG+"end, start time in long", endTimeInLong + "  " + startTimeInLong);
+        Log.e(TAG,"end, start time in long "+ endTimeInLong + "  " + startTimeInLong);
         Date presentDate = new Date();
 
         long diffEndandPresentTime = (endTimeInLong - presentDate.getTime());

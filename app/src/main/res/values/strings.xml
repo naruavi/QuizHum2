@@ -39,4 +39,5 @@
     <string name="start_contest">Start Contest</string>
     <string name="medium_questions">- Medium Questions</string>
     <string name="easy_questions">- Easy Questions</string>
+    <string name="no_contest_available">No contests are available</string>
 </resources>

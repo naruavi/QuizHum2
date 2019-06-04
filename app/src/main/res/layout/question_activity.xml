@@ -7,7 +7,7 @@
 
 
     <include android:id="@+id/question_activity_included"
-        layout="@layout/activity_question"
+        layout="@layout/text_layout"
         android:visibility="gone"/>
 
     <TextView
@@ -27,6 +27,12 @@
         android:text="Timer:"
         android:textColor="@color/black"/>
 
+
+    <include
+        android:id="@+id/question_activity_empty_handler"
+        layout="@layout/handling_layouts_constraint"
+        android:visibility="gone"
+        />
 
     <!--<android.support.v7.widget.Toolbar-->
         <!--android:id="@+id/toolbar2"-->

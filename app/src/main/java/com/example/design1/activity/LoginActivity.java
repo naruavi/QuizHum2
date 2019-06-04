@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.design1.BaseActivity;
 import com.example.design1.ClickHandler;
 import com.example.design1.Pojo.LoginUserData;
 import com.example.design1.R;
@@ -25,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
     private Button loginButton;
     private EditText userId;
@@ -38,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_login);
         init();
     }

@@ -39,6 +39,7 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
 
                     Intent intent = new Intent(context, PlayStaticContest.class);
                     intent.putExtra("contestId",contestList.get(getAdapterPosition()).getContestId());
+                    intent.putExtra("contestName", contestList.get(getAdapterPosition()).getContestName());
                     context.startActivity(intent);
                     Log.d("contestId",contestList.get(getAdapterPosition()).getContestId()+"");
                 }

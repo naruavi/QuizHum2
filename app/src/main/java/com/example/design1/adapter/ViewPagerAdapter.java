@@ -34,6 +34,7 @@ import java.util.List;
 public class ViewPagerAdapter extends PagerAdapter {
 
     Context context;
+    int contestId;
 
     List<QuestionDefinition> questions;
     LayoutInflater layoutInflater;
@@ -139,12 +140,15 @@ public class ViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, final int position) {
         itemView = layoutInflater.inflate(R.layout.text_layout, container, false);
-        itemView.setTag("currentView" + questions.get(position));
+        itemView.setTag("currentView" + questions.get(position).getQuestionId());
         Log.d("custompager", "worksinstantiate");
 
         videoView = itemView.findViewById(R.id.myVideo);
         TextView textView=itemView.findViewById(R.id.textView2);
+        //textView.setId(contestId + questions.get(position).getQuestionId());
         TextView textView1=itemView.findViewById(R.id.textView3);
+        //textView1.setId("a"+questions.get(position).getQuestionId());
+        //textView1.setText("a"+questions.get(position).getQuestionId());
          radioGroup = itemView.findViewById(R.id.radioGroup);
          radio1 = itemView.findViewById(R.id.textView4);
          radio2 = itemView.findViewById(R.id.textView5);

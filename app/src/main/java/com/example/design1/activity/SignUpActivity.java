@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.design1.ApiRetrofitClass;
+import com.example.design1.BaseActivity;
 import com.example.design1.CONSTANTS;
 import com.example.design1.ClickHandler;
 import com.example.design1.Pojo.SignupUserData;
@@ -22,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends BaseActivity {
 
 
     private String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -32,6 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_sign_up);
 
         Button signUpButton = findViewById(R.id.signup_button);
@@ -97,20 +99,22 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 if(response.code() == 200){
                     Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+                    Toast.makeText(getApplicationContext(),"Signed up Succesfully - Sign In to continue", Toast.LENGTH_SHORT).show();
                     startActivity(intent);
 
                     //Will be here if response.code() is 200
                     //TODO
                     //Go to landing page
-
                 }
                 else{
+                    Toast.makeText(getApplicationContext(),"Already User Exist", Toast.LENGTH_SHORT).show();
                     Log.d("responsenot200", "signup Failed");
                 }
             }
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
                 Log.e("SignUpfailure", t.getMessage());
+                Toast.makeText(getApplicationContext(),"SignUp failure - Response Failure", Toast.LENGTH_SHORT).show();
             }
         });
 
