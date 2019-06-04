@@ -113,6 +113,7 @@ public class ContestActivity extends BaseActivity {
                             if(response.body()!=null && response.body().size() != 0) {
                                 contestList.addAll(response.body());
                                 recyclerAdapterForContest.notifyDataSetChanged();
+                                handlerLayout.setVisibility(View.GONE);
                             }else{
                                 handlerLayout.setVisibility(View.VISIBLE);
                                 TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
