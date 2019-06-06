@@ -15,7 +15,7 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -23,10 +23,20 @@
         android:background="@drawable/custom_button"
         android:paddingHorizontal="30dp"
         android:text="Dyanmic Contest"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/main_activity_dynamic_leaderboard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/main_activity_toolbar" />
+
+    <ImageButton
+        android:id="@+id/main_activity_dynamic_leaderboard"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:src="@drawable/trophy"
+        android:layout_marginEnd="8dp"
+        android:onClick="goToDynamicLeaderBoard"
+        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/button" />
     <Button
         android:id="@+id/incomplete_contests"
         android:layout_width="match_parent"

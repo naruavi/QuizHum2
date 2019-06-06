@@ -323,4 +323,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         alert.show();
 
     }
+
+    public void goToDynamicLeaderBoard(View view){
+        Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
+        intent.putExtra("contestId", dynamicContestId);
+        startActivity(intent);
+    }
 }
