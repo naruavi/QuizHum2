@@ -53,9 +53,17 @@ public class ContestLeaderboard extends Fragment {
 
         Bundle bundle = getArguments();
         int contestId = bundle.getInt("contestId");
+        //String type = bundle.getString("contestType");
 
         // TODO pass proper details here
+
         getStaticLeaderboard(contestId, 1,CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
+
+//        if(type.equals("static"))
+//            getStaticLeaderboard(contestId, 1,CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
+//        else if(type.equals("dynamic")){
+//            getDynamicLeaderboard(contestId, 1, CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
+//        }
 
         return contestLeaderboard;
     }
@@ -88,6 +96,34 @@ public class ContestLeaderboard extends Fragment {
                     }
                 });*/
 
+
+        leaderBoardService.getLeaderBoardByContest(contestId)
+                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
+
+                        leaderBoardListItemArrayList.addAll(response.body().getData());
+                        recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                        handlerLayout.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+
+                        FragmentActivity fragmentActivity = getActivity();
+                        if(fragmentActivity != null)  {
+                            Toast.makeText(fragmentActivity.getApplicationContext(),"Server Response Failed - get leaderboard contest", Toast.LENGTH_LONG).show();
+                            Log.e("Response LeaderBoard","Failure response");
+                        }
+                    }
+                });
+    }
+
+    public void getDynamicLeaderboard(int contestId, int userToken, int length){
+
+        Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
+        LeaderBoardService leaderBoardService = retrofit.create(LeaderBoardService.class);
 
         leaderBoardService.getLeaderBoardByContest(contestId)
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {

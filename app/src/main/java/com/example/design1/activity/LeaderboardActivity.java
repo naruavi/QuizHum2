@@ -27,6 +27,7 @@ public class LeaderboardActivity extends BaseActivity {
 
         Intent intent = getIntent();
         Integer contestId = intent.getIntExtra("contestId", -1);
+        //String type = intent.getStringExtra("contestType");
         Log.d("abhi", contestId + "");
         if(contestId != -1){
             //tabLayout.setVisibility(View.GONE);
@@ -39,6 +40,7 @@ public class LeaderboardActivity extends BaseActivity {
             Bundle bundle = new Bundle();
 
             bundle.putInt("contestId",contestId);
+            //bundle.putString("contestType", type);
 
             contestLeaderboard.setArguments(bundle);
 

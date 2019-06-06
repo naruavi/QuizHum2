@@ -78,6 +78,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         dynamicContest.setOnClickListener(this);
 
         if (getIntent().getExtras() != null) {
+            Log.d("remoteservice",getIntent().getExtras().toString());
             handleNotificationIntent();
         }
 
@@ -192,6 +193,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                         if (response.body() != null) {
                             if (response.body().size() != 0) {
                                 //checking if the last dynamic contest slot is right now
+                                Log.e(TAG,response.body().toString());
                                 long presentTime = new Date().getTime();
                                 long endTime = response.body().get(response.body().size() - 1).getEndTimeOfContest();
                                 long startTime = response.body().get(response.body().size() - 1).getStartTimeOfContest();
@@ -269,49 +271,53 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         long diffEndandPresentTime = (endTimeInLong - presentDate.getTime());
         long diffPresentandStartTime = (presentDate.getTime() - startTimeInLong);
+        try {
+            if (bundle.getString("type").equals("contest")) {
+                if (diffEndandPresentTime < 0) {
+                    //expired
+                    Log.e(TAG, "In if Question slot has expired");
+                    //showAlert("Contest Expired", "Sorry, Contest Expired. Please try again next time.");
+                    Toast.makeText(getApplicationContext(), "Contest Expired", Toast.LENGTH_SHORT).show();
+                } else if (diffEndandPresentTime > 0 && diffPresentandStartTime > 0) {
+                    //contest going on
+                    Log.e(TAG, "In if contest slot has opened");
+                    showAlert("Contest is going on", "Hurry up to the dynamic contest section to start playing!");
+                    //Toast.makeText(getApplicationContext(), "Contest going on", Toast.LENGTH_LONG).show();
 
-        if (bundle.getString("type").equals("contest")) {
-            if (diffEndandPresentTime < 0) {
-                //expired
-                Log.e(TAG, "In if Question slot has expired");
-                //showAlert("Contest Expired", "Sorry, Contest Expired. Please try again next time.");
-                Toast.makeText(getApplicationContext(), "Contest Expired", Toast.LENGTH_SHORT).show();
-            } else if (diffEndandPresentTime > 0 && diffPresentandStartTime > 0) {
-                //contest going on
-                Log.e(TAG, "In if contest slot has opened");
-                showAlert("Contest is going on", "Hurry up to the dynamic contest section to start playing!");
-                //Toast.makeText(getApplicationContext(), "Contest going on", Toast.LENGTH_LONG).show();
+                    //timer(diffEndandPresentTime);
 
-                //timer(diffEndandPresentTime);
+                } else if (diffPresentandStartTime < 0) {
+                    //contest not yet started
+                    Log.e(TAG, "In if contest slot has not yet opened");
+                    showAlert("Contest will start soon", "The contest will begin shortly.");
+                    //Toast.makeText(getApplicationContext(), "Contest will start", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                if (diffEndandPresentTime < 0) {
+                    //expired
+                    Log.e(TAG, "In else Question slot has expired");
+                    showAlert("Question Expired", "Sorry, Contest Expired. Please try again next time.");
+                    //Toast.makeText(getApplicationContext(), "Contest Expired", Toast.LENGTH_SHORT).show();
 
-            } else if (diffPresentandStartTime < 0) {
-                //contest not yet started
-                Log.e(TAG, "In if contest slot has not yet opened");
-                showAlert("Contest will start soon", "The contest will begin shortly.");
-                //Toast.makeText(getApplicationContext(), "Contest will start", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            if (diffEndandPresentTime < 0) {
-                //expired
-                Log.e(TAG, "In else Question slot has expired");
-                showAlert("Question Expired", "Sorry, Contest Expired. Please try again next time.");
-                //Toast.makeText(getApplicationContext(), "Contest Expired", Toast.LENGTH_SHORT).show();
+                } else if (diffEndandPresentTime > 0 && diffPresentandStartTime > 0) {
+                    //contest going on
 
-            } else if (diffEndandPresentTime > 0 && diffPresentandStartTime > 0) {
-                //contest going on
-
-                Log.e(TAG, "In else Question slot opened");
-                showAlert("Question slot is opened", "Hurry up to the dynamic contest section to start playing!");
-                //Toast.makeText(getApplicationContext(), "Contest going on", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "In else Question slot opened");
+                    showAlert("Question slot is opened", "Hurry up to the dynamic contest section to start playing!");
+                    //Toast.makeText(getApplicationContext(), "Contest going on", Toast.LENGTH_LONG).show();
 
 //                timer(diffEndandPresentTime);
 
-            } else if (diffPresentandStartTime < 0) {
-                //contest not yet started
-                Log.e(TAG, "In else Question slot didn't open");
-                showAlert("Question slot didn't open", "The question will be available shortly.");
-                //Toast.makeText(getApplicationContext(), "Contest will start", Toast.LENGTH_SHORT).show();
+                } else if (diffPresentandStartTime < 0) {
+                    //contest not yet started
+                    Log.e(TAG, "In else Question slot didn't open");
+                    showAlert("Question slot didn't open", "The question will be available shortly.");
+                    //Toast.makeText(getApplicationContext(), "Contest will start", Toast.LENGTH_SHORT).show();
+                }
             }
+        }catch(Exception e){
+            e.printStackTrace();
+            Log.d("handlenotification","something found null" );
         }
     }
 
@@ -329,5 +335,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         // show pop up alert
         alert.show();
 
+    }
+
+    public void goToDynamicLeaderBoard(View view){
+        Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
+        intent.putExtra("contestId", dynamicContestId);
+        startActivity(intent);
     }
 }

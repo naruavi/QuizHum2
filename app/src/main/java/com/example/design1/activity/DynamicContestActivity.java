@@ -98,7 +98,7 @@ public class DynamicContestActivity extends BaseActivity{
     private TextView timer;
     long endTime,startTime;
     int dynamicContestId;
-    int questionId;
+    int cqid,questionId; // cqid = contest question id for start time and end time matching
     View view;
     View handlerLayout;
 
@@ -117,11 +117,11 @@ public class DynamicContestActivity extends BaseActivity{
         }
 
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE);
-        questionId = sharedPreferences.getInt("questionId",-1);
+        cqid = sharedPreferences.getInt("cqid",-1);
         endTime = sharedPreferences.getLong("endTime",-1);
         startTime = sharedPreferences.getLong("startTime",-1);
 
-        if(questionId ==-1 || endTime ==-1|| startTime==-1)
+        if(cqid ==-1 || endTime ==-1|| startTime==-1)
             endActivity();
 
         getQuestion();
@@ -150,20 +150,21 @@ public class DynamicContestActivity extends BaseActivity{
         long presentTime = new Date().getTime();
         if(endTime - presentTime > 0 && startTime - presentTime < 0) {
 
-            Log.e(TAG, "On Create - End time" + endTime + " Start Time " + startTime + " QuestionId" + questionId);
+            Log.e(TAG, "On Create - End time" + endTime + " Start Time " + startTime + " cqid" + cqid);
 
-            if (questionId != -1 && endTime != -1 && startTime != -1) {
+            if (cqid != -1 && endTime != -1 && startTime != -1) {
 
                 Retrofit retrofit = ApiRetrofitClass.getNewRetrofit("http://10.177.7.130:8080/");
 
                 ContestService contestService = retrofit.create(ContestService.class);
 
-                contestService.getCQId(questionId)
+                contestService.getCQId(cqid)
                         .enqueue(new Callback<QuestionDefinition>() {
                             @Override
                             public void onResponse(Call<QuestionDefinition> call, Response<QuestionDefinition> response) {
                                 if (response != null) {
                                     if (response.body() != null) {
+                                        questionId = response.body().getQuestionId();
                                         handlerLayout.setVisibility(View.GONE);
                                         assigningQuestion(response.body());
                                     } else {
@@ -322,6 +323,7 @@ public class DynamicContestActivity extends BaseActivity{
                 //Dynamic
 
 
+
                 String userResponse = new String();
                 if (radioGroup!=null) {
                     if (radio1.isChecked()) {
@@ -364,14 +366,15 @@ public class DynamicContestActivity extends BaseActivity{
                 RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
 
                 if(!userResponse.isEmpty()){
-                    userResponseService.updateResponseOfSkipped(body, AuthToken.getToken(DynamicContestActivity.this))
+                    userResponseService.newResponseToQuestion(body, AuthToken.getToken(DynamicContestActivity.this))
                             .enqueue(new Callback<SubmittedResponseAck>() {
                                 @Override
                                 public void onResponse(Call<SubmittedResponseAck> call, Response<SubmittedResponseAck> response) {
                                     if(response.code()/100 == 200 && response.body()!=null){
+                                        Log.d("dynamic response done", "success");
                                         Toast.makeText(getApplicationContext(), "Response Submitted successfully",
                                                 Toast.LENGTH_SHORT).show();
-
+                                        submitButton.setEnabled(false);
                                     }
                                     else {
                                         Log.d(TAG, response.code() + TAG + "response code");
@@ -471,7 +474,10 @@ public class DynamicContestActivity extends BaseActivity{
 
             @Override
             public void onFinish() {
-
+                submitButton.setEnabled(false);
+                Toast.makeText(getApplicationContext(), "The time has ended you cannot answer questions"
+                ,Toast.LENGTH_LONG).show();
+                finish();
             }
         }.start();
     }
