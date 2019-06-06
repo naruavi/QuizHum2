@@ -28,8 +28,10 @@ import java.util.Map;
 public class FirebaseMS extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    //TODO remove unnecessary variables
     private static int notification_id = 0;
 
+    //TODO avoid global variable where possible
     Bundle bundle = new Bundle();
 
 
@@ -40,19 +42,25 @@ public class FirebaseMS extends FirebaseMessagingService {
         //Date date = new Date(remoteMessage.getSentTime());
 
         try {
+
             // fill in data for creating notification
-            Log.d(TAG,"remote message data: "+remoteMessage.getData().toString());
+            Log.d(TAG, "remote message data: " + remoteMessage.getData().toString());
             Map<String, String> data = remoteMessage.getData();
-            bundle.putString("type", data.get("type"));
-            bundle.putString("title", data.get("title"));
-            bundle.putString("body", data.get("body"));
+            try {
 
-            bundle.putLong("endTime", Long.valueOf(data.get("endTime")));
-            bundle.putLong("startTime",Long.valueOf(data.get("startTime")));
-            if(data.get("cqid")!= null)
-                bundle.putInt("questionId",Integer.parseInt(data.get("cqid")));
+                //TODO unnecessary usage of bundle
+                bundle.putString("type", data.get("type"));
+                bundle.putString("title", data.get("title"));
+                bundle.putString("body", data.get("body"));
+                bundle.putLong("endTime", Long.valueOf(data.get("endTime")));
+                bundle.putLong("startTime", Long.valueOf(data.get("startTime")));
+                if(!data.get("type").equals("contest"))
+                    bundle.putInt("questionId", Integer.parseInt(data.get("cqid")));
+            }finally {
 
-            sendNotification(data);
+                sendNotification(data);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -62,6 +70,7 @@ public class FirebaseMS extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String token) {
+        //TODO do not use string resource for non-translable vlues
         getSharedPreferences(getResources().getString(R.string.shared_pref_firebase), MODE_PRIVATE)
                 .edit()
                 .putString(getString(R.string.firebase_token), token)
@@ -87,6 +96,7 @@ public class FirebaseMS extends FirebaseMessagingService {
                         if (!task.isSuccessful()) {
                             msg = "subscription failed";
                         }
+                        //TODO log msgs which should not be shown to user
                         Toast.makeText(FirebaseMS.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -105,11 +115,12 @@ public class FirebaseMS extends FirebaseMessagingService {
         Log.e(TAG,dataMap.toString());
         if(endTime !=  null && startTime != null) {
 
+            //TODO make method for more code readibility and scalbility
             if(endTime -new Date().getTime() > 0) {
 
                 if(bundle.get("type").equals("contest")){
                     //for instant notification about the contest
-                    scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime(), 2);
+                    scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime() , 0);
 
                     //for reminder notification about the contest
                     //scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - 600000, 2);

@@ -6,9 +6,11 @@
     android:layout_height="match_parent">
 
 
-    <include android:id="@+id/question_activity_included"
+    <include
+        android:id="@+id/question_activity_included"
         layout="@layout/text_layout"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/dynamic_activity_submit_button" />
 
     <TextView
         android:id="@+id/timer_dynamic_contest"
@@ -33,6 +35,21 @@
         layout="@layout/handling_layouts_constraint"
         android:visibility="gone"
         />
+
+
+    <Button
+        android:id="@+id/dynamic_activity_submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Submit"
+        android:visibility="gone"
+        android:background="@drawable/custom_button"
+        android:paddingHorizontal="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
 
     <!--<android.support.v7.widget.Toolbar-->
         <!--android:id="@+id/toolbar2"-->
