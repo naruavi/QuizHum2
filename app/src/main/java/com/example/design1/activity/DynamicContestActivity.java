@@ -141,7 +141,7 @@ public class DynamicContestActivity extends BaseActivity{
     }
 
     private void endActivity(){
-        Toast.makeText(getApplicationContext(),"No valid Dynamic Contest Available",Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),"No valid Dynamic Questions Available",Toast.LENGTH_LONG).show();
         finish();
     }
 
@@ -192,7 +192,7 @@ public class DynamicContestActivity extends BaseActivity{
                 handlerLayout.setVisibility(View.VISIBLE);
             }
         }else{
-            showAlert("Sorry!","The question has expired");
+            endActivity();
         }
 
     }
@@ -488,8 +488,9 @@ public class DynamicContestActivity extends BaseActivity{
     }
 
     // Shows an informative pop up on the screen
-    private void showAlert(String title, String message) {
+    /*private void showAlert(String title, String message) {
         // build notificaiton
+        AlertDialog.Builder notificationPopUpBuilder = new AlertDialog.Builder(this);
         notificationPopUpBuilder
                 .setMessage(message)
                 .setTitle(title)
@@ -499,5 +500,5 @@ public class DynamicContestActivity extends BaseActivity{
         AlertDialog alert = notificationPopUpBuilder.create();
         // show pop up alert
         alert.show();
-    }
+    }*/
 }

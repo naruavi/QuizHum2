@@ -28,8 +28,10 @@ import java.util.Map;
 public class FirebaseMS extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
+    //TODO remove unnecessary variables
     private static int notification_id = 0;
 
+    //TODO avoid global variable where possible
     Bundle bundle = new Bundle();
 
 
@@ -46,6 +48,7 @@ public class FirebaseMS extends FirebaseMessagingService {
             Map<String, String> data = remoteMessage.getData();
             try {
 
+                //TODO unnecessary usage of bundle
                 bundle.putString("type", data.get("type"));
                 bundle.putString("title", data.get("title"));
                 bundle.putString("body", data.get("body"));
@@ -67,6 +70,7 @@ public class FirebaseMS extends FirebaseMessagingService {
 
     @Override
     public void onNewToken(String token) {
+        //TODO do not use string resource for non-translable vlues
         getSharedPreferences(getResources().getString(R.string.shared_pref_firebase), MODE_PRIVATE)
                 .edit()
                 .putString(getString(R.string.firebase_token), token)
@@ -92,6 +96,7 @@ public class FirebaseMS extends FirebaseMessagingService {
                         if (!task.isSuccessful()) {
                             msg = "subscription failed";
                         }
+                        //TODO log msgs which should not be shown to user
                         Toast.makeText(FirebaseMS.this, msg, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -110,6 +115,7 @@ public class FirebaseMS extends FirebaseMessagingService {
         Log.e(TAG,dataMap.toString());
         if(endTime !=  null && startTime != null) {
 
+            //TODO make method for more code readibility and scalbility
             if(endTime -new Date().getTime() > 0) {
 
                 if(bundle.get("type").equals("contest")){
