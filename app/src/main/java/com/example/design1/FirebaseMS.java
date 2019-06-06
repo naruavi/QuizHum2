@@ -40,19 +40,24 @@ public class FirebaseMS extends FirebaseMessagingService {
         //Date date = new Date(remoteMessage.getSentTime());
 
         try {
+
             // fill in data for creating notification
-            Log.d(TAG,"remote message data: "+remoteMessage.getData().toString());
+            Log.d(TAG, "remote message data: " + remoteMessage.getData().toString());
             Map<String, String> data = remoteMessage.getData();
-            bundle.putString("type", data.get("type"));
-            bundle.putString("title", data.get("title"));
-            bundle.putString("body", data.get("body"));
+            try {
 
-            bundle.putLong("endTime", Long.valueOf(data.get("endTime")));
-            bundle.putLong("startTime",Long.valueOf(data.get("startTime")));
-            if(data.get("cqid")!= null)
-                bundle.putInt("questionId",Integer.parseInt(data.get("cqid")));
+                bundle.putString("type", data.get("type"));
+                bundle.putString("title", data.get("title"));
+                bundle.putString("body", data.get("body"));
+                bundle.putLong("endTime", Long.valueOf(data.get("endTime")));
+                bundle.putLong("startTime", Long.valueOf(data.get("startTime")));
+                if(!data.get("type").equals("contest"))
+                    bundle.putInt("questionId", Integer.parseInt(data.get("cqid")));
+            }finally {
 
-            sendNotification(data);
+                sendNotification(data);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -109,7 +114,7 @@ public class FirebaseMS extends FirebaseMessagingService {
 
                 if(bundle.get("type").equals("contest")){
                     //for instant notification about the contest
-                    scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime(), 2);
+                    scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime() , 0);
 
                     //for reminder notification about the contest
                     //scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - 600000, 2);

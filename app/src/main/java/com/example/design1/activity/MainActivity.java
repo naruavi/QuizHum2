@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -75,7 +76,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         dynamicContest=findViewById(R.id.button);
         dynamicContest.setOnClickListener(this);
 
-        if (getIntent().getBundleExtra("Notification") != null) {
+        if (getIntent().getExtras() != null) {
             handleNotificationIntent();
         }
 
@@ -170,14 +171,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             Intent intent = new Intent(view.getContext(),DynamicContestActivity.class);
             intent.putExtra("contestId",dynamicContestId);
-            //intent.putExtra
+            Log.e(TAG,""+dynamicContestId);
+            //ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeCustomAnimation(MainActivity.this,0,R.anim.slideup_animation);
             view.getContext().startActivity(intent);
         }
     }
 
     private void getDynamicContest() {
 
-        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit("http://10.177.7.130:8080");
 
         ContestService contestService=retrofit.create(ContestService.class);
 
@@ -192,6 +194,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                                 long endTime = response.body().get(response.body().size()-1).getEndTimeOfContest();
                                 long startTime = response.body().get(response.body().size()-1).getStartTimeOfContest();
                                 if(startTime-presentTime < 0 && endTime-presentTime > 0) {
+                                    dynamicContestId = response.body().get(response.body().size()-1).getContestId();
                                     dynamicContestId = response.body().get(response.body().size() - 1).getContestId();
                                     dynamicContest.setEnabled(true);
                                 }
@@ -251,7 +254,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private void handleNotificationIntent() {
         // TODO duplicate
-        Bundle bundle = getIntent().getBundleExtra("Notification");
+        Bundle bundle = getIntent().getExtras();
 
         Long endTimeInLong = bundle.getLong("endTime");
         Long startTimeInLong = bundle.getLong("startTime");
