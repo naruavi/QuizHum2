@@ -24,6 +24,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class FirebaseMS extends FirebaseMessagingService {
 
@@ -47,7 +48,11 @@ public class FirebaseMS extends FirebaseMessagingService {
             Log.d(TAG, "remote message data: " + remoteMessage.getData().toString());
             Map<String, String> data = remoteMessage.getData();
             try {
-
+//                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
+//                sdf.setTimeZone(TimeZone.getTimeZone("IST"));
+//                Date endTime = sdf.parse(data.get("endTime"));
+//                sdf.format(endTime);
+//                String
                 //TODO unnecessary usage of bundle
                 bundle.putString("type", data.get("type"));
                 bundle.putString("title", data.get("title"));
@@ -55,7 +60,7 @@ public class FirebaseMS extends FirebaseMessagingService {
                 bundle.putLong("endTime", Long.valueOf(data.get("endTime")));
                 bundle.putLong("startTime", Long.valueOf(data.get("startTime")));
                 if(!data.get("type").equals("contest"))
-                    bundle.putInt("questionId", Integer.parseInt(data.get("cqid")));
+                    bundle.putInt("cqid", Integer.parseInt(data.get("cqid")));
             }finally {
 
                 sendNotification(data);

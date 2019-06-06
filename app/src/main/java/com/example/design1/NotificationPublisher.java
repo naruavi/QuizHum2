@@ -30,10 +30,10 @@ public class NotificationPublisher extends BroadcastReceiver {
 
         if(bundle.getString("type").equals("question")) {
             SharedPreferences.Editor sharedPreferencesEditor = context.getSharedPreferences(context.getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE).edit();
-            sharedPreferencesEditor.putInt("questionId",bundle.getInt("questionId"));
+            sharedPreferencesEditor.putInt("cqid",bundle.getInt("cqid"));
             sharedPreferencesEditor.putLong("endTime",bundle.getLong("endTime"));
             sharedPreferencesEditor.putLong("startTime",bundle.getLong("startTime"));
-            //(context.getSharedPreferences(context.getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE)).edit().putInt("questionId", bundle.getInt("questionId")).apply();
+            //(context.getSharedPreferences(context.getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE)).edit().putInt("cqid", bundle.getInt("cqid")).apply();
             sharedPreferencesEditor.apply();
         }
         Intent onOpenIntent = new Intent(context.getApplicationContext(), MainActivity.class);
