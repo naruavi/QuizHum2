@@ -30,7 +30,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiRetrofitClass {
-    public static Retrofit getNewRetrofit(String BASE_URL){
+    public static Retrofit getNewRetrofit(String BASE_URL) {
         Gson gson = new GsonBuilder().setLenient().create();
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))

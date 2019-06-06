@@ -35,6 +35,10 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <include layout="@layout/handling_layouts_constraint"
+        android:id="@+id/leaderboard_empty_handler"
+        android:visibility="gone"
+        />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"

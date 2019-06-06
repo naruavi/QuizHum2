@@ -38,7 +38,7 @@ public class WeeklyLeaderboard extends Fragment {
     RecyclerView weeklyLeaderboardRecyclerView;
     RecyclerAdapterForLeaderboard recyclerAdapterForLeaderboard;
     List<LeaderBoardListItem> leaderBoardListItemArrayList = new ArrayList<>();
-
+    View handlerLayout;
 
     @Override
     public View onCreateView( LayoutInflater inflater,  ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +46,8 @@ public class WeeklyLeaderboard extends Fragment {
         View weeklyLeaderboard = inflater.inflate(R.layout.fragment_leaderboard, container, false);
         recyclerAdapterForLeaderboard = new RecyclerAdapterForLeaderboard(leaderBoardListItemArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+
 
         weeklyLeaderboardRecyclerView = weeklyLeaderboard.findViewById(R.id.leaderboard_recycler_view);
         weeklyLeaderboardRecyclerView.setLayoutManager(layoutManager);
@@ -59,6 +61,16 @@ public class WeeklyLeaderboard extends Fragment {
 
 
         //return inflater.inflate(R.layout.fragment_weekly_leaderboard, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        handlerLayout = getView().findViewById(R.id.fragement_leaderboard_empty_handler);
+        handlerLayout.setVisibility(View.VISIBLE);
+        handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.VISIBLE);
+
+        super.onViewCreated(view, savedInstanceState);
+
     }
 
     public void getWeeklyLeaderboard(){
@@ -77,6 +89,7 @@ public class WeeklyLeaderboard extends Fragment {
 
                             leaderBoardListItemArrayList.addAll(response.body().getData());
                             recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                            handlerLayout.setVisibility(View.GONE);
                         }
                     }
 
