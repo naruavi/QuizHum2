@@ -12,6 +12,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.example.design1.activity.DynamicContestActivity;
 import com.example.design1.activity.MainActivity;
@@ -22,11 +23,15 @@ public class NotificationPublisher extends BroadcastReceiver {
 
     public static String NOTIFICATION_ID = "notification_id";
     public static String NOTIFICATION = "notification";
+    String TAG  = "NotificationPublisher";
+
 
     @Override
     public void onReceive(final Context context, Intent intent) {
 
         Bundle bundle = intent.getExtras();
+
+        Log.d(TAG,"Notification Bundle :"+ bundle );
 
         if(bundle.getString("type").equals("question")) {
             SharedPreferences.Editor sharedPreferencesEditor = context.getSharedPreferences(context.getString(R.string.shared_pref_session_id), Context.MODE_PRIVATE).edit();

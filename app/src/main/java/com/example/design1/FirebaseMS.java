@@ -33,7 +33,7 @@ public class FirebaseMS extends FirebaseMessagingService {
     //done
     
     //TODO avoid global variable where possible
-    Bundle bundle = new Bundle();
+    //Bundle bundle = new Bundle();
 
 
     // Called when message is received.
@@ -47,24 +47,9 @@ public class FirebaseMS extends FirebaseMessagingService {
             // fill in data for creating notification
             Log.d(TAG, "remote message data: " + remoteMessage.getData().toString());
             Map<String, String> data = remoteMessage.getData();
-            try {
-//                DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX");
-//                sdf.setTimeZone(TimeZone.getTimeZone("IST"));
-//                Date endTime = sdf.parse(data.get("endTime"));
-//                sdf.format(endTime);
-//                String
-                //TODO unnecessary usage of bundle
-                bundle.putString("type", data.get("type"));
-                bundle.putString("title", data.get("title"));
-                bundle.putString("body", data.get("body"));
-                bundle.putLong("endTime", Long.valueOf(data.get("endTime")));
-                bundle.putLong("startTime", Long.valueOf(data.get("startTime")));
-                if(!data.get("type").equals("contest"))
-                    bundle.putInt("cqid", Integer.parseInt(data.get("cqid")));
-            }finally {
-
-                sendNotification(data);
-            }
+            //TODO unnecessary usage of bundle
+            //done
+            sendNotification(data);
 
 
         } catch (Exception e) {
@@ -123,26 +108,37 @@ public class FirebaseMS extends FirebaseMessagingService {
             //TODO make method for more code readibility and scalbility
             //done
 
+            Bundle bundle = new Bundle();
+
+            bundle.putString("type", dataMap.get("type"));
+            bundle.putString("title", dataMap.get("title"));
+            bundle.putString("body", dataMap.get("body"));
+            bundle.putLong("endTime", Long.valueOf(dataMap.get("endTime")));
+            bundle.putLong("startTime", Long.valueOf(dataMap.get("startTime")));
+            if(!dataMap.get("type").equals("contest"))
+                bundle.putInt("cqid", Integer.parseInt(dataMap.get("cqid")));
+
+
             if(bundle.get("type").equals("contest")){
                 //for instant notification about the contest
-                scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime() , 0);
+                scheduleNotification(this, bundle,Long.valueOf(dataMap.get("startTime")) - getCurrentDateTime() , 0);
 
                 //for reminder notification about the contest
                 //scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - 600000, 2);
 
             }
             else {
-                scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime(), 0);
+                scheduleNotification(this, bundle,Long.valueOf(dataMap.get("startTime")) - getCurrentDateTime(), 1);
             }
 
         }
     }
 
     private Long getCurrentDateTime() {
-        return new Date().getTime();
+        return getCurrentDateTime();
     }
 
-    public void scheduleNotification(Context context, long delay, int notificationId) {//delay is after how much time(in millis) from current time you want to schedule the notification
+    public void scheduleNotification(Context context,Bundle bundle, long delay, int notificationId) {//delay is after how much time(in millis) from current time you want to schedule the notification
 
         if(delay<0)
             delay = 0;
