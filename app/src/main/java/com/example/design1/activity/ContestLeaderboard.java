@@ -1,6 +1,8 @@
 package com.example.design1.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,12 +36,16 @@ public class ContestLeaderboard extends Fragment {
     RecyclerView contestLeaderboardRecyclerView;
     RecyclerAdapterForLeaderboard recyclerAdapterForLeaderboard;
     List<LeaderBoardListItem> leaderBoardListItemArrayList = new ArrayList<>();
+    View handlerLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View contestLeaderboard = inflater.inflate(R.layout.fragment_leaderboard, container, false);
         recyclerAdapterForLeaderboard = new RecyclerAdapterForLeaderboard(leaderBoardListItemArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+
+
 
         contestLeaderboardRecyclerView = contestLeaderboard.findViewById(R.id.leaderboard_recycler_view);
         contestLeaderboardRecyclerView.setLayoutManager(layoutManager);
@@ -52,6 +58,15 @@ public class ContestLeaderboard extends Fragment {
         getStaticLeaderboard(contestId, 1,CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
 
         return contestLeaderboard;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        handlerLayout = getView().findViewById(R.id.fragement_leaderboard_empty_handler);
+        handlerLayout.setVisibility(View.VISIBLE);
+        handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.VISIBLE);
+
+        super.onViewCreated(view, savedInstanceState);
+
     }
 
     public void getStaticLeaderboard(int contestId,int userToken, int length){
@@ -78,8 +93,11 @@ public class ContestLeaderboard extends Fragment {
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
+
                         leaderBoardListItemArrayList.addAll(response.body().getData());
                         recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                        handlerLayout.setVisibility(View.GONE);
+
                     }
 
                     @Override

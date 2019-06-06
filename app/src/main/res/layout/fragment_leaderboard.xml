@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".activity.DailyLeaderBoard">
 
+    <include layout="@layout/handling_layouts_constraint"
+        android:id="@+id/fragement_leaderboard_empty_handler"
+        android:visibility="gone"
+        />
+
     <LinearLayout
         android:id="@+id/leaderboard_header"
         android:layout_width="match_parent"

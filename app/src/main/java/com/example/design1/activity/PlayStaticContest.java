@@ -1,6 +1,7 @@
 package com.example.design1.activity;
 
 import android.content.Intent;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -79,6 +80,9 @@ public class PlayStaticContest extends BaseActivity {
         setContentView(R.layout.activity_play_static_contest);
         enableBackToolbar(R.id.static_contest_toolbar);
 
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         listOfQuestion = new ArrayList<>();
         nextButton = findViewById(R.id.next_btn);
         submit_btn = findViewById(R.id.submit_btn);
@@ -130,7 +134,7 @@ public class PlayStaticContest extends BaseActivity {
                                 if(stateResponse!=null){
                                     try{
                                     if(stateResponse.get(0).toLowerCase().equals("ended")){
-                                        Toast.makeText(PlayStaticContest.this, "You Have played this contest Before You cannot play again",
+                                        Toast.makeText(getApplicationContext(), "You Have played this contest Before You cannot play again",
                                                 Toast.LENGTH_LONG).show();
                                         finish();
                                     }}catch (Exception e){
@@ -169,7 +173,7 @@ public class PlayStaticContest extends BaseActivity {
 
                                 }
                                 if((hard + easy + medium) != contestDefinition.getTotalQuestionsInContest()){
-                                    Toast.makeText(PlayStaticContest.this, "Sorry This Contest has Corrupted Data " +
+                                    Toast.makeText(getApplicationContext(), "Sorry This Contest has Corrupted Data " +
                                             "It Cannot Be played", Toast.LENGTH_LONG).show();
                                     finish();
                                 }
@@ -224,7 +228,7 @@ public class PlayStaticContest extends BaseActivity {
                                         vi.stopPlayback();
                                         if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer.isPlaying()){
                                             ViewPagerAdapter.mPlayer.stop();
-                                            ViewPagerAdapter.mPlayer.release();
+                                            ViewPagerAdapter.mPlayer.reset();
                                             ViewPagerAdapter.mPlayer = null;
                                         }
                                         if(i == 0){
@@ -458,6 +462,17 @@ public class PlayStaticContest extends BaseActivity {
     }
 
 
+    @Override
+    protected void onStop() {
+        if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer.isPlaying()){
+            ViewPagerAdapter.mPlayer.stop();
+            ViewPagerAdapter.mPlayer.reset();
+            ViewPagerAdapter.mPlayer = null;
+        }
+        super.onStop();
+
+    }
+
     public void allOnClickListeners(){
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -473,7 +488,7 @@ public class PlayStaticContest extends BaseActivity {
                     Log.d("audio", "stopped");
                     if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer.isPlaying()){
                         ViewPagerAdapter.mPlayer.stop();
-                        ViewPagerAdapter.mPlayer.release();
+                        ViewPagerAdapter.mPlayer.reset();
                         ViewPagerAdapter.mPlayer = null;
                     }
                 }
@@ -502,7 +517,7 @@ public class PlayStaticContest extends BaseActivity {
                     if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer!=null &&
                             ViewPagerAdapter.mPlayer.isPlaying()){
                         ViewPagerAdapter.mPlayer.stop();
-                        ViewPagerAdapter.mPlayer.release();
+                        ViewPagerAdapter.mPlayer.reset();
                         ViewPagerAdapter.mPlayer = null;
                     }
                 }
@@ -730,7 +745,7 @@ public class PlayStaticContest extends BaseActivity {
                         Log.d("audio", "stopped");
                         if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer.isPlaying()){
                             ViewPagerAdapter.mPlayer.stop();
-                            ViewPagerAdapter.mPlayer.release();
+                            ViewPagerAdapter.mPlayer.reset();
                             ViewPagerAdapter.mPlayer = null;
                         }
                     }
@@ -812,7 +827,7 @@ public class PlayStaticContest extends BaseActivity {
                     if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer.isPlaying()){
                         Log.d("audio", "stopped");
                         ViewPagerAdapter.mPlayer.stop();
-                        ViewPagerAdapter.mPlayer.release();
+                        ViewPagerAdapter.mPlayer.reset();
                         ViewPagerAdapter.mPlayer = null;
                     }
                 }

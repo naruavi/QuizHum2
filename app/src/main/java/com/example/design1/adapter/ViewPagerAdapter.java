@@ -223,7 +223,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 public void onClick(View v) {
                     if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer.isPlaying()){
                         ViewPagerAdapter.mPlayer.stop();
-                        ViewPagerAdapter.mPlayer.release();
+                        ViewPagerAdapter.mPlayer.reset();
                         ViewPagerAdapter.mPlayer = null;
                     }
                 }

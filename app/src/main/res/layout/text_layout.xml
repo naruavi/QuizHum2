@@ -6,8 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/textlayout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="match_parent">
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -93,17 +92,18 @@
         android:layout_height="109dp"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="120dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         android:showDividers="beginning|middle|end"
         android:textAlignment="center"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frameLayout"
-        app:layout_constraintVertical_bias="1.0"
         tools:visibility="invisible">
 
 
@@ -180,7 +180,7 @@
         android:layout_width="166dp"
         android:layout_height="168dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
