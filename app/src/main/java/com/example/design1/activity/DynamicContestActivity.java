@@ -370,7 +370,7 @@ public class DynamicContestActivity extends BaseActivity{
                             .enqueue(new Callback<SubmittedResponseAck>() {
                                 @Override
                                 public void onResponse(Call<SubmittedResponseAck> call, Response<SubmittedResponseAck> response) {
-                                    if(response.code()/100 == 200 && response.body()!=null){
+                                    if(response.code()/100 == 2 && response.body() != null){
                                         Log.d("dynamic response done", "success");
                                         Toast.makeText(getApplicationContext(), "Response Submitted successfully",
                                                 Toast.LENGTH_SHORT).show();
