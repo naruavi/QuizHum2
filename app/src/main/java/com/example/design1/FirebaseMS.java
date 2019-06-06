@@ -29,8 +29,8 @@ public class FirebaseMS extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     //TODO remove unnecessary variables
-    private static int notification_id = 0;
-
+    //done
+    
     //TODO avoid global variable where possible
     Bundle bundle = new Bundle();
 
@@ -113,25 +113,28 @@ public class FirebaseMS extends FirebaseMessagingService {
         Long startTime = Long.valueOf(dataMap.get("startTime"));
 
         Log.e(TAG,dataMap.toString());
-        if(endTime !=  null && startTime != null) {
+        if((endTime !=  null && startTime != null) && (endTime - getCurrentDateTime() > 0)) {
 
             //TODO make method for more code readibility and scalbility
-            if(endTime -new Date().getTime() > 0) {
+            //done
 
-                if(bundle.get("type").equals("contest")){
-                    //for instant notification about the contest
-                    scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime() , 0);
+            if(bundle.get("type").equals("contest")){
+                //for instant notification about the contest
+                scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime() , 0);
 
-                    //for reminder notification about the contest
-                    //scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - 600000, 2);
+                //for reminder notification about the contest
+                //scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - 600000, 2);
 
-                }
-                else {
-                    scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime(), 0);
-                }
+            }
+            else {
+                scheduleNotification(this, Long.valueOf(dataMap.get("startTime")) - new Date().getTime(), 0);
             }
 
         }
+    }
+
+    private Long getCurrentDateTime() {
+        return new Date().getTime();
     }
 
     public void scheduleNotification(Context context, long delay, int notificationId) {//delay is after how much time(in millis) from current time you want to schedule the notification

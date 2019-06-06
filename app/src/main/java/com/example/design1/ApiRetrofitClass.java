@@ -42,10 +42,10 @@ public class ApiRetrofitClass {
 
     //TODO functionalities
 
-    public void getAllCategories(){
+    public void getAllCategories() {
         String CATEGORIES_URL = "";
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
-        ContestService contestService=retrofit.create(ContestService.class);
+        ContestService contestService = retrofit.create(ContestService.class);
         contestService.getCategories()
                 .enqueue(new Callback<List<CategoryDefinition>>() {
                     @Override
@@ -60,12 +60,12 @@ public class ApiRetrofitClass {
                 });
     }
 
-    public void getContestsByCategrory(String category){
+    public void getContestsByCategrory(String category) {
 
         String CATEGORY_CONTEST_URL = "/contest/getbycategory";
-        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
 
-        ContestService contestService=retrofit.create(ContestService.class);
+        ContestService contestService = retrofit.create(ContestService.class);
 
         contestService.getContestsByCategory(category)
                 .enqueue(new Callback<List<ContestDefinition>>() {
@@ -73,6 +73,7 @@ public class ApiRetrofitClass {
                     public void onResponse(Call<List<ContestDefinition>> call, Response<List<ContestDefinition>> response) {
 
                     }
+
                     @Override
                     public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
 
@@ -80,7 +81,7 @@ public class ApiRetrofitClass {
                 });
     }
 
-    public List<DetailsOfContest> getIncompleteContests(int userToken){
+    public List<DetailsOfContest> getIncompleteContests(int userToken) {
         String INCOMPLETE_CONTESTS_URL = "/contest/useractive";
 //
 //        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
@@ -99,7 +100,7 @@ public class ApiRetrofitClass {
         return null;
     }
 
-    public void getContestById(int contestId, int userId){
+    public void getContestById(int contestId, int userId) {
         String CONTEST_BY_ID = "/contest/contests/contestbyid";
         //response, contest details and the list of questions of a particular contest
 //        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
@@ -119,11 +120,11 @@ public class ApiRetrofitClass {
 
     }
 
-    public void getQuestionById(int questionId){
+    public void getQuestionById(int questionId) {
         //response, contest details and the list of questions of a particular contest
 
-        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
-        ContestService contestService=retrofit.create(ContestService.class);
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.CONTEST_RESPONSE_URL);
+        ContestService contestService = retrofit.create(ContestService.class);
         contestService.getQuestionById(questionId)
                 .enqueue(new Callback<QuestionDefinition>() {
                     @Override
@@ -136,11 +137,10 @@ public class ApiRetrofitClass {
 
                     }
                 });
-
     }
 
 
-    public String submitResponseSingleQuestion(String questionId,String contestId,String userToken,String response){
+    public String submitResponseSingleQuestion(String questionId, String contestId, String userToken, String response) {
         String RESPONSE_URL = "/response/user";
 
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
@@ -148,12 +148,12 @@ public class ApiRetrofitClass {
         UserResponseService userResponseService = retrofit.create(UserResponseService.class);
 
         HashMap<String, Object> jsonParams = new HashMap<>();
-        jsonParams.put("questionId",questionId);
+        jsonParams.put("questionId", questionId);
         jsonParams.put("contestId", contestId);
         jsonParams.put("userToken", userToken);
         jsonParams.put("response", response);
 
-        Log.d("ApiRetrofitClass","Json Value "+jsonParams.toString());
+        Log.d("ApiRetrofitClass", "Json Value " + jsonParams.toString());
 
         RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), (new JSONObject(jsonParams)).toString());
 
@@ -175,11 +175,11 @@ public class ApiRetrofitClass {
     }
 
     //TODO after the last question is submitted successfully
-    public void submitContest(int userToken,int contestId, String userName){
+    public void submitContest(int userToken, int contestId, String userName) {
         String SUBMIT_CONTEST_URL = "/contest/userresult";
 
-        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
-        UserResponseService responseService=retrofit.create(UserResponseService.class);
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_RESPONSE_URL);
+        UserResponseService responseService = retrofit.create(UserResponseService.class);
 
 //        responseService.getContestResult(contestId,userToken,userName)
 //                .enqueue(new Callback<ScoreCard>() {
@@ -197,7 +197,7 @@ public class ApiRetrofitClass {
     }
 
     //TODO implement leaderboard api calls
-    public void getDynamicLeaderboard(int contestId, int userToken, int length){
+    public void getDynamicLeaderboard(int contestId, int userToken, int length) {
         //list of user score rank for leaderboard
         String DYNAMIC_LEADERBOARD_URL = "/leaderboard/dynamic";
 
@@ -221,12 +221,12 @@ public class ApiRetrofitClass {
     Call<ApiResponse<List<LeaderBoardListItem>>> getLeaderBoardDynamicContest(@Query("userId") String userToken, @Query("contestId") String contestId, @Query("noOfRecords") int noOfRecords);
 */
 
-    public void getStaticLeaderboard(int contestId,int userToken, int length){
+    public void getStaticLeaderboard(int contestId, int userToken, int length) {
         //list of user score rank for leaderboard
         String CATEGORIES_URL = "/leaderboard/static";
 
-        Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
-        LeaderBoardService leaderBoardService=retrofit.create(LeaderBoardService.class);
+        Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
+        LeaderBoardService leaderBoardService = retrofit.create(LeaderBoardService.class);
 
 //        leaderBoardService.getLeaderBoardStaticContest(userToken,contestId,length)
 //                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
@@ -242,7 +242,7 @@ public class ApiRetrofitClass {
 //                });
     }
 
-    public void getDailyLeaderboard(){
+    public void getDailyLeaderboard() {
         //list of user score rank for leaderboard
 
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
@@ -253,7 +253,7 @@ public class ApiRetrofitClass {
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-                        if (response != null){
+                        if (response != null) {
                             Log.e("Response LeaderBoard", response.body().getMessage());
                             Log.e("Response LeaderBoard", response.body().getData().toString());
                         }
@@ -261,16 +261,14 @@ public class ApiRetrofitClass {
 
                     @Override
                     public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
-                        Log.e("Response LeaderBoard","Failure response");
+                        Log.e("Response LeaderBoard", "Failure response");
                     }
                 });
 
     }
 
 
-
-
-    public void getWeeklyLeaderboard(){
+    public void getWeeklyLeaderboard() {
         //list of user score rank for leaderboard
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
 
@@ -280,7 +278,7 @@ public class ApiRetrofitClass {
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-                        if (response != null){
+                        if (response != null) {
                             Log.e("Response LeaderBoard", response.body().getMessage());
                             Log.e("Response LeaderBoard", response.body().getData().toString());
                         }
@@ -288,12 +286,12 @@ public class ApiRetrofitClass {
 
                     @Override
                     public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
-                        Log.e("Response LeaderBoard","Failure response");
+                        Log.e("Response LeaderBoard", "Failure response");
                     }
                 });
     }
 
-    public void getMonthlyLeaderboard(){
+    public void getMonthlyLeaderboard() {
         //list of user score rank for leaderboard
         Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
 
@@ -303,7 +301,7 @@ public class ApiRetrofitClass {
                 .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
-                        if (response != null){
+                        if (response != null) {
                             Log.e("Response LeaderBoard", response.body().getMessage());
                             Log.e("Response LeaderBoard", response.body().getData().toString());
                         }
@@ -311,16 +309,15 @@ public class ApiRetrofitClass {
 
                     @Override
                     public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
-                        Log.e("Response LeaderBoard","Failure response");
+                        Log.e("Response LeaderBoard", "Failure response");
                     }
                 });
     }
 
     //TODO diiscuss the api contract of dynamic contest
-    public ContestObject getDynamicContest(){
+    public ContestObject getDynamicContest() {
         return null;
     }
-
 
 
 }

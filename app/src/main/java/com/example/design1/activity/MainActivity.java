@@ -213,6 +213,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
+    //todo move is helper class
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
