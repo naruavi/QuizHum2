@@ -53,9 +53,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
+<<<<<<< HEAD
         android:layout_marginEnd="32dp"
         android:text="TextView"
         android:textColor="@color/black"
+=======
+        android:layout_marginEnd="36dp"
+        android:text="0"
+>>>>>>> 9db0bce7adfd716a0efd0cf67be3f95dd7bb9b83
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -65,8 +70,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="36dp"
+<<<<<<< HEAD
         android:text="TextView"
         android:textColor="@color/black"
+=======
+        android:text="0"
+>>>>>>> 9db0bce7adfd716a0efd0cf67be3f95dd7bb9b83
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CorrectAnswer" />
 
@@ -76,8 +85,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="72dp"
         android:layout_marginEnd="32dp"
+<<<<<<< HEAD
         android:text="TextView"
         android:textColor="@color/black"
+=======
+        android:text="0"
+>>>>>>> 9db0bce7adfd716a0efd0cf67be3f95dd7bb9b83
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/WrongAnswer" />
 

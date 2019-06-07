@@ -5,8 +5,11 @@
     android:id="@+id/textlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 9db0bce7adfd716a0efd0cf67be3f95dd7bb9b83
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -92,14 +95,28 @@
         android:layout_height="109dp"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="20dp"
+<<<<<<< HEAD
+=======
+        android:layout_marginTop="120dp"
+>>>>>>> 9db0bce7adfd716a0efd0cf67be3f95dd7bb9b83
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         android:showDividers="beginning|middle|end"
         android:textAlignment="center"
+<<<<<<< HEAD
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/questionImage"
+=======
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout"
+>>>>>>> 9db0bce7adfd716a0efd0cf67be3f95dd7bb9b83
         tools:visibility="invisible">
 
 
@@ -176,6 +193,10 @@
         android:layout_width="166dp"
         android:layout_height="168dp"
         android:layout_marginStart="8dp"
+<<<<<<< HEAD
+=======
+        android:layout_marginTop="16dp"
+>>>>>>> 9db0bce7adfd716a0efd0cf67be3f95dd7bb9b83
         android:layout_marginEnd="8dp"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"

@@ -3,6 +3,8 @@ package com.example.design1.activity;
 import android.content.Intent;
 import android.os.Bundle;
 ;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,12 +36,15 @@ public class DailyLeaderBoard extends Fragment {
     RecyclerView dailyLeaderboardRecyclerView;
     RecyclerAdapterForLeaderboard recyclerAdapterForLeaderboard;
     List<LeaderBoardListItem> leaderBoardListItemArrayList = new ArrayList<>();
+    View handlerLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View dailyLeaderboard = inflater.inflate(R.layout.fragment_leaderboard, container, false);
         recyclerAdapterForLeaderboard = new RecyclerAdapterForLeaderboard(leaderBoardListItemArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+
 
         dailyLeaderboardRecyclerView = dailyLeaderboard.findViewById(R.id.leaderboard_recycler_view);
         dailyLeaderboardRecyclerView.setLayoutManager(layoutManager);
@@ -49,6 +54,15 @@ public class DailyLeaderBoard extends Fragment {
         return dailyLeaderboard;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        handlerLayout = getView().findViewById(R.id.fragement_leaderboard_empty_handler);
+        handlerLayout.setVisibility(View.VISIBLE);
+        handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.VISIBLE);
+
+        super.onViewCreated(view, savedInstanceState);
+
+    }
 
     //TODO assign this model
     public void getDailyLeaderboard() {
@@ -82,6 +96,7 @@ public class DailyLeaderBoard extends Fragment {
 
                             leaderBoardListItemArrayList.addAll(response.body().getData());
                             recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                            handlerLayout.setVisibility(View.GONE);
                         }
                     }
 

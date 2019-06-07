@@ -24,6 +24,9 @@ public interface ContestService {
     @GET("/contest/fetchquestionbyid")
     Call<QuestionDefinition> getQuestionById(@Query("questionId") int questionId);
 
+    @GET("/contest/fetchbycqid")
+    Call<QuestionDefinition> getCQId(@Query("cqid") int questionId);
+
 
     @GET("/contest/getquestionofcontest")
     Call<List<QuestionDefinition>> getContestResult(@Query("contestId") int contestId, @Header("cookie") String cookie);

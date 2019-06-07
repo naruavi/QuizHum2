@@ -2,6 +2,8 @@ package com.example.design1.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,6 +37,7 @@ public class ContestLeaderboard extends Fragment {
     RecyclerView contestLeaderboardRecyclerView;
     RecyclerAdapterForLeaderboard recyclerAdapterForLeaderboard;
     List<LeaderBoardListItem> leaderBoardListItemArrayList = new ArrayList<>();
+    View handlerLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,17 +45,37 @@ public class ContestLeaderboard extends Fragment {
         recyclerAdapterForLeaderboard = new RecyclerAdapterForLeaderboard(leaderBoardListItemArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
 
+
+
+
         contestLeaderboardRecyclerView = contestLeaderboard.findViewById(R.id.leaderboard_recycler_view);
         contestLeaderboardRecyclerView.setLayoutManager(layoutManager);
         contestLeaderboardRecyclerView.setAdapter(recyclerAdapterForLeaderboard);
 
         Bundle bundle = getArguments();
         int contestId = bundle.getInt("contestId");
+        //String type = bundle.getString("contestType");
 
         // TODO pass proper details here
         getStaticLeaderboard(contestId, 1, CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
 
+
+//        if(type.equals("static"))
+//            getStaticLeaderboard(contestId, 1,CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
+//        else if(type.equals("dynamic")){
+//            getDynamicLeaderboard(contestId, 1, CONSTANTS.LENGTH_OF_CONTEST_LEADERBOARD);
+//        }
+
         return contestLeaderboard;
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        handlerLayout = getView().findViewById(R.id.fragement_leaderboard_empty_handler);
+        handlerLayout.setVisibility(View.VISIBLE);
+        handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.VISIBLE);
+
+        super.onViewCreated(view, savedInstanceState);
+
     }
 
     public void getStaticLeaderboard(int contestId, int userToken, int length) {
@@ -95,7 +118,38 @@ public class ContestLeaderboard extends Fragment {
                         } else {
                             leaderBoardListItemArrayList.addAll(response.body().getData());
                             recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                            handlerLayout.setVisibility(View.GONE);
+
                         }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ApiResponse<List<LeaderBoardListItem>>> call, Throwable t) {
+
+                        FragmentActivity fragmentActivity = getActivity();
+                        if(fragmentActivity != null)  {
+                            Toast.makeText(fragmentActivity.getApplicationContext(),"Server Response Failed - get leaderboard contest", Toast.LENGTH_LONG).show();
+                            Log.e("Response LeaderBoard","Failure response");
+                        }
+                    }
+                });
+    }
+
+    public void getDynamicLeaderboard(int contestId, int userToken, int length){
+
+        Retrofit retrofit= ApiRetrofitClass.getNewRetrofit(CONSTANTS.LEADER_BOARD_URL);
+        LeaderBoardService leaderBoardService = retrofit.create(LeaderBoardService.class);
+
+        leaderBoardService.getLeaderBoardByContest(contestId)
+                .enqueue(new Callback<ApiResponse<List<LeaderBoardListItem>>>() {
+                    @Override
+                    public void onResponse(Call<ApiResponse<List<LeaderBoardListItem>>> call, Response<ApiResponse<List<LeaderBoardListItem>>> response) {
+
+                        leaderBoardListItemArrayList.addAll(response.body().getData());
+                        recyclerAdapterForLeaderboard.notifyDataSetChanged();
+                        handlerLayout.setVisibility(View.GONE);
+
                     }
 
                     @Override

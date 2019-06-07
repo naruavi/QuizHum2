@@ -88,9 +88,9 @@ public class BaseActivity extends AppCompatActivity {
     public boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) BaseActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if(cm != null) {
+        if (cm != null) {
             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-            return (activeNetwork!=null && activeNetwork.isConnectedOrConnecting());
+            return (activeNetwork != null && activeNetwork.isConnectedOrConnecting());
         } else {
             return false;
         }
@@ -116,7 +116,7 @@ public class BaseActivity extends AppCompatActivity {
     public void enableBackToolbar(int resourceId) {
         Toolbar toolbar = (Toolbar) findViewById(resourceId);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar()!= null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }

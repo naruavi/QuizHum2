@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.design1.ApiRetrofitClass;
 import com.example.design1.AuthToken;
 import com.example.design1.BaseActivity;
@@ -38,7 +39,7 @@ public class ContestActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!isConnected()) buildDialog().show();
+        if (!isConnected()) buildDialog().show();
         setContentView(R.layout.activity_contest);
         enableBackToolbar(R.id.contest_activity_toolbar);
 
@@ -51,21 +52,21 @@ public class ContestActivity extends BaseActivity {
             l1.add("Contest "+i);
         }*/
 
-        recyclerAdapterForContest = new RecyclerAdapterForContest(ContestActivity.this,contestList);
+        recyclerAdapterForContest = new RecyclerAdapterForContest(ContestActivity.this, contestList);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ContestActivity.this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(recyclerAdapterForContest);
 
         categoryName = getIntent().getStringExtra("Category");
-        Log.e("in contest", categoryName +"" );
+        Log.e("in contest", categoryName + "");
 
         toolbarHeader = findViewById(R.id.toolbar_header_text);
 
-        userId=getIntent().getIntExtra("userId", 0);
+        userId = getIntent().getIntExtra("userId", 0);
         Log.e("in contest userId", userId + "");
 
-        if(categoryName!=null) {
+        if (categoryName != null) {
 
             toolbarHeader.setText(categoryName);
 
@@ -90,13 +91,14 @@ public class ContestActivity extends BaseActivity {
 
                             }
                             else if(response.body()!=null && response.body().size() != 0) {
+
                                 Log.e("In contest activity", response.body().toString());
                                 contestList.addAll(response.body());
                                 recyclerAdapterForContest.notifyDataSetChanged();
                                 handlerLayout.setVisibility(View.GONE);
-                            }else{
+                            } else {
                                 TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
-                                textView.setText(getResources().getString(R.string.no_contest_available)+" in "+categoryName);
+                                textView.setText(getResources().getString(R.string.no_contest_available) + " in " + categoryName);
                                 textView.setVisibility(View.VISIBLE);
                             }
                             handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
@@ -110,13 +112,12 @@ public class ContestActivity extends BaseActivity {
 
                         }
                     });
-        }
-        else if(userId!=0){
+        } else if (userId != 0) {
 
             toolbarHeader.setText("Incomplete Contest");
 
-            Retrofit retrofit=ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_AUTH_URL);
-            UserResponseService userResponseService=retrofit.create(UserResponseService.class);
+            Retrofit retrofit = ApiRetrofitClass.getNewRetrofit(CONSTANTS.USER_AUTH_URL);
+            UserResponseService userResponseService = retrofit.create(UserResponseService.class);
 
             userResponseService.getIncompletedContests(AuthToken.getToken(ContestActivity.this))
                     .enqueue(new Callback<List<ContestDefinition>>() {
@@ -135,20 +136,22 @@ public class ContestActivity extends BaseActivity {
 
                             }
                             else if(response.body()!=null && response.body().size() != 0) {
+
                                 contestList.addAll(response.body());
                                 recyclerAdapterForContest.notifyDataSetChanged();
                                 handlerLayout.setVisibility(View.GONE);
-                            }else{
+                            } else {
                                 handlerLayout.setVisibility(View.VISIBLE);
                                 TextView textView = handlerLayout.findViewById(R.id.handling_empty_layouts_text);
-                                textView.setText(getResources().getString(R.string.no_contest_available)+" to be completed");
+                                textView.setText(getResources().getString(R.string.no_contest_available) + " to be completed");
                                 textView.setVisibility(View.VISIBLE);
                             }
                             handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.GONE);
                         }
+
                         @Override
                         public void onFailure(Call<List<ContestDefinition>> call, Throwable t) {
-                            Toast.makeText(getApplicationContext(),"Server Response Failed - get incomplete contest", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Server Response Failed - get incomplete contest", Toast.LENGTH_LONG).show();
                             Log.e("in complete contest", "failure");
                         }
                     });

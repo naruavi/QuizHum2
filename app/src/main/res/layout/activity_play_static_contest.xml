@@ -7,50 +7,52 @@
     tools:context=".activity.PlayStaticContest">
 
 
-    <include android:id="@+id/static_contest_toolbar"
-        layout="@layout/toolbar"/>
+    <include
+        android:id="@+id/static_contest_toolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         layout="@layout/handling_layouts_constraint"
         android:id="@+id/static_contest_empty_handler"
         android:visibility="gone" />
 
-    <com.example.design1.CustomViewPager
-        android:id="@+id/PlayStaticViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/skip_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/static_contest_toolbar"
-        app:layout_constraintVertical_bias="1.0" />
-        app:layout_constraintVertical_bias="0.0" />
+
+        <com.example.design1.CustomViewPager
+            android:id="@+id/PlayStaticViewPager"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/skip_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/static_contest_toolbar"
+            app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/next_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="next"
         android:background="@drawable/custom_button"
         android:paddingHorizontal="10dp"
+        android:text="next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/submit_btn"
-        app:layout_constraintTop_toBottomOf="@+id/PlayStaticViewPager" />
+        app:layout_constraintStart_toEndOf="@+id/submit_btn" />
 
     <Button
         android:id="@+id/skip_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="skip"
         android:background="@drawable/custom_button"
         android:paddingHorizontal="10dp"
+        android:text="skip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/submit_btn"
         app:layout_constraintHorizontal_bias="0.5"
@@ -60,25 +62,23 @@
         android:id="@+id/previous_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:text="previous"
         android:background="@drawable/custom_button"
         android:paddingHorizontal="10dp"
+        android:text="previous"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/skip_btn"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/PlayStaticViewPager" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/submit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="submit"
         android:background="@drawable/custom_button"
         android:paddingHorizontal="10dp"
+        android:text="submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/next_btn"
         app:layout_constraintHorizontal_bias="0.5"

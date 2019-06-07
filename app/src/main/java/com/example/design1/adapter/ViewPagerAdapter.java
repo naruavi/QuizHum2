@@ -223,7 +223,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 public void onClick(View v) {
                     if(ViewPagerAdapter.mPlayer!=null && ViewPagerAdapter.mPlayer.isPlaying()){
                         ViewPagerAdapter.mPlayer.stop();
-                        ViewPagerAdapter.mPlayer.release();
+                        ViewPagerAdapter.mPlayer.reset();
                         ViewPagerAdapter.mPlayer = null;
                     }
                 }
@@ -233,6 +233,7 @@ public class ViewPagerAdapter extends PagerAdapter {
                 @Override
                 public void onClick(View view) {
                     // Disable the play button
+//                    if(mPlayer.isPlaying())
                     mButtonPlay.setEnabled(false);
 
                     // The audio url to play
