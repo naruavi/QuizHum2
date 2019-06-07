@@ -61,10 +61,8 @@ public class RecyclerAdapterForContest extends RecyclerView.Adapter<RecyclerAdap
                 @Override
                 public void onClick(final View v) {
                     ClickHandler.clickDelay(v);
-
                     Intent intent = new Intent(itemView.getContext(), LeaderboardActivity.class);
                     intent.putExtra("contestId",contestList.get(getAdapterPosition()).getContestId());
-
                     itemView.getContext().startActivity(intent);
                 }
             });

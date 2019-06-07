@@ -2,6 +2,7 @@ package com.example.design1.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +27,15 @@ public class RecyclerAdapterForLeaderboard extends RecyclerView.Adapter<Recycler
         }
 
         public void bind(LeaderBoardListItem leaderBoardListItem) {
+            Log.d("databinded", leaderBoardListItem.toString());
             TextView username = itemView.findViewById(R.id.leaderBoard_textView_name);
             TextView userRank = itemView.findViewById(R.id.leaderBoard_textView_rank);
             TextView userScore = itemView.findViewById(R.id.leaderBoard_textView_score);
 
+            Log.d("dataitem", leaderBoardListItem.getUsername());
             username.setText(leaderBoardListItem.getUsername());
-            userRank.setText(""+leaderBoardListItem.getUserRank());
-            userScore.setText(""+leaderBoardListItem.getScore());
+            userRank.setText(String.valueOf(leaderBoardListItem.getUserRank()));
+            userScore.setText(String.valueOf(leaderBoardListItem.getScore()));
         }
     }
 
