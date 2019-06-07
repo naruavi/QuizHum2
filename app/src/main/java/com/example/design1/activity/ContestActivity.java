@@ -43,6 +43,8 @@ public class ContestActivity extends BaseActivity {
         setContentView(R.layout.activity_contest);
         enableBackToolbar(R.id.contest_activity_toolbar);
 
+        Log.d("some","message");
+
         handlerLayout = findViewById(R.id.contest_activity_empty_handler);
         handlerLayout.setVisibility(View.VISIBLE);
         handlerLayout.findViewById(R.id.handling_empty_layouts_progress_bar).setVisibility(View.VISIBLE);
