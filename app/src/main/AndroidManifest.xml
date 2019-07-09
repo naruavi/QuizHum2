@@ -54,13 +54,8 @@
 
         </activity>
         <activity
-<<<<<<< HEAD
-            android:screenOrientation="portrait"
-            android:name=".activity.DynamicContestActivity" />
-=======
             android:name=".activity.DynamicContestActivity"
             android:screenOrientation="portrait" />
->>>>>>> 9db0bce7adfd716a0efd0cf67be3f95dd7bb9b83
 
         <service android:name=".FirebaseMS">
             <intent-filter>
